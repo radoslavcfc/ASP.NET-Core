@@ -41,6 +41,13 @@ namespace Panda.App
                 options.CheckConsentNeeded =context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
+            services.AddAuthentication("CookieAuthentication")
+                 .AddCookie("CookieAuthentication", config =>
+                 {
+                     config.Cookie.Name = "UserLoginCookie";
+                     config.LoginPath = "/Login/UserLogin";
+                 });
+
             services.AddControllers();
             services.AddMvc();
             services.Configure<IdentityOptions>(options =>
@@ -71,15 +78,6 @@ namespace Panda.App
                         context.Roles.Add(new PandaUserRole { Name = "Admin", NormalizedName = "ADMIN" });
                         context.Roles.Add(new PandaUserRole { Name = "User", NormalizedName = "USER"});
                     }
-
-                    //if(!context.PackageStatus.Any())
-                    //{
-                    //    context.PackageStatus.Add(new PackageStatus { Name = "Pending" });
-                    //    context.PackageStatus.Add(new PackageStatus { Name = "Shipped" });
-                    //    context.PackageStatus.Add(new PackageStatus { Name = "Delivered" });
-                    //    context.PackageStatus.Add(new PackageStatus { Name = "Acquired" });
-                    //}
-
                     context.SaveChanges();
                 }
             }
@@ -88,6 +86,7 @@ namespace Panda.App
             app.UseStaticFiles();
             app.UseDeveloperExceptionPage();
             app.UseCookiePolicy();
+            
             app.UseAuthentication();
             app.UseRouting();
             app.UseAuthorization();

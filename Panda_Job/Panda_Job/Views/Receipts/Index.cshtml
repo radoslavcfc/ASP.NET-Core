@@ -12,31 +12,41 @@ else
 {
     <h1 class="text-center">My Receipts</h1>
 }
+<a class="btn btn-dark" href="/Home/Index">Back to index</a>
 <hr class="hr-2 bg-panda">
-<div class="d-flex justify-content-around" >
-    <table class="table table-hover table-bordered w-75 m-auto">
-        <thead>
-            <tr class="row">
-                <th scope="col" class="col-lg-4 d-flex justify-content-center"><h3>Id</h3></th>
-                <th scope="col" class="col-lg-2 d-flex justify-content-center"><h3>Fee</h3></th>
-                <th scope="col" class="col-lg-2 d-flex justify-content-center"><h3>Issued On</h3></th>
-                <th scope="col" class="col-lg-2 d-flex justify-content-center"><h3>Recipient</h3></th>
-                <th scope="col" class="col-lg-2 d-flex justify-content-center"><h3>Actions</h3></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var receipt in Model)
-            {
+<div class="d-flex justify-content-around">
+    @if (Model.Count <= 0)
+    {
+        <h2>There are no reciepts</h2>
+    }
+    else
+    {
+
+        <table class="table table-hover table-bordered w-75 m-auto">
+            <thead>
                 <tr class="row">
-                    <th scope="row" class="col-lg-4 d-flex justify-content-center"><h6>@receipt.Id</h6></th>
-                    <td class="col-lg-2 d-flex justify-content-center"><h5>$@receipt.Fee.ToString("F2")</h5></td>
-                    <td class="col-lg-2 d-flex justify-content-center"><h5>@receipt.IssuedOn</h5></td>
-                    <td class="col-lg-2 d-flex justify-content-center"><h5>@receipt.Recipient</h5></td>
-                    <td class="col-lg-2 d-flex justify-content-center">
-                        <a href="/Receipts/Details/@receipt.Id" class="btn bg-panda text-white">Details</a>
-                    </td>
+                    <th scope="col" class="col-lg-4 d-flex justify-content-center"><h3>Id</h3></th>
+                    <th scope="col" class="col-lg-2 d-flex justify-content-center"><h3>Fee</h3></th>
+                    <th scope="col" class="col-lg-2 d-flex justify-content-center"><h3>Issued On</h3></th>
+                    <th scope="col" class="col-lg-2 d-flex justify-content-center"><h3>Recipient</h3></th>
+                    <th scope="col" class="col-lg-2 d-flex justify-content-center"><h3>Actions</h3></th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var receipt in Model)
+                {
+                    <tr class="row">
+                        <th scope="row" class="col-lg-4 d-flex justify-content-center"><h6>@receipt.Id</h6></th>
+                        <td class="col-lg-2 d-flex justify-content-center"><h5>$@receipt.Fee.ToString("F2")</h5></td>
+                        <td class="col-lg-2 d-flex justify-content-center"><h5>@receipt.IssuedOn</h5></td>
+                        <td class="col-lg-2 d-flex justify-content-center"><h5>@receipt.Recipient</h5></td>
+                        <td class="col-lg-2 d-flex justify-content-center">
+                            <a href="/Receipts/Details/@receipt.Id" class="btn bg-panda text-white">Details</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    }
 </div>

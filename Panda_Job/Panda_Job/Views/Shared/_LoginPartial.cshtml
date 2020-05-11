@@ -9,7 +9,7 @@
             @if (this.User.Identity.IsAuthenticated)
             {
                 <li class="nav-item">
-                    <a id="manage" class="navbar-brand nav-link-white" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
+                    <span id="manage" class="navbar-brand nav-link-white" title="Manage">Hello @UserManager.GetUserName(User)!</span>
                 </li>
                
                 <li class="nav-item">

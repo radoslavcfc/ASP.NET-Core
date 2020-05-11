@@ -175,5 +175,11 @@ namespace Panda.App.Controllers
             };
             return this.View(model);
         }
+
+        [AllowAnonymous]
+        public IActionResult Login()
+        {
+            return this.Ok("HAHA");
+        }
     }
 }
