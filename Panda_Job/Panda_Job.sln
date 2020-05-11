@@ -13,8 +13,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Panda.Tests", "Panda.Tests\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Panda_Job", "Panda_Job\Panda_Job.csproj", "{3FAEB297-8018-4B5A-ABCC-BE3064250261}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication1", "WebApplication1\WebApplication1.csproj", "{0CA1FC11-A457-4398-93E4-FDD9848E0B77}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,10 +39,6 @@ Global
 		{3FAEB297-8018-4B5A-ABCC-BE3064250261}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3FAEB297-8018-4B5A-ABCC-BE3064250261}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3FAEB297-8018-4B5A-ABCC-BE3064250261}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0CA1FC11-A457-4398-93E4-FDD9848E0B77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0CA1FC11-A457-4398-93E4-FDD9848E0B77}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0CA1FC11-A457-4398-93E4-FDD9848E0B77}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0CA1FC11-A457-4398-93E4-FDD9848E0B77}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

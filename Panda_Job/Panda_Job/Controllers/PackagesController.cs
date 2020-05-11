@@ -104,7 +104,16 @@ namespace Panda.App.Controllers
                     ShippingAddress = p.ShippingAddress,
                     Recipient = this.usersService.GetUser(p.RecipientId).UserName
                 }).ToList();
-            return this.View(model);
+            if (this.User.IsInRole("Admin"))
+            {
+                return this.View(model);
+            }
+            else
+            {
+                var personalCol = model.Where(p => p.Recipient == this.User.Identity.Name).ToList();
+                return this.View(personalCol);
+            }
+           
         }
 
         [HttpGet]
@@ -138,8 +147,16 @@ namespace Panda.App.Controllers
                     ShippingAddress = p.ShippingAddress,
                     Recipient = this.usersService.GetUser(p.RecipientId).UserName
                 }).ToList();
-            
-            return this.View(model);
+
+            if (this.User.IsInRole("Admin"))
+            {
+                return this.View(model);
+            }
+            else
+            {
+                var personalCol = model.Where(p => p.Recipient == this.User.Identity.Name).ToList();
+                return this.View(personalCol);
+            }
         }
 
         [HttpGet]
