@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Panda.App.Models.Package;
 
 using Panda.Domain;
+using Panda.Domain.Enums;
 using Panda.Services;
 using System;
 using System.Globalization;
@@ -53,7 +54,7 @@ namespace Panda.App.Controllers
             Package package = new Package
             {
                 Description = bindingModel.Description,
-                RecipientId = this.usersService.GetUser(bindingModel.Recipient).Id,
+                RecipientId = this.usersService.GetUserById(bindingModel.Recipient).Id,
                 ShippingAddress = bindingModel.ShippingAddress,
                 Weight = bindingModel.Weight,
                 Status = PackageStatus.Pending,
@@ -102,7 +103,7 @@ namespace Panda.App.Controllers
                     Description = p.Description,
                     Weight = p.Weight,
                     ShippingAddress = p.ShippingAddress,
-                    Recipient = this.usersService.GetUser(p.RecipientId).UserName
+                    Recipient = this.usersService.GetUserById(p.RecipientId).UserName
                 }).ToList();
             if (this.User.IsInRole("Admin"))
             {
@@ -145,7 +146,7 @@ namespace Panda.App.Controllers
                     Description = p.Description,
                     Weight = p.Weight,
                     ShippingAddress = p.ShippingAddress,
-                    Recipient = this.usersService.GetUser(p.RecipientId).UserName
+                    Recipient = this.usersService.GetUserById(p.RecipientId).UserName
                 }).ToList();
 
             if (this.User.IsInRole("Admin"))

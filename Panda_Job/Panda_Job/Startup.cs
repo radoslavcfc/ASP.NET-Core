@@ -27,8 +27,8 @@ namespace Panda.App
         {
             services.AddDbContext<PandaDbContext>(options =>
                 options
-                .UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection")));
-
+                .UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection"),
+                                b => b.MigrationsAssembly("Panda_Job")));
             services.AddIdentity<PandaUser, PandaUserRole>()
                 .AddRoles<PandaUserRole>()
                 .AddEntityFrameworkStores<PandaDbContext>()

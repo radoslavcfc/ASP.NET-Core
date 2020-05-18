@@ -10,8 +10,11 @@ namespace Panda.Data
 
         public DbSet<Receipt> Receipts { get; set; }
 
+        public DbSet<Address> Addresses { get; set; }
+
         public PandaDbContext(DbContextOptions<PandaDbContext> options) : base(options)
         {
+           
         }
         public PandaDbContext()
         {
@@ -37,8 +40,12 @@ namespace Panda.Data
 
             builder.Entity<Receipt>()
                 .HasOne(receipt => receipt.Package)
-                .WithOne()
+                .WithOne()                
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Receipt>()
+               .Property("Fee")
+               .HasColumnType("Decimal");
 
             base.OnModelCreating(builder);
         }

@@ -21,12 +21,18 @@ namespace Panda.Services
             return users;
         }
 
-        public PandaUser GetUser(string Id)
+        public PandaUser GetUserById(string Id)
         {
             PandaUser userDb = this.pandaDbContext.Users.SingleOrDefault(user => user.Id == Id);
 
             return userDb;
         }
-       
+
+        public PandaUser GetUserByName(string userName)
+        {
+            PandaUser userDb = this.pandaDbContext.Users.SingleOrDefault(user => user.UserName == userName);
+
+            return userDb;
+        }
     }
 }
