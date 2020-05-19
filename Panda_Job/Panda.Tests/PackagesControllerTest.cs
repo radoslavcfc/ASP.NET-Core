@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
-using Panda.App.Controllers;
-using Panda.App.Models.Package;
+
+using PandaWeb.Models.Package;
 using Panda.Domain;
 using Panda.Services;
 using System;
@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
+using Panda.App.Controllers;
 
 namespace Panda.Tests
 {

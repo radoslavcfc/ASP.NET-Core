@@ -1,16 +1,12 @@
 ﻿using Panda.Domain.Enums;
-using System;
+using System.ComponentModel.DataAnnotations;
 
-namespace Panda.Domain
+namespace PandaWeb.Models.Address
 {
-    public class Address
-    {
-        public Address()
-        {
-            this.Id = Guid.NewGuid().ToString();
-        }
-        public string  Id { get; set; }
+    public class AddNewAddressModel
+    {   [Required]
         public string Country { get; set; }
+        [Required]
         public string Region { get; set; }
         public string Town { get; set; }
         public string StreetName { get; set; }
@@ -23,7 +19,6 @@ namespace Panda.Domain
         public int Flat { get; set; }
         public int Apartment { get; set; }
 
-        public string UserId { get; set; }
-        public PandaUser User { get; set; }
+
     }
 }

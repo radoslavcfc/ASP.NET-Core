@@ -1,0 +1,71 @@
+﻿@using PandaWeb.Models.Package
+@model List<PackageHomeViewModel>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    List<PackageHomeViewModel> pendingPackages = null;
+    // List<PackageHomeViewModel> shippedPackages = null;
+    List<PackageHomeViewModel> deliveredPackages = null;
+
+    @if (this.User.Identity.IsAuthenticated)
+    {
+        pendingPackages = Model.Where(package => package.Status == "Pending").ToList();
+        // shippedPackages = Model.Where(package => package.Status == "Shipped").ToList();
+        deliveredPackages = Model.Where(package => package.Status == "Delivered").ToList();
+    }
+}
+
+<a class="btn btn-dark" href="/Home/Index">Back to index</a>
+
+@if (User.IsInRole("Admin"))
+{
+    <a class="btn btn-dark" href="/Packages/Create"><strong>Create new package</strong></a>
+}
+
+<hr class="hr-2 bg-panda">
+<div class="d-flex justify-content-around">
+    <div class="w-25 bg-white">
+
+        <h2 class="text-center">Pending</h2>
+        <div class="border-panda p-3">
+            @if (pendingPackages.Count <= 0)
+            {
+                <h4>No pending packages</h4>
+            }
+            else
+            {
+                @foreach (var package in pendingPackages)
+                {
+                    <div class="p-2 d-flex justify-content-around">
+                        <h4 class="w-75">@package.Description</h4>
+                        <a href="/Packages/Details/@package.Id" class="btn bg-panda text-white w-25">Details</a>
+                    </div>
+                }
+            }
+            </div>
+        <a class="btn btn-dark d-flex justify-content-center m-5" href="/Packages/Pending">See all pending packages</a>
+    </div>
+   
+    <div class="w-25 bg-white">
+        <h2 class="text-center">Delivered</h2>
+        <div class="border-panda p-3">
+            @if (deliveredPackages.Count <= 0)
+            {
+                <h4>No delivered packages</h4>
+            }
+            else
+            {
+                @foreach (var package in deliveredPackages)
+                {
+                    <div class="p-2 d-flex justify-content-around">
+                        <h4 class="w-75">@package.Description</h4>
+                        <a href="/Packages/Details/@package.Id" class="btn bg-panda text-white w-25">Details</a>
+                    </div>
+                }
+            }
+
+        </div>
+        <a class="btn btn-dark d-flex justify-content-center m-5" href="/Packages/Delivered">See all delivered packages</a>
+    </div>
+</div>
