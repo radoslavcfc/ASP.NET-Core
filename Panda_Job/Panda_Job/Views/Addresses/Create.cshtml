@@ -1,0 +1,59 @@
+﻿@using Panda.Domain.Enums
+@model Panda_Job.Models.Address.AddNewAdressModel
+@{
+    ViewData["Title"] = "Create new address";
+}
+
+<a class="btn btn-dark" href="/Home/Index">Back to all options</a>
+<form class="mx-auto w-50" method="post">
+    <div asp-validation-summary="All"></div>
+    <div class="form-group">
+        <h1>@ViewData["Title"]</h1>
+    </div>
+    <div class="form-group">
+        <hr />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.Country"></label>
+        <input asp-for="@Model.Country" class="form-control" />
+        <span asp-validation-for="@Model.Country" class="text-danger"></span>
+    </div>
+
+    <div class="form-row">
+        <div class="col-md-6">
+            <label asp-for="@Model.Region"></label>
+            <input asp-for="@Model.Region" class="form-control" />
+            <span asp-validation-for="@Model.Region" class="text-danger"></span>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="@Model.Town"></label>
+            <input asp-for="@Model.Town" class="form-control" />
+            <span asp-validation-for="@Model.Town" class="text-danger"></span>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="@Model.StreetName"></label>
+            <input asp-for="@Model.StreetName" class="form-control" />
+            <span asp-validation-for="@Model.StreetName" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <hr />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.PropertyType"></label>
+        <select asp-for="@Model.PropertyType" class="form-control" asp-items="Html.GetEnumSelectList<PropertyType>()">
+        </select>
+    </div>
+    <div class="form-group">
+        <hr />
+    </div>
+    <div class="form-group">
+        <input type="submit" class="btn btn-dark" value="Create" />
+    </div>
+</form>
+
+@section scripts{
+
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
