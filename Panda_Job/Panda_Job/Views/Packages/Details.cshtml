@@ -1,0 +1,40 @@
+﻿@using Panda.App.Models.Package
+@model PackageDetailsViewModel
+@{
+    ViewData["Title"] = Model.Description;
+}
+
+<hr />
+@if (TempData["SuccessCreate"] != null)
+{
+    <div class="alert alert-info">@TempData["SuccessCreate"]</div>
+}
+<div class="container w-50 ">
+    <h2 class="text-center">@ViewData["Title"]</h2>
+    <table class="table table-bordered">
+        <colgroup>
+            <col class="text-white bg-dark w-50" />
+            <col />
+        </colgroup>
+        <tr>
+            <td class="text-white bg-dark font-weight-bold text-lg-left">Description</td>
+            <td>@Model.Description</td>
+        </tr>
+        <tr>
+            <td class="text-white bg-dark font-weight-bold text-lg-left">Estimated delivery on:</td>
+            <td>@Model.EstimatedDeliveryDate</td>
+        </tr>
+        <tr>
+            <td class="text-white bg-dark font-weight-bold text-lg-left">Recepient</td>
+            <td>@Model.Recipient</td>
+        </tr>
+        <tr>
+            <td class="text-white bg-dark font-weight-bold text-lg-left">Weight</td>
+            <td>@Model.Weight</td>
+        </tr>
+        <tr>
+            <td class="text-white bg-dark font-weight-bold text-lg-left">Shipping adress</td>
+            <td>@Model.ShippingAddress</td>
+        </tr>
+    </table>
+</div>
