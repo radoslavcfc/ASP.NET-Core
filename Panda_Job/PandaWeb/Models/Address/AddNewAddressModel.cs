@@ -16,7 +16,7 @@ namespace PandaWeb.Models.Address
         public PropertyType PropertyType { get; set; }
         public int Number { get; set; }
         public int Floor { get; set; }
-        public int Flat { get; set; }
+        public string Entrance { get; set; }
         public int Apartment { get; set; }
 
 

@@ -1,0 +1,57 @@
+﻿@using PandaWeb.Models.Address
+@model AddNewAddressModel
+
+@{ 
+    ViewData["Title"] = "Preview Page";
+}
+    <div class="w-50 m-auto justify-content-center">
+        
+        <h3>@ViewData["Title"]</h3>
+        <h4>Please check if all correct:</h4>
+        <div class="form-row">
+            <div class="col-md-6">
+                <label asp-for="@Model.Country"></label>
+                <span class="form-control">@Model.Country</span>
+                
+            </div>
+            <div class="col-md-6">
+                <label asp-for="@Model.Region"></label>
+                <span class="form-control">@Model.Region</span>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-6">
+                <label asp-for="@Model.Town"></label>
+                <span class="form-control">@Model.Town</span>               
+            </div>
+            <div class="col-md-6">
+                <label asp-for="@Model.StreetName"></label>
+                <span class="form-control" id="disabledTextInput">@Model.StreetName</span>                
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-6">
+                <label asp-for="@Model.PropertyType"></label>
+                <span class="form-control" disabled>@Model.PropertyType</span>
+            </div>
+            <div class="col-md-6">
+                <label asp-for="@Model.Number"></label>
+                <input asp-for="@Model.Number" class="form-control" />
+                
+            </div>
+        </div>
+        <div class="form-row" id="flatDetails" style="display:none">
+            <div class="col-md-4">
+                <label asp-for="@Model.Floor"></label>
+                <select asp-for="@Model.Floor" class="form-control"> </select>
+            </div>
+            <div class="col-md-4">
+                <label asp-for="@Model.Entrance"></label>
+                <select asp-for="@Model.Entrance" class="form-control"> </select>
+            </div>
+            <div class="col-md-4">
+                <label asp-for="@Model.Apartment"></label>
+                <select asp-for="@Model.Apartment" class="form-control"> </select>
+            </div>
+        </div>
+    </div>
