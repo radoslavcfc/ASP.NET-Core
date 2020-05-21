@@ -1,57 +1,71 @@
 ﻿@using PandaWeb.Models.Address
 @model AddNewAddressModel
 
-@{ 
+@{
     ViewData["Title"] = "Preview Page";
 }
+    <h2 class="justify-content-center">@ViewData["Title"]</h2>
     <div class="w-50 m-auto justify-content-center">
-        
-        <h3>@ViewData["Title"]</h3>
         <h4>Please check if all correct:</h4>
-        <div class="form-row">
+        <div class="form-row m-2">
             <div class="col-md-6">
                 <label asp-for="@Model.Country"></label>
-                <span class="form-control">@Model.Country</span>
-                
+                <b class="form-control">@Model.Country <span class="glyphicon glyphicon-ok"></span></b>
+
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 ">
                 <label asp-for="@Model.Region"></label>
-                <span class="form-control">@Model.Region</span>
+                <b class="form-control">@Model.Region <span class="glyphicon glyphicon-ok"></span></b>
             </div>
         </div>
-        <div class="form-row">
+        <div class="form-row m-2">
             <div class="col-md-6">
                 <label asp-for="@Model.Town"></label>
-                <span class="form-control">@Model.Town</span>               
+                <b class="form-control">@Model.Town <span class="glyphicon glyphicon-ok"></span></b>
             </div>
             <div class="col-md-6">
                 <label asp-for="@Model.StreetName"></label>
-                <span class="form-control" id="disabledTextInput">@Model.StreetName</span>                
+                <b class="form-control">@Model.StreetName <span class="glyphicon glyphicon-ok"></span></b>
             </div>
         </div>
-        <div class="form-row">
+        <div class="form-row m-2">
             <div class="col-md-6">
                 <label asp-for="@Model.PropertyType"></label>
-                <span class="form-control" disabled>@Model.PropertyType</span>
+                <b class="form-control">@Model.PropertyType <span class="glyphicon glyphicon-ok"></span></b>
             </div>
             <div class="col-md-6">
                 <label asp-for="@Model.Number"></label>
-                <input asp-for="@Model.Number" class="form-control" />
-                
+                <b class="form-control">@Model.Number <span class="glyphicon glyphicon-ok"></span></b>
             </div>
         </div>
-        <div class="form-row" id="flatDetails" style="display:none">
+        <div class="form-row m-2" id="flatDetails">
             <div class="col-md-4">
                 <label asp-for="@Model.Floor"></label>
-                <select asp-for="@Model.Floor" class="form-control"> </select>
+                <b class="form-control">@Model.Floor <span class="glyphicon glyphicon-ok"></span></b>
+
             </div>
             <div class="col-md-4">
                 <label asp-for="@Model.Entrance"></label>
-                <select asp-for="@Model.Entrance" class="form-control"> </select>
+                <b class="form-control">@Model.Entrance <span class="glyphicon glyphicon-ok"></span></b>
+
             </div>
             <div class="col-md-4">
                 <label asp-for="@Model.Apartment"></label>
-                <select asp-for="@Model.Apartment" class="form-control"> </select>
+                <b class="form-control">@Model.Apartment <span class="glyphicon glyphicon-ok"></span></b>
+            </div>
+        </div>
+        <div class="form-row w-50 m-auto justify-content-between m-2">
+            <div class="col-md-4 btn btn-dark">               
+               @Html.ActionLink("Edit","Edit",Model)
+                
+            </div>
+            <div class="col-md-4 btn btn-dark">
+                <a href="#"class="text-white">Save</a>
             </div>
         </div>
     </div>
+@section Scripts{
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+}

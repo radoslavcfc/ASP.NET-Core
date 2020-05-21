@@ -11,6 +11,7 @@ using Panda.Data;
 using Panda.Domain;
 using Panda.Services;
 using System.Linq;
+using System.Web.Mvc;
 
 namespace Panda.App
 {
@@ -92,6 +93,13 @@ namespace Panda.App
             app.UseAuthorization();
             app.UseEndpoints(ep =>
             {
+                ep.MapControllerRoute(name: "Default", pattern: "{controller}/{action}/{id}",
+                defaults: new
+                {
+                    controller = "Shared",
+                    action = "WelcomeView",
+                    id = UrlParameter.Optional
+                });
                 ep.MapControllerRoute(name:"usual", pattern: "{controller=Home}/{action=Index}/{id?}");
                 ep.MapRazorPages();
             });

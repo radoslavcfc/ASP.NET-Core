@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Panda.Domain;
 using PandaWeb.Models.Address;
 
@@ -21,8 +22,8 @@ namespace Panda_Job.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            var model = new AddNewAddressModel();
-            return this.View(model);
+           
+               return this.View(new AddNewAddressModel());             
         }
 
         public IActionResult Create(AddNewAddressModel model)
@@ -47,6 +48,16 @@ namespace Panda_Job.Controllers
         public IActionResult Preview(AddNewAddressModel model)
         {
             return this.View(model);
+        }
+
+        [HttpGet]
+        public IActionResult Edit(AddNewAddressModel model)
+        {
+            return this.View("Create", model);
+        }
+        public IActionResult Edit()
+        {
+            return Ok("Yes");
         }
     }
 }
