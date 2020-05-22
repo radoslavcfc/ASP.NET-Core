@@ -55,9 +55,13 @@ namespace Panda_Job.Controllers
         {
             return this.View("Create", model);
         }
-        public IActionResult Edit()
+
+        [HttpPost]
+        [ActionName("Edit")]
+        public IActionResult EditPost(AddNewAddressModel model)
         {
-            return Ok("Yes");
+           
+            return Ok(model.Country);
         }
     }
 }
