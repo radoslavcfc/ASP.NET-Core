@@ -9,9 +9,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Panda.Data;
 using Panda.Domain;
+using Panda.Service;
 using Panda.Services;
 using System.Linq;
-using System.Web.Mvc;
+
 
 namespace Panda.App
 {
@@ -29,7 +30,7 @@ namespace Panda.App
             services.AddDbContext<PandaDbContext>(options =>
                 options
                 .UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection"),
-                                b => b.MigrationsAssembly("Panda.Data")));
+                                b => b.MigrationsAssembly("PandaWeb")));
             services.AddIdentity<PandaUser, PandaUserRole>()
                 .AddRoles<PandaUserRole>()
                 .AddEntityFrameworkStores<PandaDbContext>()
@@ -37,6 +38,7 @@ namespace Panda.App
             services.AddTransient<IPackagesService, PackagesService>();
             services.AddTransient<IReceiptsService, ReceiptsService>();
             services.AddTransient<IUsersService, UsersService>();
+            services.AddTransient<IAddressesService, AddressesService>();
             services.Configure<CookiePolicyOptions>(options =>
             {
                 options.CheckConsentNeeded =context => true;
@@ -93,13 +95,6 @@ namespace Panda.App
             app.UseAuthorization();
             app.UseEndpoints(ep =>
             {
-                ep.MapControllerRoute(name: "Default", pattern: "{controller}/{action}/{id}",
-                defaults: new
-                {
-                    controller = "Shared",
-                    action = "WelcomeView",
-                    id = UrlParameter.Optional
-                });
                 ep.MapControllerRoute(name:"usual", pattern: "{controller=Home}/{action=Index}/{id?}");
                 ep.MapRazorPages();
             });

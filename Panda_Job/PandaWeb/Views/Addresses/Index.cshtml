@@ -1,3 +1,14 @@
-﻿@{
+﻿@using PandaWeb.Models.Address
+@model AddNewAddressModel
+@{
     ViewData["Title"] = "Addresses Index";
+}
+<h1>
+    @ViewData["Title"]
+
+</h1>
+@if (TempData["Message"] != null)
+{
+<div class="text-success">@TempData["Message"]</div>
+
 }

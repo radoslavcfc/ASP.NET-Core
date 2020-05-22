@@ -4,68 +4,72 @@
 @{
     ViewData["Title"] = "Preview Page";
 }
-    <h2 class="justify-content-center">@ViewData["Title"]</h2>
-    <div class="w-50 m-auto justify-content-center">
-        <h4>Please check if all correct:</h4>
-        <div class="form-row m-2">
-            <div class="col-md-6">
-                <label asp-for="@Model.Country"></label>
-                <b class="form-control">@Model.Country <span class="glyphicon glyphicon-ok"></span></b>
+<h2 class="justify-content-center">@ViewData["Title"]</h2>
+<div class="mx-auto w-50">
+    <h3 class="text-center">Please check if all correct:</h3>
+    <div class="form-row m-2">
+        <div class="col-md-6">
+            <label asp-for="@Model.Country"></label>
+            <b class="form-control">@Model.Country <span class="glyphicon glyphicon-ok"></span></b>
 
-            </div>
-            <div class="col-md-6 ">
-                <label asp-for="@Model.Region"></label>
-                <b class="form-control">@Model.Region <span class="glyphicon glyphicon-ok"></span></b>
-            </div>
         </div>
-        <div class="form-row m-2">
-            <div class="col-md-6">
-                <label asp-for="@Model.Town"></label>
-                <b class="form-control">@Model.Town <span class="glyphicon glyphicon-ok"></span></b>
-            </div>
-            <div class="col-md-6">
-                <label asp-for="@Model.StreetName"></label>
-                <b class="form-control">@Model.StreetName <span class="glyphicon glyphicon-ok"></span></b>
-            </div>
-        </div>
-        <div class="form-row m-2">
-            <div class="col-md-6">
-                <label asp-for="@Model.PropertyType"></label>
-                <b class="form-control">@Model.PropertyType <span class="glyphicon glyphicon-ok"></span></b>
-            </div>
-            <div class="col-md-6">
-                <label asp-for="@Model.Number"></label>
-                <b class="form-control">@Model.Number <span class="glyphicon glyphicon-ok"></span></b>
-            </div>
-        </div>
-        <div class="form-row m-2" id="flatDetails">
-            <div class="col-md-4">
-                <label asp-for="@Model.Floor"></label>
-                <b class="form-control">@Model.Floor <span class="glyphicon glyphicon-ok"></span></b>
-
-            </div>
-            <div class="col-md-4">
-                <label asp-for="@Model.Entrance"></label>
-                <b class="form-control">@Model.Entrance <span class="glyphicon glyphicon-ok"></span></b>
-
-            </div>
-            <div class="col-md-4">
-                <label asp-for="@Model.Apartment"></label>
-                <b class="form-control">@Model.Apartment <span class="glyphicon glyphicon-ok"></span></b>
-            </div>
-        </div>
-        <div class="form-row w-50 m-auto justify-content-between m-2">
-            <div class="col-md-4 btn btn-dark">               
-               @Html.ActionLink("Edit","Edit",Model)
-                
-            </div>
-            <div class="col-md-4 btn btn-dark">
-                <a href="#"class="text-white">Save</a>
-            </div>
+        <div class="col-md-6 ">
+            <label asp-for="@Model.Region"></label>
+            <b class="form-control">@Model.Region <span class="glyphicon glyphicon-ok"></span></b>
         </div>
     </div>
-@section Scripts{
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-}
+    <div class="form-row m-2">
+        <div class="col-md-6">
+            <label asp-for="@Model.Town"></label>
+            <b class="form-control">@Model.Town <span class="glyphicon glyphicon-ok"></span></b>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="@Model.StreetName"></label>
+            <b class="form-control">@Model.StreetName <span class="glyphicon glyphicon-ok"></span></b>
+        </div>
+    </div>
+    <div class="form-row m-2">
+        <div class="col-md-6">
+            <label asp-for="@Model.PropertyType"></label>
+            <b class="form-control">@Model.PropertyType <span class="glyphicon glyphicon-ok"></span></b>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="@Model.Number"></label>
+            <b class="form-control">@Model.Number <span class="glyphicon glyphicon-ok"></span></b>
+        </div>
+    </div>
+    @if (Model.PropertyType == Domain.Enums.PropertyType.Flat)
+    {
+        <div class="form-row m-2" id="flatDetails">
+            <div class="col-md-4">
+                <label asp-for="@Model.FlatModel.Floor"></label>
+                <b class="form-control">@Model.FlatModel.Floor <span class="glyphicon glyphicon-ok"></span></b>
+
+            </div>
+            <div class="col-md-4">
+                <label asp-for="@Model.FlatModel.Entrance"></label>
+                <b class="form-control">@Model.FlatModel.Entrance <span class="glyphicon glyphicon-ok"></span></b>
+
+            </div>
+            <div class="col-md-4">
+                <label asp-for="@Model.FlatModel.Apartment"></label>
+                <b class="form-control">@Model.FlatModel.Apartment <span class="glyphicon glyphicon-ok"></span></b>
+            </div>
+        </div>
+
+    }
+    <div class="form-row w-50 m-auto justify-content-between m-2">
+        <div class="col-md-4 btn btn-dark text-white">
+            @Html.ActionLink("Edit", "Edit", Model)
+
+        </div>
+        <div class="col-md-4 btn btn-dark text-white">
+            @Html.ActionLink("Save", "Save", Model)
+        </div>
+    </div>
+</div>
+    @section Scripts{
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    }

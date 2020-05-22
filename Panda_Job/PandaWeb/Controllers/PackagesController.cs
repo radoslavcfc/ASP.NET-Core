@@ -86,8 +86,8 @@ namespace Panda.App.Controllers
             else
             {
                 var personalColl = collection
-                .Where(p => p.UserId == this.userManager.GetUserId(this.User))
-                .ToList();
+                     .Where(p => p.UserId == this.userManager.GetUserId(this.User))
+                     .ToList();
                 return this.View(personalColl);
             }
         }

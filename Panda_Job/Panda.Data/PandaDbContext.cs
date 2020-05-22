@@ -12,6 +12,7 @@ namespace Panda.Data
 
         public DbSet<Address> Addresses { get; set; }
 
+        public DbSet<Flat> Flats { get; set; }
         public PandaDbContext(DbContextOptions<PandaDbContext> options) : base(options)
         {
            

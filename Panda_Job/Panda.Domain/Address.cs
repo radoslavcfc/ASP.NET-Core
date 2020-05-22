@@ -15,15 +15,13 @@ namespace Panda.Domain
         public string Town { get; set; }
         public string StreetName { get; set; }
 
-        public AddressType AddressType { get; set; }
+        public AddressType? AddressType { get; set; }
 
         public PropertyType PropertyType { get; set; }
         public int Number { get; set; }
-        public int? Floor { get; set; }
-        public string Entrance { get; set; }
-        public int? Apartment { get; set; }
-
         public string UserId { get; set; }
         public PandaUser User { get; set; }
+
+        public Flat Flat { get; set; }
     }
 }
