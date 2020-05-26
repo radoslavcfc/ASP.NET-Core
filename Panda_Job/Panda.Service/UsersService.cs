@@ -30,7 +30,11 @@ namespace Panda.Services
 
         public PandaUser GetUserByName(string userName)
         {
-            PandaUser userDb = this.pandaDbContext.Users.SingleOrDefault(user => user.UserName == userName);
+            PandaUser userDb = this.pandaDbContext
+                .Users
+                .SingleOrDefault
+                    (user => 
+                        user.UserName == userName);
 
             return userDb;
         }

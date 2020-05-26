@@ -7,6 +7,7 @@ using Panda.Services;
 using PandaWeb.Models.Address;
 using System.Collections.Generic;
 using System.Linq;
+using Panda.Service;
 
 namespace Panda.App.Controllers
 {
@@ -14,13 +15,16 @@ namespace Panda.App.Controllers
     public class HomeController : Controller
     {
 
-        private readonly IPackagesService packagesService;
+        
         private readonly IUsersService usersService;
 
-        public HomeController(IUsersService usersService)
+        public HomeController(IUsersService usersService, IAddressesService addressesService)
         {
             this.usersService = usersService;
+            AddressesService = addressesService;
         }
+
+        public IAddressesService AddressesService { get; }
 
         public IActionResult Index()
         {
@@ -28,7 +32,8 @@ namespace Panda.App.Controllers
             {
                 var currentUserName = this.User.Identity.Name;
                 var currentUser = this.usersService.GetUserByName(currentUserName);
-                if (currentUser.Addresses.Count == 0)
+                var currentUserAddressesCount = this.AddressesService.CountOfAddressesPerUser(currentUser);
+                if (currentUserAddressesCount == 0)
                 {
                     var addressModel = new AddNewAddressModel();
                     return this.View(addressModel);
