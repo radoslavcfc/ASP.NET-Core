@@ -1,14 +1,35 @@
 ﻿
-@model AddNewAddressModel
+@model ListAddressesModel
 @{
     ViewData["Title"] = "Addresses Index";
+    var primaryAddressClass = "btn btn-dark";
 }
-<h1>
-    @ViewData["Title"]
 
-</h1>
-@if (TempData["Message"] != null)
-{
-<div class="text-success">@TempData["Message"]</div>
+<a class="btn btn-dark" href="/Home/Index">Back to index</a>
 
-}
+<div class="btn-group-vertical  w-75">
+    @if (TempData["Message"] != null)
+    {
+        <div class="text-success bg-info">@TempData["Message"]</div>
+    }
+    <h3>@("Adresses of " + this.User.Identity.Name.Capitalize())</h3>
+
+
+    @foreach (var item in Model.ShortAddressDetailsModelsList)
+    {
+        @if (item.AddressType == AddressType.Alternative)
+        {
+            primaryAddressClass = "btn btn-light";
+        }
+        <button type="button" class="@primaryAddressClass">
+            @item.Country, @item.Region, @item.Town, @item.StreetName, @item.Number
+        </button>
+
+    }
+
+</div>
+<br />
+<hr />
+<div class="container w-75 d-flex p-3">
+    <a class="btn btn-dark" href="/Addresses/Create">Add address</a>
+</div>

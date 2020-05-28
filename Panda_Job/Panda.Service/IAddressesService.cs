@@ -10,5 +10,6 @@ namespace Panda.Service
         void CreateAddress(Address address);
 
         int CountOfAddressesPerUser(PandaUser user);
+        IEnumerable<Address> ListOfAddressesByUser(string userName);
     }
 }

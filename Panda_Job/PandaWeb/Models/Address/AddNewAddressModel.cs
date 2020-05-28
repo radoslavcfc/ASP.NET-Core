@@ -17,7 +17,7 @@ namespace PandaWeb.Models.Address
 
         public PropertyType PropertyType { get; set; }
         public int Number { get; set; }
-        public AddFlatModel FlatModel { get; set; }
+        public AddFlatModel FlatModel { get; set; } 
 
     }
 }

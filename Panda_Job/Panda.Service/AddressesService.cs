@@ -1,8 +1,10 @@
-﻿using Panda.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using Panda.Data;
 using Panda.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 
 namespace Panda.Service
@@ -26,6 +28,20 @@ namespace Panda.Service
         {
             this.pandaDbContext.Addresses.Add(address);
             this.pandaDbContext.SaveChanges();
+        }
+
+        public IEnumerable<Address> ListOfAddressesByUser(string userName)
+        {
+            var user = this.pandaDbContext
+                .Users
+                .Where(u => u.UserName == userName)
+                .FirstOrDefault();
+            var list = this.pandaDbContext
+                .Addresses
+                .Where(a => a.UserId == user.Id)
+                .Include(a => a.Flat)
+                .ToList();
+            return list;
         }
     }
 }

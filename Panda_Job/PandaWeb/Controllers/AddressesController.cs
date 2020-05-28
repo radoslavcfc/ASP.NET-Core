@@ -6,6 +6,7 @@ using Panda.Domain.Enums;
 using Panda.Service;
 using Panda.Services;
 using PandaWeb.Models.Address;
+using System.Linq;
 
 namespace Panda_Job.Controllers
 {
@@ -15,54 +16,55 @@ namespace Panda_Job.Controllers
         private readonly IAddressesService addressesService;
         private readonly IUsersService usersService;
 
-        public AddressesController(UserManager<PandaUser> userManager, IAddressesService addressesService, IUsersService usersService)
+        public AddressesController(UserManager<PandaUser> userManager,
+                                    IAddressesService addressesService, IUsersService usersService)
         {
             this.userManager = userManager;
             this.addressesService = addressesService;
             this.usersService = usersService;
         }
-        public IActionResult Index()
+              public IActionResult Index()
         {
-            return this.Ok();
+            var listOfAddresses = this.addressesService
+                .ListOfAddressesByUser(this.User.Identity.Name);
+
+            var model = new ListAddressesModel
+            {
+                ShortAddressDetailsModelsList = listOfAddresses
+                     .Select(a => new ShortAddressDetailModel
+                     {
+                         Country = a.Country.Substring(0, 3).ToUpper(),
+                         Region = a.Region.Substring(0, 3).ToUpper(),
+                         Town = a.Town.ToUpper(),
+                         StreetName = a.StreetName,
+                         AddressType = a.AddressType.Value,
+                         Number = a.Number
+                     })
+                     .OrderBy(a => a.AddressType)
+            };
+            return this.View(model);
         }
 
         [HttpGet]
         public IActionResult Create()
         {
-            return this.View(new AddNewAddressModel());
-        }
-
-        [HttpPost]
-        public IActionResult Create(AddNewAddressModel model)
-        {
-            return this.RedirectToAction("Preview", model);
-        }
-
-        [HttpGet]
-        public IActionResult Preview(AddNewAddressModel model)
-        {
+            var model = new AddNewAddressModel();
             return this.View(model);
         }
 
-        [HttpGet]
-        public IActionResult Edit(AddNewAddressModel model)
+        [HttpPost]
+        [ActionName("Create")]
+        public IActionResult CreatePost(AddNewAddressModel model)
         {
-            return this.View("Create", model);
+            return this.View("Preview",model);          
         }
 
-        [HttpPost]
-        [ActionName("Edit")]
-        public IActionResult EditPost(AddNewAddressModel model)
-        {
-            return this.View("Preview", model);
-        }
-        
         public IActionResult Save(AddNewAddressModel model)
-        {
+        {          
             var userId = this.userManager.GetUserId(this.User);
             var user = this.usersService.GetUserById(userId);
 
-            if (user.Addresses.Count == 0)
+            if (this.addressesService.CountOfAddressesPerUser(user) == 0)
             {
                 model.AddressType = AddressType.Primary;
             }
@@ -70,6 +72,8 @@ namespace Panda_Job.Controllers
             {
                 model.AddressType = AddressType.Alternative;
             }
+
+            //The model state is checked after the system allocate the type of the address automatically
 
             if (!ModelState.IsValid)
             {
@@ -85,30 +89,27 @@ namespace Panda_Job.Controllers
                 AddressType = model.AddressType,
                 PropertyType = model.PropertyType,
                 Number = model.Number,
-                UserId = this.userManager.GetUserId(this.User),
-                
+                UserId = userId
+
             };
+
             if (addresToRegister.PropertyType == PropertyType.Flat)
             {
                 var flatToRegister = new Flat
                 {
-                   AddressId = addresToRegister.Id,
-                   Entrance = model.FlatModel.Entrance,
-                   Floor = model.FlatModel.Floor,
-                   Apartment = model.FlatModel.Apartment
-
+                    AddressId = addresToRegister.Id,
+                    Entrance = model.FlatModel.Entrance,
+                    Floor = model.FlatModel.Floor,
+                    Apartment = model.FlatModel.Apartment
                 };
                 addresToRegister.Flat = flatToRegister;
             }
-           
 
             this.addressesService.CreateAddress(addresToRegister);
 
             TempData["Message"] = "Done!";
 
-            return this.View("Index", model);
-
-            
+            return this.RedirectToAction("Index", "Addresses");
         }
     }
 }

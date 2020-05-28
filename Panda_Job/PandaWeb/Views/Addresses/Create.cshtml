@@ -1,4 +1,4 @@
-﻿@model PandaWeb.Models.Address.AddNewAddressModel
+﻿@model AddNewAddressModel
 @{
     ViewData["Title"] = "Create new address";
 }
@@ -13,57 +13,63 @@
     <div class="form-row">
         <div class="col-md-6">
             <label asp-for="@Model.Country"></label>
-            <input asp-for="@Model.Country" class="form-control" />
+            <input asp-for="@Model.Country" class="form-control inputData" />
             <span asp-validation-for="@Model.Country" class="text-danger"></span>
         </div>
         <div class="col-md-6">
             <label asp-for="@Model.Region"></label>
-            <input asp-for="@Model.Region" class="form-control" />
+            <input asp-for="@Model.Region" class="form-control inputData" />
             <span asp-validation-for="@Model.Region" class="text-danger"></span>
         </div>
     </div>
     <div class="form-row">
         <div class="col-md-6">
             <label asp-for="@Model.Town"></label>
-            <input asp-for="@Model.Town" class="form-control" />
+            <input asp-for="@Model.Town" class="form-control inputData" />
             <span asp-validation-for="@Model.Town" class="text-danger"></span>
         </div>
         <div class="col-md-6">
             <label asp-for="@Model.StreetName"></label>
-            <input asp-for="@Model.StreetName" class="form-control" />
+            <input asp-for="@Model.StreetName" class="form-control inputData" />
             <span asp-validation-for="@Model.StreetName" class="text-danger"></span>
         </div>
     </div>
     <div class="form-row">
         <div class="col-md-6">
             <label asp-for="@Model.PropertyType"></label>
-            <select id="addressTypeChoice" asp-for="@Model.PropertyType" onchange="ShowDetails()" class="form-control" asp-items="Html.GetEnumSelectList<PropertyType>()"> </select>
+            <select id="addressTypeChoice" asp-for="@Model.PropertyType"
+                    onchange="ShowDetails()" class="form-control inputData"
+                    asp-items="Html.GetEnumSelectList<PropertyType>()">
+            </select>
         </div>
         <div class="col-md-6">
             <label asp-for="@Model.Number"></label>
             <input asp-for="@Model.Number" class="form-control" />
-            <span asp-validation-for="@Model.Number" class="text-danger"></span>
+            <span asp-validation-for="@Model.Number" class="text-danger inputData"></span>
         </div>
     </div>
     <div class="form-row" id="flatDetails" style="display:none">
         <div class="col-md-4">
             <label asp-for="@Model.FlatModel.Floor"></label>
-            <select asp-for="@Model.FlatModel.Floor" class="form-control"> </select>
+            <input asp-for="@Model.FlatModel.Floor" class="form-control inputData" />
+            <span asp-validation-for="@Model.FlatModel.Floor" class="text-danger"></span>
         </div>
         <div class="col-md-4">
             <label asp-for="@Model.FlatModel.Entrance"></label>
-            <select asp-for="@Model.FlatModel.Entrance" class="form-control"> </select>
+            <input asp-for="@Model.FlatModel.Entrance" class="form-control inputData" />
+            <span asp-validation-for="@Model.FlatModel.Entrance" class="text-danger"></span>
         </div>
         <div class="col-md-4">
             <label asp-for="@Model.FlatModel.Apartment"></label>
-            <select asp-for="@Model.FlatModel.Apartment" class="form-control"> </select>
+            <input asp-for="@Model.FlatModel.Apartment" class="form-control" />
+            <span asp-validation-for="@Model.FlatModel.Apartment" class="text-danger inputData"></span>
         </div>
     </div>
     <div class="form-group">
         <hr /> <br />
     </div>
-    <div class="form-group">
-        <input type="submit" class="btn btn-dark" value="Submit" />
+    <div id="saveBut"  class="form-group">
+        <input type="submit" class="btn btn-dark" value="Save"/>
     </div>
 </form>
 
@@ -71,15 +77,15 @@
 
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-<script>
-    function ShowDetails() {
-        var addressType = $("#addressTypeChoice").val();
-        if (addressType == 2) {
-            $("#flatDetails").show();
+    <script>
+        function ShowDetails() {
+            var addressType = $("#addressTypeChoice").val();
+            if (addressType == 2) {
+                $("#flatDetails").show();
+            }
+            else {
+                $("#flatDetails").hide();
+            }
         }
-        else {
-            $("#flatDetails").hide();
-        }
-    }
-</script>
+    </script>
 }
