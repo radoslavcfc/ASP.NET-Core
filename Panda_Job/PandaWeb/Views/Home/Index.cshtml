@@ -1,6 +1,7 @@
-﻿
-@model PandaWeb.Models.Address.AddNewAddressModel
-
+﻿@model PandaWeb.Models.Address.AddNewAddressModel
+@{ 
+    ViewData["Title"] = "Main Index";
+}
 @if (!this.User.Identity.IsAuthenticated)
 {
     <div class="jumbotron mt-3 bg-panda">

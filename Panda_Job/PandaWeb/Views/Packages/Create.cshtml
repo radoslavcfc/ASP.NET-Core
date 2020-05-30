@@ -2,13 +2,14 @@
 @model PackageCreateBindingModel
 
 @{
-    ViewData["Title"] = "CreateByAdmin";
+    ViewData["Title"] = "Create By Admin";
     var collectionOfUsers = new List<SelectListItem>() { new SelectListItem("----SELECT----", "Default", true, true) };
     foreach (var userItem in Model.UsersCollection)
     {
         collectionOfUsers.Add(new SelectListItem(userItem.Name, userItem.Id));
     }
 }
+
 <a class="btn btn-dark" href="/Home/Index">Back to all options</a>
 <form class="mx-auto w-50" method="post">
     <div asp-validation-summary="All"></div>
