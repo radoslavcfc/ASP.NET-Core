@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-namespace Panda.App
+namespace PandaWeb
 {
     public class Program
     {

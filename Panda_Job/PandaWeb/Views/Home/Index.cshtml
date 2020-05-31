@@ -1,6 +1,10 @@
-﻿@model PandaWeb.Models.Address.AddNewAddressModel
-@{ 
+﻿@model AddNewAddressModel
+
+@inject IUsersService userService
+
+@{
     ViewData["Title"] = "Main Index";
+   
 }
 @if (!this.User.Identity.IsAuthenticated)
 {
@@ -36,6 +40,16 @@ else
                 <a href="/Addresses/Create" class="btn btn-lg btn-dark">Add address</a>
             </div>
         }
+        var currentUser = userService.GetUserByName(this.User.Identity.Name);
+        var contactDetailsCheck = currentUser.Email == null && currentUser.FirstName == null && currentUser.LastName == null;
+        if (!contactDetailsCheck)
+        {
+            <h2 class="text-center">Please add your contact details!</h2>
+            <div class="container w-25 d-flex justify-content-center p-3 btn-group-vertical">
+                <a href="/Users/Index" class="btn btn-lg btn-dark">Complete your contact information</a>
+            </div>
+          
+        }
         else
         {
             <h2 class="text-center">Please select from the following options</h2>
@@ -47,5 +61,5 @@ else
         }
     }
 
-   
+
 }

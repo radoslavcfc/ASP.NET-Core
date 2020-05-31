@@ -9,12 +9,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Panda.Data;
 using Panda.Domain;
-using Panda.Service;
 using Panda.Services;
+
 using System.Linq;
 
 
-namespace Panda.App
+namespace PandaWeb
 {
     public class Startup
     {

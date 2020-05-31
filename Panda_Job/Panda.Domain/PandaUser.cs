@@ -13,9 +13,6 @@
         }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-
-        public string MainContactNumber { get; set; }
-
         public string SecondContactNumber { get; set; }
         public ICollection<Address> Addresses { get; set; }
         public PandaUserRole UserRole { get; set; }
