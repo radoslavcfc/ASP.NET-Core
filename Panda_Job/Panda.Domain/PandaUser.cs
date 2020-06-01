@@ -1,6 +1,7 @@
 ﻿namespace Panda.Domain
 {
     using Microsoft.AspNetCore.Identity;
+    using System;
     using System.Collections.Generic;
 
     public class PandaUser : IdentityUser
@@ -20,5 +21,10 @@
         public ICollection<Package> Packages { get; set; }
 
         public ICollection<Receipt> Receipts { get; set; }
+
+        public static implicit operator List<object>(PandaUser v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
