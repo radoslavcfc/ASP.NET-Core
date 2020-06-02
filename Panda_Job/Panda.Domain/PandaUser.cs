@@ -26,5 +26,6 @@
         {
             throw new NotImplementedException();
         }
+        public DateTime RegisteredOn { get; set; }
     }
 }

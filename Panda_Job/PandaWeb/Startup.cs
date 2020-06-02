@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
 
 using Microsoft.Extensions.Configuration;
@@ -95,7 +96,14 @@ namespace PandaWeb
             app.UseAuthorization();
             app.UseEndpoints(ep =>
             {
-                ep.MapControllerRoute(name:"usual", pattern: "{controller=Home}/{action=Index}/{id?}");
+                //  ep.MapControllerRoute(
+                //name: "customName",
+                //pattern: "blog/{*article}",
+                //defaults: new { controller = "Blog", action = "Article" });
+
+                ep.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}") ;
+                // ep.MapDefaultControllerRoute();
+                //ep.MapControllers();
                 ep.MapRazorPages();
             });
         }

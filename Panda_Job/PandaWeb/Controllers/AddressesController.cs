@@ -27,7 +27,7 @@ namespace Panda_Job.Controllers
         {
             var listOfAddresses = this.addressesService
                 .ListOfAddressesByUser(this.User.Identity.Name);
-
+           
             var model = new ListAddressesModel
             {
                 ShortAddressDetailsModelsList = listOfAddresses

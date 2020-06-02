@@ -21,6 +21,8 @@ namespace Panda.Domain
 
         public DateTime? EstimatedDeliveryDate { get; set; }
 
+        public DateTime CreatedOn { get; set; }
+
         public string RecipientId { get; set; }
 
         public PandaUser Recipient { get; set; }

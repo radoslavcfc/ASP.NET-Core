@@ -71,8 +71,7 @@ namespace Panda.App.Areas.Identity.Pages.Account
             {
                 var user = new PandaUser { UserName = Input.Username, Email = Input.Email };
 
-                // TODO: Make Admin
-
+                
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (_userManager.Users.Count() == 1)
