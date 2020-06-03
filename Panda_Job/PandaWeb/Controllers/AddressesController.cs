@@ -90,7 +90,6 @@ namespace Panda_Job.Controllers
                 PropertyType = model.PropertyType,
                 Number = model.Number,
                 UserId = userId
-
             };
 
             if (addresToRegister.PropertyType == PropertyType.Flat)

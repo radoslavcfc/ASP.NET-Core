@@ -11,21 +11,15 @@ using Microsoft.Docs.Samples;
 
 namespace Panda.App.Controllers
 {
- 
-
     [Controller]
     public class HomeController : Controller
     {
-
-        
         private readonly IUsersService usersService;
-
         public HomeController(IUsersService usersService, IAddressesService addressesService)
         {
             this.usersService = usersService;
             AddressesService = addressesService;
         }
-
         public IAddressesService AddressesService { get; }
 
         public IActionResult Index()

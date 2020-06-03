@@ -113,8 +113,7 @@ namespace Panda.App.Controllers
             {
                 var personalCol = model.Where(p => p.Recipient == this.User.Identity.Name).ToList();
                 return this.View(personalCol);
-            }
-           
+            }           
         }
 
         [HttpGet]
