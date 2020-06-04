@@ -1,0 +1,64 @@
+﻿@model UserDetailViewModel
+@{
+    ViewData["Title"] = $"Detals for {Model.FullName}";
+}
+<a class="btn btn-dark" href="/Users/Index">Back to All Users</a>
+<div class="card text-white bg-dark mt-3 m-auto" style="max-width: 30rem;">
+    <div class="card-header h2">@ViewData["Title"]</div>
+    <div class="card-body">
+        <h5 class="card-title"><b>Registered on:</b> @Model.RegisteredOn</h5>
+        <p class="card-text"><b>Email:</b> @Model.Email</p>
+        <p class="card-text"><b>Mobile:</b> @Model.PhoneNumber</p>
+        <p class="card-text"><b>Alt. Mobile:</b> @Model.SecondContactNumber</p>
+    </div>
+    <div id="addressContent" class="card-footer bg-transparent border-dark">
+        <button onclick="loadAddresses('@Model.FullName')">Click to see the addresses</button>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        function loadAddresses(fullName) {
+            var json = { fullName: fullName }
+            $.ajax({
+                url: "/api/test",
+                type: "post",
+                data: JSON.stringify(json),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    //{
+                    //    "countOfAddresses": 2,
+                    //        "listOfAdresses": [{
+                    //            "country": "Bulgaria",
+                    //            "region": "Smolyan",
+                    //            "town": "Madan",
+                    //            "streetName": null,
+                    //            "number": 0,
+                    //            "addressType": 0
+                    //        },
+                    //            {
+                    //                "country": "Bulgaria",
+                    //                "region": "Smolyan",
+                    //                "town": "Madan",
+                    //                "streetName": null,
+                    //                "number": 0,
+                    //                "addressType": 0
+                    //            }]
+                    //}
+                    
+                    var count = data.countOfAddresses;
+                    var result = `Count Of Addresses : ${count}    `;
+                    $.each(data.listOfAdresses, function (index, value) {
+                        var country = value.country;
+                        var town = value.country;
+                        result += `${index} - Country: ${country}, town: ${town}`;
+                     });
+                    
+                    
+                    $("#addressContent").html(result);
+                }
+            });
+        }
+    </script>
+}
