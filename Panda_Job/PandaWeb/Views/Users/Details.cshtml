@@ -1,10 +1,10 @@
 ﻿@model UserDetailViewModel
 @{
-    ViewData["Title"] = $"Detals for {Model.FullName}";
+    ViewData["Title"] = $"Details for {Model.FullName}";
 }
 <a class="btn btn-dark" href="/Users/Index">Back to All Users</a>
 <div class="card text-white bg-dark mt-3 m-auto" style="max-width: 30rem;">
-    <div class="card-header h2">@ViewData["Title"]</div>
+    <div class="card-header h3">@ViewData["Title"]</div>
     <div class="card-body">
         <h5 class="card-title"><b>Registered on:</b> @Model.RegisteredOn</h5>
         <p class="card-text"><b>Email:</b> @Model.Email</p>
@@ -12,7 +12,7 @@
         <p class="card-text"><b>Alt. Mobile:</b> @Model.SecondContactNumber</p>
     </div>
     <div id="addressContent" class="card-footer bg-transparent border-dark">
-        <button onclick="loadAddresses('@Model.FullName')">Click to see the addresses</button>
+        <button class="btn btn-dark" onclick="loadAddresses('@Model.FullName')">Click to see the addresses</button>
     </div>
 </div>
 
@@ -21,41 +21,33 @@
         function loadAddresses(fullName) {
             var json = { fullName: fullName }
             $.ajax({
-                url: "/api/test",
+                url: "/addresses/api/fetch",
                 type: "post",
                 data: JSON.stringify(json),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (data) {
-                    //{
-                    //    "countOfAddresses": 2,
-                    //        "listOfAdresses": [{
-                    //            "country": "Bulgaria",
-                    //            "region": "Smolyan",
-                    //            "town": "Madan",
-                    //            "streetName": null,
-                    //            "number": 0,
-                    //            "addressType": 0
-                    //        },
-                    //            {
-                    //                "country": "Bulgaria",
-                    //                "region": "Smolyan",
-                    //                "town": "Madan",
-                    //                "streetName": null,
-                    //                "number": 0,
-                    //                "addressType": 0
-                    //            }]
-                    //}
-                    
                     var count = data.countOfAddresses;
-                    var result = `Count Of Addresses : ${count}    `;
+                    var result = `<p class="card-text">Addresses for @Model.FullName : ${count} </p>`;
                     $.each(data.listOfAdresses, function (index, value) {
                         var country = value.country;
-                        var town = value.country;
-                        result += `${index} - Country: ${country}, town: ${town}`;
+                        var region = value.region;
+                        var town = value.town;
+                        var streetName = value.streetName;
+                        var number = value.number;
+                        var addressType = value.addressType;
+                        var openTag = addressType == 1 ? '<b' : '<p';
+                        var closingTag = addressType == 1 ? '</b>' : '</p>';
+                        result += `${openTag} class="card-text">
+                                    ${index + 1}.
+                                    ${country.substring(0, 3).toUpperCase()}, 
+                                    ${region.substring(0, 3).toUpperCase()},
+                                    ${town}, 
+                                    ${streetName}, 
+                                    ${number} 
+                                    ${addressType == 1 ? '- <u>Primary</u>' : ''}
+                                    ${closingTag}`;
                      });
-                    
-                    
                     $("#addressContent").html(result);
                 }
             });

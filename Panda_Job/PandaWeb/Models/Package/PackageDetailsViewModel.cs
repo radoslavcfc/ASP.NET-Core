@@ -1,8 +1,9 @@
-﻿namespace PandaWeb.Models.Package
+﻿
+namespace PandaWeb.Models.Package
 {
     public class PackageDetailsViewModel
     {
-        public string ShippingAddress { get; set; }
+        public Panda.Domain.Address ShippingAddress { get; set; }
 
         public string Status { get; set; }
 

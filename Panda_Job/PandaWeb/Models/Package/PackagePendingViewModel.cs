@@ -6,7 +6,7 @@
 
         public string Description { get; set; }
 
-        public string ShippingAddress { get; set; }
+        public Panda.Domain.Address ShippingAddress { get; set; }
 
         public string Recipient { get; set; }
 

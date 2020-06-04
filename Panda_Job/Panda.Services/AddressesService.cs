@@ -36,6 +36,7 @@ namespace Panda.Services
             var list = this.pandaDbContext
                 .Addresses
                 .Where(a => a.UserId == user.Id)
+                .OrderBy(a => a.AddressType)
                 .Include(a => a.Flat)
                 .ToList();
             return list;

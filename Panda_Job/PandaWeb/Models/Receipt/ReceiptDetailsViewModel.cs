@@ -1,4 +1,6 @@
-﻿namespace PandaWeb.Models.Receipt
+﻿using Panda.Domain;
+
+namespace PandaWeb.Models.Receipt
 {
     public class ReceiptDetailsViewModel
     {
@@ -6,7 +8,7 @@
 
         public string IssuedOn { get; set; }
 
-        public string DeliveryAddress { get; set; }
+        public Panda.Domain.Address DeliveryAddress { get; set; }
 
         public double PackageWeight { get; set; }
 

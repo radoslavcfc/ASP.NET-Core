@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using PandaWeb.Models.Address;
+using PandaWeb.Models.User;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace PandaWeb.Models.Package
@@ -15,11 +17,12 @@ namespace PandaWeb.Models.Package
 
         [Required]
         [StringLength(100, ErrorMessage = "Address invalid.", MinimumLength = 5)]
-        public string ShippingAddress { get; set; }
+        public Panda.Domain.Address ShippingAddress { get; set; }
 
         [Required]
         public string Recipient { get; set; }
 
         public IEnumerable<UserDropDownModel> UsersCollection { get; set; }
+        public IEnumerable<AddressesDropDownModel> AddressesCollection { get; set; }
     }
 }

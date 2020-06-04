@@ -9,6 +9,7 @@ using Panda.Services;
 using System;
 using System.Globalization;
 using System.Linq;
+using PandaWeb.Models.User;
 
 namespace Panda.App.Controllers
 {

@@ -1,13 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-
-using PandaWeb.Models.Package;
-
-using Panda.Domain;
 using Panda.Services;
 using PandaWeb.Models.Address;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.Docs.Samples;
 
 namespace Panda.App.Controllers
 {

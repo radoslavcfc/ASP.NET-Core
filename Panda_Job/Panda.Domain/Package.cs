@@ -15,7 +15,7 @@ namespace Panda.Domain
 
         public double Weight { get; set; }
 
-        public string ShippingAddress { get; set; }
+        public Address ShippingAddress { get; set; }
 
         public PackageStatus Status { get; set; }
 
