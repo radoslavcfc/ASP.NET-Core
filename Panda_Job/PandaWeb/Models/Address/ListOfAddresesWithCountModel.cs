@@ -8,9 +8,9 @@ namespace PandaWeb.Models.Address
     {
         public ListOfAddresesWithCountModel()
         {
-            this.ListOfAdresses = new List<ShortAddressDetailModel>();
+            this.ListOfAdresses = new List<ApiAddressModel>();
         }   
         public int CountOfAddresses { get; set; }
-        public IList<ShortAddressDetailModel> ListOfAdresses {get;set;}
+        public IList<ApiAddressModel> ListOfAdresses {get;set;}
     }
 }

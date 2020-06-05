@@ -20,13 +20,20 @@ namespace Panda.App.Controllers
         private readonly IUsersService usersService;
         private readonly IPackagesService packagesService;
         private readonly IReceiptsService receiptsService;
+        private readonly IAddressesService addressesService;
 
-        public PackagesController(UserManager<PandaUser> userManager, IUsersService usersService, IPackagesService packagesService, IReceiptsService receiptsService)
+        public PackagesController(
+            UserManager<PandaUser> userManager,
+            IUsersService usersService, 
+            IPackagesService packagesService,
+            IReceiptsService receiptsService,
+            IAddressesService addressesService)
         {
             this.userManager = userManager;
             this.usersService = usersService;
             this.packagesService = packagesService;
             this.receiptsService = receiptsService;
+            this.addressesService = addressesService;
         }
 
         [Authorize(Roles = "Admin")]
@@ -103,7 +110,11 @@ namespace Panda.App.Controllers
                     Id = p.Id,
                     Description = p.Description,
                     Weight = p.Weight,
-                    ShippingAddress = p.ShippingAddress,
+                    ShippingAddress = this.addressesService
+                        .ShortenedAddressToString(
+                                this.addressesService
+                                    .GetAddressById(
+                                        p.ShippingAddress)),
                     Recipient = this.usersService.GetUserById(p.RecipientId).UserName
                 }).ToList();
             if (this.User.IsInRole("Admin"))
@@ -145,7 +156,9 @@ namespace Panda.App.Controllers
                     Id = p.Id,
                     Description = p.Description,
                     Weight = p.Weight,
-                    ShippingAddress = p.ShippingAddress,
+                    ShippingAddress = this.addressesService
+                    .ShortenedAddressToString(this.addressesService.GetAddressById
+                    (p.ShippingAddress)),
                     Recipient = this.usersService.GetUserById(p.RecipientId).UserName
                 }).ToList();
 
@@ -166,7 +179,9 @@ namespace Panda.App.Controllers
             var package = this.packagesService.GetPackage(Id);
             var model = new PackageDetailsViewModel
             {
-                ShippingAddress = package.ShippingAddress,
+                ShippingAddress = this.addressesService
+                    .ShortenedAddressToString(this.addressesService.GetAddressById
+                    (package.ShippingAddress)),
                 Status = package.Status.ToString(),
                 EstimatedDeliveryDate = package.EstimatedDeliveryDate?
                     .ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 using Panda.Domain;
@@ -10,6 +11,7 @@ using System.Linq;
 
 namespace Panda_Job.Controllers
 {
+    [Authorize]
     public class AddressesController : Controller
     {
         private readonly UserManager<PandaUser> userManager;
@@ -23,24 +25,20 @@ namespace Panda_Job.Controllers
             this.addressesService = addressesService;
             this.usersService = usersService;
         }
-              public IActionResult Index()
+
+        public IActionResult Index()
         {
             var listOfAddresses = this.addressesService
                 .ListOfAddressesByUser(this.User.Identity.Name);
-           
+
             var model = new ListAddressesModel
             {
                 ShortAddressDetailsModelsList = listOfAddresses
-                     .Select(a => new ShortAddressDetailModel
-                     {
-                         Country = a.Country.Substring(0, 3).ToUpper(),
-                         Region = a.Region.Substring(0, 3).ToUpper(),
-                         Town = a.Town.ToUpper(),
-                         StreetName = a.StreetName,
-                         AddressType = a.AddressType.Value,
-                         Number = a.Number
-                     })
-                     .OrderBy(a => a.AddressType)
+                .Select(a => new ShortAddressDetailModel
+                {
+                    ShotenedContent = this.addressesService.ShortenedAddressToString(a),
+                    AddressType = (AddressType)a.AddressType
+                })
             };
             return this.View(model);
         }
@@ -56,11 +54,11 @@ namespace Panda_Job.Controllers
         [ActionName("Create")]
         public IActionResult CreatePost(AddNewAddressModel model)
         {
-            return this.View("Preview",model);          
+            return this.View("Preview", model);
         }
 
         public IActionResult Save(AddNewAddressModel model)
-        {          
+        {
             var userId = this.userManager.GetUserId(this.User);
             var user = this.usersService.GetUserById(userId);
 
@@ -106,7 +104,7 @@ namespace Panda_Job.Controllers
 
             this.addressesService.CreateAddress(addresToRegister);
 
-            TempData["Message"] = "Done!";
+            TempData["Message"] = "Saved!";
 
             return this.RedirectToAction("Index", "Addresses");
         }

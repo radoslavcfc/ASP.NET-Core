@@ -9,5 +9,8 @@ namespace Panda.Services
 
         int CountOfAddressesPerUser(PandaUser user);
         IEnumerable<Address> ListOfAddressesByUser(string userName);
+        Address GetAddressById(string addressId);
+
+        string ShortenedAddressToString(Address fullAddress);
     }
 }
