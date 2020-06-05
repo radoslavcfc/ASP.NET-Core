@@ -36,6 +36,21 @@ namespace PandaWeb.Controllers
             return this.View(model) ;
         }
 
+        [HttpGet]
+        public IActionResult PersonalData()
+        {
+            var model = new UsersPersonalDataModel();
+            return this.View(model);
+        }
+        [HttpPost]
+        public IActionResult PersonalData(UsersPersonalDataModel model)
+        {
+            var user = this.usersService.GetUserByName(this.User.Identity.Name);
+            user.FirstName = model.FirstName;
+            user.LastName = model.LastName;
+            this.usersService.UpdateUser(user.Id, user);
+            return this.View("/Home/Index");
+        }
         public IActionResult Details(string fullName)
         {
             var user = this.usersService.GetUserByFullName(fullName);

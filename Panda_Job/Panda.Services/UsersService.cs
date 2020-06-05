@@ -65,5 +65,12 @@ namespace Panda.Services
 
             return userDb;
         }
+        public void UpdateUser(string Id, PandaUser user)
+        {
+            var userFromDb = this.pandaDbContext.Users.Where(u => u.Id == Id).FirstOrDefault();
+            userFromDb.FirstName = user.FirstName;
+            this.pandaDbContext.Update(userFromDb);
+            //this.pandaDbContext.Update(userFromDb).Properties
+        }
     }
 }

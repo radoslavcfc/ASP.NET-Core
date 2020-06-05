@@ -16,9 +16,9 @@
         <table class="table table-bordered table-hover w-75 m-auto">
             <thead>
                 <tr class="row">
-                    <th class="col-lg-5 d-flex justify-content-center">Description</th>
-                    <th class="col-lg-2 d-flex justify-content-center">Weight</th>
-                    <th class="col-lg-2 d-flex justify-content-center">Shipping Address</th>
+                    <th class="col-lg-2 d-flex justify-content-center">Description</th>
+                    <th class="col-lg-1 d-flex justify-content-center">Weight</th>
+                    <th class="col-lg-6 d-flex justify-content-center">Shipping Address</th>
                     <th class="col-lg-2 d-flex justify-content-center">Receipient</th>
                     <th class="col-lg-1 d-flex justify-content-center">Deliever</th>
                 </tr>
@@ -27,9 +27,9 @@
                 @foreach (var pendingPackage in Model)
                 {
                     <tr class="row">
-                        <td class="col-lg-5 d-flex justify-content-center">@pendingPackage.Description</td>
-                        <td class="col-lg-2 d-flex justify-content-center">@pendingPackage.Weight</td>
-                        <td class="col-lg-2 d-flex justify-content-center">@pendingPackage.ShippingAddress</td>
+                        <td class="col-lg-2 d-flex justify-content-center">@pendingPackage.Description</td>
+                        <td class="col-lg-1 d-flex justify-content-center">@pendingPackage.Weight</td>
+                        <td class="col-lg-6 d-flex justify-content-center">@pendingPackage.ShippingAddress</td>
                         <td class="col-lg-2 d-flex justify-content-center">@pendingPackage.Recipient</td>
                         <td class="col-lg-1 d-flex justify-content-center">
                             @if (this.User.IsInRole("Admin"))

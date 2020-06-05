@@ -16,9 +16,9 @@
         <table class="table table-bordered table-hover w-75 m-auto">
             <thead>
                 <tr class="row">
-                    <th class="col-lg-5 d-flex justify-content-center">Description</th>
-                    <th class="col-lg-2 d-flex justify-content-center">Weight</th>
-                    <th class="col-lg-2 d-flex justify-content-center">Shipping Address</th>
+                    <th class="col-lg-2 d-flex justify-content-center">Description</th>
+                    <th class="col-lg-1 d-flex justify-content-center">Weight</th>
+                    <th class="col-lg-6 d-flex justify-content-center">Shipping Address</th>
                     <th class="col-lg-2 d-flex justify-content-center">Receipient</th>
                     <th class="col-lg-1 d-flex justify-content-center">Status</th>
                 </tr>
@@ -27,9 +27,9 @@
                 @foreach (var deliveredPackage in Model)
                 {
                     <tr class="row">
-                        <td class="col-lg-5 d-flex justify-content-center">@deliveredPackage.Description</td>
-                        <td class="col-lg-2 d-flex justify-content-center">@deliveredPackage.Weight.</td>
-                        <td class="col-lg-2 d-flex justify-content-center">@deliveredPackage.ShippingAddress</td>
+                        <td class="col-lg-2 d-flex justify-content-center">@deliveredPackage.Description</td>
+                        <td class="col-lg-1 d-flex justify-content-center">@deliveredPackage.Weight.</td>
+                        <td class="col-lg-6 d-flex justify-content-center">@deliveredPackage.ShippingAddress</td>
                         <td class="col-lg-2 d-flex justify-content-center">@deliveredPackage.Recipient</td>
                         <td class="col-lg-1 d-flex justify-content-center">DELIEVERED</td>
                     </tr>
