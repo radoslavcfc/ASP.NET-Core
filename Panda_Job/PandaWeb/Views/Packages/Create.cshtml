@@ -8,6 +8,8 @@
     {
         collectionOfUsers.Add(new SelectListItem(userItem.Name, userItem.Id));
     }
+
+
 }
 
 <a class="btn btn-dark" href="/Home/Index">Back to all options</a>
@@ -35,15 +37,17 @@
     <div class="form-group">
         <hr />
     </div>
-    <div class="form-group">
-        <label asp-for="@Model.Recipient"></label>
-        <select asp-for="@Model.Recipient" class="form-control" asp-items="@collectionOfUsers">
-        </select>
-    </div>
-    <div class="form-group">
-        <label asp-for="@Model.Recipient"></label>
-        <select asp-for="@Model.Recipient" class="form-control" asp-items="@collectionOfUsers">
-        </select>
+    <div class="form-row">
+        <div class="col-md-6">
+            <label asp-for="@Model.Recipient"></label>
+            <select id="selectedUser" onchange="loadAddresses();" asp-for="@Model.Recipient" class="form-control" asp-items="@collectionOfUsers">
+            </select>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="@Model.ShippingAddress"></label>
+            <select id="addressesOptions" asp-for="@Model.ShippingAddress" class="form-control">
+            </select>
+        </div>
     </div>
     <div class="form-group">
         <hr />
@@ -57,4 +61,24 @@
 
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script>
+        function loadAddresses() {
+            var selected = $("#selectedUser").val();
+            var json = { id: selected }
+            $.ajax({
+                url: "/addresses/api/fetch",
+                type: "post",
+                data: JSON.stringify(json),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $.each(data.listOfAdresses, function (index, value) {
+                        var textToAppend = value.country + " " + value.region + " " + value.town + " " + value.streetName + " " + value.number;
+                        $("#addressesOptions").append(`<option value="${value.id}">"${textToAppend}"</option>`);
+
+                    })
+                }
+            })
+        }
+    </script>
 }

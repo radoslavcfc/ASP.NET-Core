@@ -7,6 +7,6 @@ namespace PandaWeb.Models.User
 {
     public class UserApiModel
     {
-        public string FullName { get; set; }
+        public string Id { get; set; }
     }
 }

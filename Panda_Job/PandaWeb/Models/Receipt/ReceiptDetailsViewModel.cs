@@ -8,7 +8,7 @@ namespace PandaWeb.Models.Receipt
 
         public string IssuedOn { get; set; }
 
-        public Panda.Domain.Address DeliveryAddress { get; set; }
+        public string DeliveryAddress { get; set; }
 
         public double PackageWeight { get; set; }
 

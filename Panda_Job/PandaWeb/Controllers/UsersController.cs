@@ -41,6 +41,7 @@ namespace PandaWeb.Controllers
             var user = this.usersService.GetUserByFullName(fullName);
             var model = new UserDetailViewModel
             {
+                Id = user.Id,
                 FullName = this.FullNameCreator(user.FirstName,user.LastName),               
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,

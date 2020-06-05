@@ -3,7 +3,7 @@ namespace PandaWeb.Models.Package
 {
     public class PackageDetailsViewModel
     {
-        public Panda.Domain.Address ShippingAddress { get; set; }
+        public string ShippingAddress { get; set; }
 
         public string Status { get; set; }
 

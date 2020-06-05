@@ -12,14 +12,14 @@
         <p class="card-text"><b>Alt. Mobile:</b> @Model.SecondContactNumber</p>
     </div>
     <div id="addressContent" class="card-footer bg-transparent border-dark">
-        <button class="btn btn-dark" onclick="loadAddresses('@Model.FullName')">Click to see the addresses</button>
+        <button class="btn btn-dark" onclick="loadAddresses('@Model.Id')">Click to see the addresses</button>
     </div>
 </div>
 
 @section Scripts{
     <script>
-        function loadAddresses(fullName) {
-            var json = { fullName: fullName }
+        function loadAddresses(id) {
+            var json = { id : id }
             $.ajax({
                 url: "/addresses/api/fetch",
                 type: "post",

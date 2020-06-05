@@ -55,7 +55,7 @@ namespace Panda.App.Controllers
             Package package = new Package
             {
                 Description = bindingModel.Description,
-                RecipientId = this.usersService.GetUserById(bindingModel.Recipient).Id,
+                RecipientId = bindingModel.Recipient,
                 ShippingAddress = bindingModel.ShippingAddress,
                 Weight = bindingModel.Weight,
                 Status = PackageStatus.Pending,
