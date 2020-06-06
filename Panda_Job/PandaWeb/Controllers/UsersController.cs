@@ -78,6 +78,13 @@ namespace PandaWeb.Controllers
             return this.View(model);
         }
 
+        [HttpGet("Users/ShowD")]
+        public IActionResult ShowData(string name)
+        {
+
+            ShowUsersDataModel model = new ShowUsersDataModel();
+            return this.View(model);
+        }
         [NonAction]
         private string FullNameCreator(string firstName, string lastName)
         {
