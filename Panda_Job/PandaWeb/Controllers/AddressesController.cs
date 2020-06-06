@@ -104,7 +104,7 @@ namespace Panda_Job.Controllers
 
             this.addressesService.CreateAddress(addresToRegister);
 
-            TempData["Message"] = "The addres has been successfully saved!";
+            TempData["SuccessCreatedAddress"] = "The address has been successfully saved!";
 
             return this.RedirectToAction("Index", "Addresses");
         }

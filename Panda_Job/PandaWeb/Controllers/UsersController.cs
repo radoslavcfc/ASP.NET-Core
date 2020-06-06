@@ -60,8 +60,9 @@ namespace PandaWeb.Controllers
 
             this.usersService.UpdateUserInfo(user);
             return this.Redirect("/");
-
         }
+
+
         public IActionResult Details(string fullName)
         {
             var user = this.usersService.GetUserByFullName(fullName);

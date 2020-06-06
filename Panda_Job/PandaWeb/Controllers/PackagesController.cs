@@ -70,7 +70,7 @@ namespace Panda.App.Controllers
             };
 
             this.packagesService.CreatePackage(package);
-            TempData["SuccessCreate"] = "Well Done Mate!";
+            TempData["SuccessCreatedPackage"] = "A New package has been successfuly created!";
             return this.Redirect($"/Packages/Details/{package.Id}");
         }
 
@@ -116,7 +116,7 @@ namespace Panda.App.Controllers
                                     .GetAddressById(
                                         p.ShippingAddress)),
                     Recipient = 
-                        (this.usersService.GetUserById(p.RecipientId).FirstName +
+                        (this.usersService.GetUserById(p.RecipientId).FirstName + " " +
                         (this.usersService.GetUserById(p.RecipientId).LastName).Substring(0,1))
                 }).ToList();
             if (this.User.IsInRole("Admin"))
@@ -154,7 +154,9 @@ namespace Panda.App.Controllers
                     ShippingAddress = this.addressesService
                     .ShortenedAddressToString(this.addressesService.GetAddressById
                     (p.ShippingAddress)),
-                    Recipient = this.usersService.GetUserById(p.RecipientId).UserName
+                    Recipient =
+                        (this.usersService.GetUserById(p.RecipientId).FirstName + " " +
+                        (this.usersService.GetUserById(p.RecipientId).LastName).Substring(0, 1))
                 }).ToList();
 
             if (this.User.IsInRole("Admin"))
@@ -182,7 +184,7 @@ namespace Panda.App.Controllers
                 EstimatedDeliveryDate = package.EstimatedDeliveryDate?
                     .ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
                 Weight = package.Weight,
-                Recipient = package.Recipient.UserName,
+                Recipient = package.Recipient.FirstName + " " + package.Recipient.LastName.Substring(0,1),
                 Description = package.Description
             };
             return this.View(model);

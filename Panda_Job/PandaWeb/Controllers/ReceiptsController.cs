@@ -17,11 +17,13 @@ namespace Panda.App.Controllers
     {
         private readonly IReceiptsService receiptsService;
         private readonly IPackagesService packagesService;
+        private readonly IAddressesService addressesService;
 
-        public ReceiptsController(IReceiptsService receiptsService, IPackagesService packagesService)
+        public ReceiptsController(IReceiptsService receiptsService, IPackagesService packagesService, IAddressesService addressesService)
         {            
             this.receiptsService = receiptsService;
             this.packagesService = packagesService;
+            this.addressesService = addressesService;
         }
                 
         public IActionResult Index()
@@ -58,7 +60,11 @@ namespace Panda.App.Controllers
                 Id = receiptFromDb.Id,
                 Total = receiptFromDb.Fee,
                 Recipient = receiptFromDb.Recipient.UserName,
-                DeliveryAddress = receiptFromDb.Package.ShippingAddress,
+                DeliveryAddress = this.addressesService
+                            .ShortenedAddressToString(
+                                     this.addressesService
+                                     .GetAddressById(receiptFromDb
+                                                .Package.ShippingAddress)),
                 PackageWeight = receiptFromDb.Package.Weight,
                 PackageDescription = receiptFromDb.Package.Description,
                 IssuedOn = receiptFromDb.IssuedOn.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)

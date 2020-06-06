@@ -7,11 +7,13 @@
 
 <a class="btn btn-dark" href="/Home/Index">Back to index</a>
 
-@if (TempData["Message"] != null)
+@if (TempData["SuccessCreatedAddress"] != null)
 {
-    <div class="w-50 bg-dark text-white m-auto">@TempData["Message"]</div>
+    <div class="alert alert-info">@TempData["SuccessCreatedAddress"]</div>
+   
 }
-<hr /><br />
+<hr />
+<br />
 
 <table class="table w-75 m-auto h5">
 
@@ -25,18 +27,18 @@
             primaryAddressClass = "table-light";
         }
         <tr class="@primaryAddressClass row">
-    <td class="col-10">
-        @item.ShotenedContent
-    </td>
-    <td class="col-1">
-        <button class="btn btn-dark"> Edit</button>
+            <td class="col-10">
+                @item.ShotenedContent
+            </td>
+            <td class="col-1">
+                <button class="btn btn-dark"> Edit</button>
 
-    </td>
-    <td class="col-1">
-        <button class="btn btn-dark"> Delete</button>
+            </td>
+            <td class="col-1">
+                <button class="btn btn-dark"> Delete</button>
 
-    </td>
-</tr>
+            </td>
+        </tr>
 
     }
 
