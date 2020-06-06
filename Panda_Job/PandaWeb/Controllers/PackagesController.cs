@@ -115,7 +115,9 @@ namespace Panda.App.Controllers
                                 this.addressesService
                                     .GetAddressById(
                                         p.ShippingAddress)),
-                    Recipient = this.usersService.GetUserById(p.RecipientId).UserName
+                    Recipient = 
+                        (this.usersService.GetUserById(p.RecipientId).FirstName +
+                        (this.usersService.GetUserById(p.RecipientId).LastName).Substring(0,1))
                 }).ToList();
             if (this.User.IsInRole("Admin"))
             {
@@ -128,22 +130,15 @@ namespace Panda.App.Controllers
             }           
         }
 
-        [HttpGet]
-        public IActionResult Deliver(string Id)
+        [HttpGet("/Packages/Deliver/{packageId}")]
+
+        public IActionResult Deliver(string packageId)
         {
-            var currentPackage = this.packagesService.GetPackage(Id);
+            var currentPackage = this.packagesService.GetPackage(packageId);
             currentPackage.Status = PackageStatus.Delivered;
             this.packagesService.UpdatePackage(currentPackage);
-            var receipt = new Receipt
-            {
-                Fee = Convert.ToDecimal(currentPackage.Weight * 2.67),
-                IssuedOn = DateTime.UtcNow,
-                RecipientId = currentPackage.RecipientId,
-                PackageId = currentPackage.Id
-            };
-            this.receiptsService.CreateReceipt(receipt);
             
-            return this.Redirect("/Receipts/Index");
+            return this.Redirect($"/Receipts/Create/{packageId}");
         }
 
         [HttpGet]
@@ -179,6 +174,7 @@ namespace Panda.App.Controllers
             var package = this.packagesService.GetPackage(Id);
             var model = new PackageDetailsViewModel
             {
+                Id = package.Id,
                 ShippingAddress = this.addressesService
                     .ShortenedAddressToString(this.addressesService.GetAddressById
                     (package.ShippingAddress)),
@@ -192,10 +188,5 @@ namespace Panda.App.Controllers
             return this.View(model);
         }
 
-        [AllowAnonymous]
-        public IActionResult Login()
-        {
-            return this.Ok("HAHA");
-        }
     }
 }

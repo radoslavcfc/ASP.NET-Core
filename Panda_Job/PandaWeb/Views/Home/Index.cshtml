@@ -4,7 +4,6 @@
 
 @{
     ViewData["Title"] = "Main Index";
-   
 }
 @if (!this.User.Identity.IsAuthenticated)
 {
@@ -47,9 +46,8 @@ else
         {
             <h2 class="text-center">Please add your contact details!</h2>
             <div class="container w-50 d-flex justify-content-center p-3 btn-group-vertical">
-                <a href="/Users/PersonalData" class="btn btn-lg btn-dark">Complete your contact information</a>
+                <a href="/Users/CompleteData" class="btn btn-lg btn-dark">Complete your contact information</a>
             </div>
-          
         }
         else
         {
@@ -58,9 +56,8 @@ else
                 <a href="/Packages/Index" class="btn btn-lg btn-dark">See your packages</a>
                 <a href="/Receipts/Index" class="btn btn-lg btn-dark">See your receipts</a>
                 <a href="/Addresses/Index" class="btn btn-lg btn-dark">Manage your addresses</a>
+                <a href="/Users/ShowData" class="btn btn-lg btn-dark">Manage your Personal Data</a>
             </div>
         }
     }
-
-
 }

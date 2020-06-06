@@ -38,4 +38,10 @@
             <td>@Model.ShippingAddress</td>
         </tr>
     </table>
+    @if (this.User.IsInRole("Admin"))
+    {
+        <form>
+            <button class="btn btn-dark" asp-controller="Packages" asp-action="Deliver" asp-route-packageId="@Model.Id">Mark as delivered</button>
+        </form>
+    }
 </div>

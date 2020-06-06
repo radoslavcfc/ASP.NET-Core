@@ -18,9 +18,9 @@
                 <tr class="row">
                     <th class="col-lg-2 d-flex justify-content-center">Description</th>
                     <th class="col-lg-1 d-flex justify-content-center">Weight</th>
-                    <th class="col-lg-6 d-flex justify-content-center">Shipping Address</th>
+                    <th class="col-lg-5 d-flex justify-content-center">Shipping Address</th>
                     <th class="col-lg-2 d-flex justify-content-center">Receipient</th>
-                    <th class="col-lg-1 d-flex justify-content-center">Deliever</th>
+                    <th class="col-lg-2 d-flex justify-content-center">Deliever</th>
                 </tr>
             </thead>
             <tbody>
@@ -29,13 +29,13 @@
                     <tr class="row">
                         <td class="col-lg-2 d-flex justify-content-center">@pendingPackage.Description</td>
                         <td class="col-lg-1 d-flex justify-content-center">@pendingPackage.Weight</td>
-                        <td class="col-lg-6 d-flex justify-content-center">@pendingPackage.ShippingAddress</td>
+                        <td class="col-lg-5 d-flex justify-content-center">@pendingPackage.ShippingAddress</td>
                         <td class="col-lg-2 d-flex justify-content-center">@pendingPackage.Recipient</td>
-                        <td class="col-lg-1 d-flex justify-content-center">
+                        <td class="col-lg-2 d-flex justify-content-center">
                             @if (this.User.IsInRole("Admin"))
                             {
                                 <form>
-                                    <button class="btn btn-dark" asp-controller="Packages" asp-action="Deliver" asp-route-id="@pendingPackage.Id">Deliver</button>
+                                    <button class="btn btn-dark" asp-controller="Packages" asp-action="Deliver" asp-route-packageId="@pendingPackage.Id">Mark as delivered</button>
                                 </form>
                             }
                             else

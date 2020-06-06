@@ -3,6 +3,7 @@ namespace PandaWeb.Models.Package
 {
     public class PackageDetailsViewModel
     {
+        public string Id { get; set; }
         public string Status { get; set; }
 
         public string EstimatedDeliveryDate { get; set; }

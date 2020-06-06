@@ -8,17 +8,20 @@ using Panda.Services;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System;
 
 namespace Panda.App.Controllers
 {
     [Authorize]
     public class ReceiptsController : Controller
     {
-        private readonly IReceiptsService receiptsService;        
+        private readonly IReceiptsService receiptsService;
+        private readonly IPackagesService packagesService;
 
-        public ReceiptsController(IReceiptsService receiptsService)
+        public ReceiptsController(IReceiptsService receiptsService, IPackagesService packagesService)
         {            
             this.receiptsService = receiptsService;
+            this.packagesService = packagesService;
         }
                 
         public IActionResult Index()
@@ -29,7 +32,7 @@ namespace Panda.App.Controllers
                     Id = receipt.Id,
                     Fee = receipt.Fee,
                     IssuedOn = receipt.IssuedOn.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
-                    Recipient = receipt.Recipient.UserName
+                    Recipient = receipt.Recipient.FirstName + receipt.Recipient.LastName.Substring(0,1)
                 })
                 .ToList();
             if (this.User.IsInRole("Admin"))
@@ -62,6 +65,24 @@ namespace Panda.App.Controllers
             };
 
             return this.View(viewModel);
+        }
+
+        [HttpGet("/Receipts/Create/{packageId}")]
+        public IActionResult Create(string packageId)
+        {
+            var currentPackage = this.packagesService.GetPackage(packageId);
+            var receipt = new Receipt
+            {
+                Fee = Convert.ToDecimal(currentPackage.Weight * 2.67),
+                IssuedOn = DateTime.UtcNow,
+                RecipientId = currentPackage.RecipientId,
+                PackageId = currentPackage.Id
+            };
+            this.receiptsService.CreateReceipt(receipt);
+
+            TempData["RecieptsAdded"] = "Successfuly created a receipt";
+            var id = receipt.Id;
+            return this.Redirect($"/Receipts/Details/{id}");
         }
     }
 }

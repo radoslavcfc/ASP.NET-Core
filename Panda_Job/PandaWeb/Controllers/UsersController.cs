@@ -1,16 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Panda.Domain;
 using Panda.Services;
 using PandaWeb.Models.User;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace PandaWeb.Controllers
 {
-
     public class UsersController : Controller
     {
         private readonly IUsersService usersService;
@@ -39,14 +33,14 @@ namespace PandaWeb.Controllers
         }
 
         [HttpGet]
-        public IActionResult PersonalData()
+        public IActionResult CompleteData()
         {
-            var model = new UsersPersonalDataModel();
+            var model = new CompleteUserDataModel();
             return this.View(model);
         }
 
         [HttpPost]
-        public IActionResult PersonalData(UsersPersonalDataModel model)
+        public IActionResult CompleteData(CompleteUserDataModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -62,7 +56,7 @@ namespace PandaWeb.Controllers
             user.FirstName = model.FirstName;
             user.LastName = model.LastName;
             user.PhoneNumber = model.PhoneNumber;
-            user.SecondContactNumber = model.SecondPhoneNumber;
+            user.SecondContactNumber = model.SecondContactNumber;
 
             this.usersService.UpdateUserInfo(user);
             return this.Redirect("/");
