@@ -72,6 +72,7 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (data) {
+                    $("#addressesOptions").html("");
                     $.each(data.listOfAdresses, function (index, value) {
                         var textToAppend = value.country + " " + value.region + " " + value.town + " " + value.streetName + " " + value.number;
                         $("#addressesOptions").append(`<option value="${value.id}">"${textToAppend}"</option>`);

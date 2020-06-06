@@ -65,12 +65,17 @@ namespace Panda.Services
 
             return userDb;
         }
-        public void UpdateUser(string Id, PandaUser user)
+        public void UpdateUserInfo (PandaUser user)
         {
-            var userFromDb = this.pandaDbContext.Users.Where(u => u.Id == Id).FirstOrDefault();
-            userFromDb.FirstName = user.FirstName;
-            this.pandaDbContext.Update(userFromDb);
-            //this.pandaDbContext.Update(userFromDb).Properties
+            try
+            {
+                this.pandaDbContext.Update(user);
+                this.pandaDbContext.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                    throw;
+            };
         }
     }
 }

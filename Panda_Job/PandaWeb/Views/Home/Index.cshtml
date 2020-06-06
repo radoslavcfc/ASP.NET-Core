@@ -42,12 +42,12 @@ else
             </div>
         }
         var currentUser = userService.GetUserByName(this.User.Identity.Name);
-        var contactDetailsCheck = currentUser.Email == null && currentUser.FirstName == null && currentUser.LastName == null;
-        @if (contactDetailsCheck)
+        var areDetailsNull = currentUser.PhoneNumber == null && currentUser.FirstName == null && currentUser.LastName == null;
+         if (areDetailsNull)
         {
             <h2 class="text-center">Please add your contact details!</h2>
             <div class="container w-50 d-flex justify-content-center p-3 btn-group-vertical">
-                <a href="/Users/ContactDetails" class="btn btn-lg btn-dark">Complete your contact information</a>
+                <a href="/Users/PersonalData" class="btn btn-lg btn-dark">Complete your contact information</a>
             </div>
           
         }

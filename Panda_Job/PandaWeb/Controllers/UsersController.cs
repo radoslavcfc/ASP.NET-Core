@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Panda.Domain;
 using Panda.Services;
 using PandaWeb.Models.User;
@@ -20,6 +21,7 @@ namespace PandaWeb.Controllers
             this.usersService = usersService;
             this.addressesService = addressesService;
         }
+        [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
             var allUsersFromDb = usersService.GetAllUsers();
@@ -42,14 +44,29 @@ namespace PandaWeb.Controllers
             var model = new UsersPersonalDataModel();
             return this.View(model);
         }
+
         [HttpPost]
         public IActionResult PersonalData(UsersPersonalDataModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return this.View(model);
+            }
+
             var user = this.usersService.GetUserByName(this.User.Identity.Name);
+            if (user ==null)
+            {
+                return this.NotFound();
+            }
+
             user.FirstName = model.FirstName;
             user.LastName = model.LastName;
-            this.usersService.UpdateUser(user.Id, user);
-            return this.View("/Home/Index");
+            user.PhoneNumber = model.PhoneNumber;
+            user.SecondContactNumber = model.SecondPhoneNumber;
+
+            this.usersService.UpdateUserInfo(user);
+            return this.Redirect("/");
+
         }
         public IActionResult Details(string fullName)
         {

@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Panda.Tests", "Panda.Tests\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PandaWeb", "PandaWeb\PandaWeb.csproj", "{B09FD1F8-85E5-47C7-A411-1363099F7680}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Panda.Services", "Panda.Services\Panda.Services.csproj", "{16BB61DE-50C8-4B5D-A74A-D149D557839B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Panda.Services", "Panda.Services\Panda.Services.csproj", "{16BB61DE-50C8-4B5D-A74A-D149D557839B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

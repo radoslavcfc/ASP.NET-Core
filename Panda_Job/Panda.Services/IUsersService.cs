@@ -9,6 +9,6 @@ namespace Panda.Services
         PandaUser GetUserById(string Id);
         PandaUser GetUserByName(string UserName);
         PandaUser GetUserByFullName(string fullName);
-        void UpdateUser(string Id, PandaUser user);
+        void UpdateUserInfo(PandaUser user);
     }
 }
