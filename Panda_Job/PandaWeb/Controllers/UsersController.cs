@@ -35,12 +35,12 @@ namespace PandaWeb.Controllers
         [HttpGet]
         public IActionResult CompleteData()
         {
-            var model = new CompleteUserDataModel();
+            var model = new UserCompleteDataModel();
             return this.View(model);
         }
 
         [HttpPost]
-        public IActionResult CompleteData(CompleteUserDataModel model)
+        public IActionResult CompleteData(UserCompleteDataModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -91,8 +91,7 @@ namespace PandaWeb.Controllers
                 PhoneNumber = currentUser.PhoneNumber,
                 SecondContactNumber = currentUser.SecondContactNumber,
                 Email = currentUser.Email,
-                FirstName = currentUser.FirstName,
-                LastName = currentUser.LastName
+                FullName = this.FullNameCreator(currentUser.FirstName, currentUser.LastName)
             };
 
             return this.View(model);

@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using Panda.Domain;
+using System.Dynamic;
 
 namespace Panda.App.Areas.Identity.Pages.Account
 {
@@ -75,6 +76,7 @@ namespace Panda.App.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
+                    
                     return Redirect(returnUrl);
                 }
             }
