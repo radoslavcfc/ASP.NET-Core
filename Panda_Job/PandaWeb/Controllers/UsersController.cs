@@ -87,7 +87,7 @@ namespace PandaWeb.Controllers
             {
                 Id = currentUser.Id,
                 UserName = currentUser.UserName,
-                RegisteredOn = currentUser.RegisteredOn.ToString("dd/mm/yyyy"),
+                RegisteredOn = currentUser.RegisteredOn.ToString("dd/MM/yyyy"),
                 PhoneNumber = currentUser.PhoneNumber,
                 SecondContactNumber = currentUser.SecondContactNumber,
                 Email = currentUser.Email,
