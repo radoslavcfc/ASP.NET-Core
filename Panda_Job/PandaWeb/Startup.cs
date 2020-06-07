@@ -1,5 +1,6 @@
 
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -8,10 +9,11 @@ using Microsoft.EntityFrameworkCore;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Panda.Data;
 using Panda.Domain;
 using Panda.Services;
-
+using System.IO;
 using System.Linq;
 
 
@@ -71,7 +73,26 @@ namespace PandaWeb
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            using(var serviceScope = app.ApplicationServices.CreateScope())
+
+            if (env.IsDevelopment())
+            {
+                app.UseExceptionHandler("/Home/Error");
+            }
+            // app.UseStatusCodePagesWithRedirects("Home/StatusCode?code={0}");
+
+            //if (env.IsDevelopment())
+            //{
+            //    app.UseDeveloperExceptionPage();
+            //    app.UseDatabaseErrorPage();
+            //    app.UseExceptionHandler("/Error");
+            //}
+            //else
+            //{
+            //    app.UseStatusCodePagesWithRedirects("Home/StatusCode?code={0}");
+            //    app.UseExceptionHandler("/Error");
+            //    app.UseHsts();
+            //}
+            using (var serviceScope = app.ApplicationServices.CreateScope())
             {
                 using(var context = serviceScope.ServiceProvider.GetRequiredService<PandaDbContext>())
                 {
@@ -96,14 +117,8 @@ namespace PandaWeb
             app.UseAuthorization();
             app.UseEndpoints(ep =>
             {
-                //  ep.MapControllerRoute(
-                //name: "customName",
-                //pattern: "blog/{*article}",
-                //defaults: new { controller = "Blog", action = "Article" });
-
                 ep.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}") ;
-                // ep.MapDefaultControllerRoute();
-                //ep.MapControllers();
+               
                 ep.MapRazorPages();
             });
         }
