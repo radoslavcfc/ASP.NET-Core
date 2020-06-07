@@ -29,7 +29,7 @@ namespace PandaWeb.Controllers
                 };
                 model.AllUsersCollection.Add(modelUser);
             }
-            return this.View(model) ;
+            return this.View(model);
         }
 
         [HttpGet]
@@ -47,8 +47,8 @@ namespace PandaWeb.Controllers
                 return this.View(model);
             }
 
-            var user = this.usersService.GetUserByName(this.User.Identity.Name);
-            if (user ==null)
+            var user = this.usersService.GetUserByUserName(this.User.Identity.Name);
+            if (user == null)
             {
                 return this.NotFound();
             }
@@ -69,7 +69,7 @@ namespace PandaWeb.Controllers
             var model = new UserDetailViewModel
             {
                 Id = user.Id,
-                FullName = this.FullNameCreator(user.FirstName,user.LastName),               
+                FullName = this.FullNameCreator(user.FirstName, user.LastName),
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 RegisteredOn = user.RegisteredOn.ToString("D"),
@@ -78,11 +78,23 @@ namespace PandaWeb.Controllers
             return this.View(model);
         }
 
-        [HttpGet("Users/ShowD")]
-        public IActionResult ShowData(string name)
+        [HttpGet("Users/ShowData")]
+        public IActionResult ShowData()
         {
+            var currentUser = this.usersService.GetUserByUserName(this.User.Identity.Name);
 
-            ShowUsersDataModel model = new ShowUsersDataModel();
+            ShowUsersDataModel model = new ShowUsersDataModel
+            {
+                Id = currentUser.Id,
+                UserName = currentUser.UserName,
+                RegisteredOn = currentUser.RegisteredOn.ToString("dd/mm/yyyy"),
+                PhoneNumber = currentUser.PhoneNumber,
+                SecondContactNumber = currentUser.SecondContactNumber,
+                Email = currentUser.Email,
+                FirstName = currentUser.FirstName,
+                LastName = currentUser.LastName
+            };
+
             return this.View(model);
         }
         [NonAction]

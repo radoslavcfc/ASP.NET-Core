@@ -43,7 +43,7 @@ namespace Panda.Services
             return userDb;
         }
 
-        public PandaUser GetUserByName(string userName)
+        public PandaUser GetUserByUserName(string userName)
         {
             PandaUser userDb = this.pandaDbContext
                 .Users

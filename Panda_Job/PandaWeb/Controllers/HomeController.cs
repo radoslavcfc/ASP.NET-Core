@@ -20,7 +20,7 @@ namespace Panda.App.Controllers
             if (this.User.Identity.IsAuthenticated)
             {
                 var currentUserName = this.User.Identity.Name;
-                var currentUser = this.usersService.GetUserByName(currentUserName);
+                var currentUser = this.usersService.GetUserByUserName(currentUserName);
                 var currentUserAddressesCount = this.AddressesService.CountOfAddressesPerUser(currentUser);
                 if (currentUserAddressesCount == 0)
                 {
