@@ -73,11 +73,12 @@ namespace PandaWeb
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-
-            if (env.IsDevelopment())
-            {
-                app.UseExceptionHandler("/Home/Error");
-            }
+             app.UseExceptionHandler("/Home/Error");
+            //if (env.IsDevelopment())
+            //{
+            //   // app.UseStatusCodePagesWithRedirects("Home/StatusCode?code={0}");
+            //    app.UseExceptionHandler("/Addresses/Index");
+            //}
             // app.UseStatusCodePagesWithRedirects("Home/StatusCode?code={0}");
 
             //if (env.IsDevelopment())
@@ -109,7 +110,7 @@ namespace PandaWeb
        
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseDeveloperExceptionPage();
+            
             app.UseCookiePolicy();
             
             app.UseAuthentication();
