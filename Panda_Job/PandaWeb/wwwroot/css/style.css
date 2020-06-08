@@ -18,7 +18,9 @@
 .hr-2 {
     height: 2px;
 }
-
+.hideField{
+    display: none;
+}
 a {
     text-underline: none;
 }

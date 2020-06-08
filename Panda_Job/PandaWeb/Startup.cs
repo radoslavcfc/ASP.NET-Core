@@ -73,26 +73,19 @@ namespace PandaWeb
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-             app.UseExceptionHandler("/Home/Error");
-            //if (env.IsDevelopment())
-            //{
-            //   // app.UseStatusCodePagesWithRedirects("Home/StatusCode?code={0}");
-            //    app.UseExceptionHandler("/Addresses/Index");
-            //}
-            // app.UseStatusCodePagesWithRedirects("Home/StatusCode?code={0}");
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+                app.UseDatabaseErrorPage();               
+            }
+            else
+            {
+                app.UseStatusCodePagesWithRedirects("Home/StatusCode?code={0}");
+                app.UseExceptionHandler("/Home/Error");
+                app.UseHsts();
+            }
 
-            //if (env.IsDevelopment())
-            //{
-            //    app.UseDeveloperExceptionPage();
-            //    app.UseDatabaseErrorPage();
-            //    app.UseExceptionHandler("/Error");
-            //}
-            //else
-            //{
-            //    app.UseStatusCodePagesWithRedirects("Home/StatusCode?code={0}");
-            //    app.UseExceptionHandler("/Error");
-            //    app.UseHsts();
-            //}
+            //Seeding the roles in the database when initializing the application
             using (var serviceScope = app.ApplicationServices.CreateScope())
             {
                 using(var context = serviceScope.ServiceProvider.GetRequiredService<PandaDbContext>())
