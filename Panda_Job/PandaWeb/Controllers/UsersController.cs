@@ -96,6 +96,18 @@ namespace PandaWeb.Controllers
 
             return this.View(model);
         }
+
+        public IActionResult EditEmail(string email)
+        {
+            var user = this.usersService.GetUserByUserName(User.Identity.Name);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            user.Email = email;
+            this.usersService.UpdateUserInfo(user);
+            return Ok(email + user.FirstName);
+        }
         [NonAction]
         private string FullNameCreator(string firstName, string lastName)
         {

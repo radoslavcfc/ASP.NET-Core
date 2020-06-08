@@ -21,6 +21,12 @@
 .hideField{
     display: none;
 }
+.width-30{
+    width: 30%;
+}
+.margin-30{
+    margin: 0.3%;
+}
 a {
     text-underline: none;
 }
