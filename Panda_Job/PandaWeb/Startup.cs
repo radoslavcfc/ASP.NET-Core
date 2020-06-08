@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
 
@@ -38,10 +39,13 @@ namespace PandaWeb
                 .AddRoles<PandaUserRole>()
                 .AddEntityFrameworkStores<PandaDbContext>()
                 .AddDefaultTokenProviders();
+
             services.AddTransient<IPackagesService, PackagesService>();
             services.AddTransient<IReceiptsService, ReceiptsService>();
             services.AddTransient<IUsersService, UsersService>();
             services.AddTransient<IAddressesService, AddressesService>();
+            
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 options.CheckConsentNeeded =context => true;

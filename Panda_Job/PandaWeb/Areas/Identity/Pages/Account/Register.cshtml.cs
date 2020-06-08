@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Panda.Domain;
 
@@ -73,7 +73,7 @@ namespace Panda.App.Areas.Identity.Pages.Account
 
                 
                 var result = await _userManager.CreateAsync(user, Input.Password);
-
+           
                 if (_userManager.Users.Count() == 1)
                 {
                     await _userManager.AddToRoleAsync(user, "Admin");

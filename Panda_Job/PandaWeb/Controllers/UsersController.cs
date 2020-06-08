@@ -1,24 +1,30 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+using Panda.Data;
+using Panda.Domain;
 using Panda.Services;
 using PandaWeb.Models.User;
+using System.Threading.Tasks;
 
 namespace PandaWeb.Controllers
 {
     public class UsersController : Controller
     {
         private readonly IUsersService usersService;
-        private readonly IAddressesService addressesService;
+        
+        private readonly UserManager<PandaUser> userManager;
 
-        public UsersController(IUsersService usersService, IAddressesService addressesService)
+        public UsersController(IUsersService usersService, UserManager<PandaUser> userManager)
         {
             this.usersService = usersService;
-            this.addressesService = addressesService;
+            this.userManager = userManager;
         }
         [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
-            var allUsersFromDb = usersService.GetAllUsers();
+            var allUsersFromDb = userManager.GetUsersInRoleAsync("user").Result;
             var model = new AllUsersIndexViewModel();
             foreach (var singleUser in allUsersFromDb)
             {
@@ -47,7 +53,7 @@ namespace PandaWeb.Controllers
                 return this.View(model);
             }
 
-            var user = this.usersService.GetUserByUserName(this.User.Identity.Name);
+            var user = this.userManager.GetUserAsync(this.User).Result;
             if (user == null)
             {
                 return this.NotFound();
@@ -57,14 +63,15 @@ namespace PandaWeb.Controllers
             user.LastName = model.LastName;
             user.PhoneNumber = model.PhoneNumber;
             user.SecondContactNumber = model.SecondContactNumber;
-
-            this.usersService.UpdateUserInfo(user);
+            this.userManager.UpdateAsync(user);
+            
             return this.Redirect("/");
         }
 
 
         public IActionResult Details(string fullName)
         {
+           
             var user = this.usersService.GetUserByFullName(fullName);
             var model = new UserDetailViewModel
             {
@@ -81,7 +88,7 @@ namespace PandaWeb.Controllers
         [HttpGet("Users/ShowData")]
         public IActionResult ShowData()
         {
-            var currentUser = this.usersService.GetUserByUserName(this.User.Identity.Name);
+            var currentUser = this.userManager.GetUserAsync(this.User).Result;
 
             ShowUsersDataModel model = new ShowUsersDataModel
             {
@@ -97,16 +104,36 @@ namespace PandaWeb.Controllers
             return this.View(model);
         }
 
-        public IActionResult EditEmail(string email)
+        public async Task<IActionResult> EditInfo(string email, string phoneNumber, string secondContactNumber)
         {
-            var user = this.usersService.GetUserByUserName(User.Identity.Name);
-            if (user == null)
+            var currentUser = this.userManager.GetUserAsync(this.User).Result;
+            if (currentUser == null)
             {
                 return NotFound();
             }
-            user.Email = email;
-            this.usersService.UpdateUserInfo(user);
-            return Ok(email + user.FirstName);
+
+            currentUser.Email = email?? currentUser.Email;
+            currentUser.PhoneNumber = phoneNumber ?? currentUser.PhoneNumber;
+            currentUser.SecondContactNumber = secondContactNumber ?? currentUser.SecondContactNumber;
+
+            await this.userManager.UpdateAsync(currentUser);
+            await this.userManager.UpdateNormalizedEmailAsync(currentUser);
+            this.usersService.SaveToDataBaseAsync();
+            return this.Redirect("/Users/ShowData");
+        }
+
+        public async Task<IActionResult> EditEditPhoneNumber(string email)
+        {
+            var currentUser = this.userManager.GetUserAsync(this.User).Result;
+            if (currentUser == null)
+            {
+                return NotFound();
+            }
+            currentUser.Email = email;
+            await this.userManager.UpdateAsync(currentUser);
+            await this.userManager.UpdateNormalizedEmailAsync(currentUser);
+            this.usersService.SaveToDataBaseAsync();
+            return this.Redirect("/Users/ShowData");
         }
         [NonAction]
         private string FullNameCreator(string firstName, string lastName)

@@ -3,6 +3,7 @@ using Panda.Data;
 using Panda.Domain;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Panda.Services
 {
@@ -15,7 +16,7 @@ namespace Panda.Services
             this.pandaDbContext = pandaDbContext;
         }
 
-        public List<PandaUser> GetAllUsers()
+        public List<PandaUser> GetAllUsersNoAdmins()
         {
             //CREATE PROCEDURE UsersOnlyInfo AS
             //SELECT U.[Id] ,U.[UserName] ,U.[NormalizedUserName],U.[Email] ,U.[NormalizedEmail] ,U.[EmailConfirmed] ,U.[PasswordHash],
@@ -78,6 +79,9 @@ namespace Panda.Services
             };
         }
 
-      
+        public async void SaveToDataBaseAsync()
+        {
+            await this.pandaDbContext.SaveChangesAsync();
+        }
     }
 }

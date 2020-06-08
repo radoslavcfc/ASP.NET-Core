@@ -19,20 +19,20 @@ namespace Panda.App.Controllers
         private readonly UserManager<PandaUser> userManager;
         private readonly IUsersService usersService;
         private readonly IPackagesService packagesService;
-        private readonly IReceiptsService receiptsService;
+    
         private readonly IAddressesService addressesService;
 
         public PackagesController(
             UserManager<PandaUser> userManager,
             IUsersService usersService, 
             IPackagesService packagesService,
-            IReceiptsService receiptsService,
+           
             IAddressesService addressesService)
         {
             this.userManager = userManager;
-            this.usersService = usersService;
+           this.usersService = usersService;
             this.packagesService = packagesService;
-            this.receiptsService = receiptsService;
+           
             this.addressesService = addressesService;
         }
 
@@ -41,7 +41,7 @@ namespace Panda.App.Controllers
         {
             var viewModel = new PackageCreateBindingModel();
           
-            viewModel.UsersCollection = this.usersService.GetAllUsers().Select(u => new UserDropDownModel
+            viewModel.UsersCollection = this.usersService.GetAllUsersNoAdmins().Select(u => new UserDropDownModel
             {
                 Id = u.Id,
                 Name = u.UserName

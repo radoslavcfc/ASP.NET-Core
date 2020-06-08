@@ -23,7 +23,7 @@ namespace Panda.Tests
             SeedTestData(context);
             var usersService = new UsersService(context);
             var expectedData = GetTestData();
-            var actualData = usersService.GetAllUsers();
+            var actualData = usersService.GetAllUsersNoAdmins();
           
             Assert.Equal(expectedData.Count, actualData.Count);
             Assert.Equal(2, expectedData.Count);
@@ -45,7 +45,7 @@ namespace Panda.Tests
             var context = new PandaDbContext(options);
             //SeedTestData(context);
             var usersService = new UsersService(context);
-            var actualData = usersService.GetAllUsers();
+            var actualData = usersService.GetAllUsersNoAdmins();
             Assert.True(actualData.Count==0); 
         }
 
