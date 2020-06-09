@@ -10,7 +10,8 @@ namespace PandaWeb.Models.Package
 
         public double Weight { get; set; }
 
-        public string Recipient { get; set; }
+        public string RecipientId { get; set; }
+        public string RecipientFullName { get; set; }
 
         public string Description { get; set; }
 

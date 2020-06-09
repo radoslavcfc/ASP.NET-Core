@@ -8,7 +8,8 @@
 
         public string ShippingAddress { get; set; }
 
-        public string Recipient { get; set; }
+        public string RecipientId { get; set; }
+        public string RecipientFullName { get; set; }
 
         public double Weight { get; set; }
     }

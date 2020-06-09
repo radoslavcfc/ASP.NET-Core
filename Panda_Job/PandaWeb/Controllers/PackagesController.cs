@@ -115,9 +115,11 @@ namespace Panda.App.Controllers
                                 this.addressesService
                                     .GetAddressById(
                                         p.ShippingAddress)),
-                    Recipient = 
+                    RecipientFullName = 
                         (this.usersService.GetUserById(p.RecipientId).FirstName + " " +
-                        (this.usersService.GetUserById(p.RecipientId).LastName).Substring(0,1))
+                        (this.usersService.GetUserById(p.RecipientId).LastName).Substring(0,1)),
+                    RecipientId = p.RecipientId
+
                 }).ToList();
             if (this.User.IsInRole("Admin"))
             {
@@ -125,7 +127,8 @@ namespace Panda.App.Controllers
             }
             else
             {
-                var personalCol = model.Where(p => p.Recipient == this.User.Identity.Name).ToList();
+               
+                var personalCol = model.Where(p => p.RecipientId == this.userManager.GetUserId(this.User)).ToList();
                 return this.View(personalCol);
             }           
         }
@@ -154,9 +157,10 @@ namespace Panda.App.Controllers
                     ShippingAddress = this.addressesService
                     .ShortenedAddressToString(this.addressesService.GetAddressById
                     (p.ShippingAddress)),
-                    Recipient =
+                    RecipientFullName =
                         (this.usersService.GetUserById(p.RecipientId).FirstName + " " +
-                        (this.usersService.GetUserById(p.RecipientId).LastName).Substring(0, 1))
+                        (this.usersService.GetUserById(p.RecipientId).LastName).Substring(0, 1)),
+                    RecipientId = p.RecipientId
                 }).ToList();
 
             if (this.User.IsInRole("Admin"))
@@ -165,7 +169,13 @@ namespace Panda.App.Controllers
             }
             else
             {
-                var personalCol = model.Where(p => p.Recipient == this.User.Identity.Name).ToList();
+                var personalCol = model
+                    .Where(p => 
+                        p.RecipientId == this.userManager
+                            //.GetUserId(this.User)
+                            .GetUserAsync(this.User)
+                            .Result.Id)
+                    .ToList();
                 return this.View(personalCol);
             }
         }
@@ -184,7 +194,7 @@ namespace Panda.App.Controllers
                 EstimatedDeliveryDate = package.EstimatedDeliveryDate?
                     .ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
                 Weight = package.Weight,
-                Recipient = package.Recipient.FirstName + " " + package.Recipient.LastName.Substring(0,1),
+                RecipientFullName = package.Recipient.FirstName + " " + package.Recipient.LastName.Substring(0,1),
                 Description = package.Description
             };
             return this.View(model);

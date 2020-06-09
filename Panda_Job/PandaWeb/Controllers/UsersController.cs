@@ -111,10 +111,16 @@ namespace PandaWeb.Controllers
             {
                 return NotFound();
             }
-
+            
+            //if modify one field the others will come as null parameters
             currentUser.Email = email?? currentUser.Email;
             currentUser.PhoneNumber = phoneNumber ?? currentUser.PhoneNumber;
             currentUser.SecondContactNumber = secondContactNumber ?? currentUser.SecondContactNumber;
+
+            //SecondContactNumber is not requiered if user wants to remove it then it will be null
+
+            currentUser.SecondContactNumber = 
+                    (email == null && phoneNumber == null && secondContactNumber == null) ? null : currentUser.SecondContactNumber;
 
             await this.userManager.UpdateAsync(currentUser);
             await this.userManager.UpdateNormalizedEmailAsync(currentUser);
