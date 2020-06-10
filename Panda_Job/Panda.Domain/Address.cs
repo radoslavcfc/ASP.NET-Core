@@ -20,5 +20,7 @@ namespace Panda.Domain
         public string UserId { get; set; }
         public PandaUser User { get; set; }
         public Flat Flat { get; set; }
+
+        public bool IsDeleted { get; set; }
     }
 }

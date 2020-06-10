@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.VisualBasic;
 using Panda.Domain;
 
 namespace Panda.App.Areas.Identity.Pages.Account
@@ -69,7 +71,12 @@ namespace Panda.App.Areas.Identity.Pages.Account
             returnUrl = returnUrl ?? Url.Content("~/");
             if (ModelState.IsValid)
             {
-                var user = new PandaUser { UserName = Input.Username, Email = Input.Email };
+                var user = new PandaUser 
+                { 
+                    UserName = Input.Username, 
+                    Email = Input.Email ,
+                    RegisteredOn = DateTime.UtcNow
+                };
 
                 
                 var result = await _userManager.CreateAsync(user, Input.Password);

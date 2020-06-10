@@ -134,6 +134,9 @@ namespace PandaWeb.Migrations
                     b.Property<string>("Country")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<int>("Number")
                         .HasColumnType("int");
 
@@ -176,6 +179,9 @@ namespace PandaWeb.Migrations
                     b.Property<int?>("Floor")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AddressId")
@@ -198,6 +204,9 @@ namespace PandaWeb.Migrations
 
                     b.Property<DateTime?>("EstimatedDeliveryDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("RecipientId")
                         .HasColumnType("nvarchar(450)");
@@ -239,6 +248,9 @@ namespace PandaWeb.Migrations
 
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
@@ -334,6 +346,9 @@ namespace PandaWeb.Migrations
 
                     b.Property<decimal>("Fee")
                         .HasColumnType("Decimal");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("IssuedOn")
                         .HasColumnType("datetime2");

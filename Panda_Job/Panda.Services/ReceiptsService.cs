@@ -26,10 +26,12 @@ namespace Panda.Services
             }
             catch (DBConcurrencyException)
             {
+                //TODO
                 throw;
             }
             catch (DbUpdateException) 
             {
+                //TODO
                 throw;
             }
         }

@@ -14,5 +14,7 @@ namespace Panda.Domain
         public int? Apartment { get; set; }
         public Address Address { get; set; }
         public string AddressId { get; set; }
+
+        public bool IsDeleted { get; set; }
     }
 }

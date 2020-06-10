@@ -23,5 +23,7 @@ namespace Panda.Domain
         public ICollection<Receipt> Receipts { get; set; }
 
         public DateTime RegisteredOn { get; set; }
+
+        public bool IsDeleted { get; set; }
     }
 }

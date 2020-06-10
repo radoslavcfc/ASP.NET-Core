@@ -26,5 +26,7 @@ namespace Panda.Domain
         public string RecipientId { get; set; }
 
         public PandaUser Recipient { get; set; }
+
+        public bool IsDeleted { get; set; }
     }
 }

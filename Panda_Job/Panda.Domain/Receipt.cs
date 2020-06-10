@@ -21,5 +21,7 @@ namespace Panda.Domain
         public string PackageId { get; set; }
 
         public Package Package { get; set; }
+
+        public bool IsDeleted { get; set; }
     }
 }

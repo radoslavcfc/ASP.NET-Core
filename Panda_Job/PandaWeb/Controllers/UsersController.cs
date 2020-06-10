@@ -62,7 +62,7 @@ namespace PandaWeb.Controllers
             user.PhoneNumber = model.PhoneNumber;
             user.SecondContactNumber = model.SecondContactNumber;
             this.userManager.UpdateAsync(user);
-            
+            this.usersService.UpdateUserInfo(user);
             return this.Redirect("/");
         }
 
