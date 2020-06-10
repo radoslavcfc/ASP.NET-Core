@@ -38,7 +38,7 @@
             <td>@Model.ShippingAddress</td>
         </tr>
     </table>
-    @if (this.User.IsInRole("Admin"))
+    @if (this.User.IsInRole("Admin") && Model.Status == PackageStatus.Pending.ToString())
     {
         <form>
             <button class="btn btn-dark" asp-controller="Packages" asp-action="Deliver" asp-route-packageId="@Model.Id">Mark as delivered</button>

@@ -4,11 +4,12 @@
                 Layout = "~/Views/Shared/_Layout.cshtml"; }
 
 <h1 class="text-center">Receipt Details</h1>
+<div class="w-50 bg-dark text-white m-auto">@TempData["RecieptsAdded"]</div>
 <a class="btn btn-dark" href="/Receipts/Index">Back to all receipts</a>
 <hr class="hr-2 bg-panda">
 @if (TempData["RecieptsAdded"] != null)
 {
-    <div class="w-50 bg-dark text-white m-auto">@TempData["RecieptsAdded"]</div>
+    
 }
 <div class="w-75 m-auto mx-auto">
     <div class="receipt-id-handler d-flex justify-content-between">

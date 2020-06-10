@@ -41,11 +41,13 @@ namespace Panda.App.Controllers
         {
             var viewModel = new PackageCreateBindingModel();
           
-            viewModel.UsersCollection = this.userManager.GetUsersInRoleAsync("admin").Result.Select(u => new UserDropDownModel
-            {
-                Id = u.Id,
-                Name = u.UserName
-            });
+            viewModel.UsersCollection = this.userManager
+                .GetUsersInRoleAsync("admin")
+                .Result.Select(u => new UserDropDownModel
+                     {
+                        Id = u.Id,
+                        Name = u.UserName
+                     });
             
             return this.View(viewModel);
         }

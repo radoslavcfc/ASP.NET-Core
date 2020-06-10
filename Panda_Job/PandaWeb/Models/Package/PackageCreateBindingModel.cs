@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
-using PandaWeb.Models.Address;
 using PandaWeb.Models.User;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

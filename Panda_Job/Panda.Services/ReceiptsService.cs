@@ -2,6 +2,7 @@
 using Panda.Data;
 using Panda.Domain;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 
 namespace Panda.Services
@@ -17,10 +18,20 @@ namespace Panda.Services
 
         public void CreateReceipt(Receipt receipt)
         {
-            this.pandaDbContext.Receipts.Add(receipt);
+            try
+            {
+                this.pandaDbContext.Receipts.Add(receipt);
 
-            this.pandaDbContext.SaveChanges();
-            
+                this.pandaDbContext.SaveChanges();
+            }
+            catch (DBConcurrencyException)
+            {
+                throw;
+            }
+            catch (DbUpdateException) 
+            {
+                throw;
+            }
         }
 
         public List<Receipt> GetAllReceiptsWithRecipient()
