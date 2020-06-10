@@ -37,6 +37,7 @@ namespace Panda_Job.Controllers
                 ShortAddressDetailsModelsList = listOfAddresses
                 .Select(a => new ShortAddressDetailModel
                 {
+                    Id = a.Id,
                     ShotenedContent = this.addressesService.ShortenedAddressToString(a),
                     AddressType = (AddressType)a.AddressType
                 })
@@ -108,6 +109,17 @@ namespace Panda_Job.Controllers
             TempData["SuccessCreatedAddress"] = "The address has been successfully saved!";
 
             return this.RedirectToAction("Index", "Addresses");
+        }
+
+        public ActionResult Delete(string id)
+        {
+            var addressFromDb = this.addressesService.GetAddressById(id);
+            var model = new DeleteAddressModel
+            {
+                Id = id,
+                ShortAddress = this.addressesService.ShortenedAddressToString(addressFromDb)
+            };
+            return this.View(model);
         }
     }
 }
