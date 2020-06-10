@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Panda.Data;
-using Panda.Data.Migrations;
 using Panda.Domain;
 using Panda.Domain.Enums;
 using System.Collections.Generic;
@@ -22,7 +21,10 @@ namespace Panda.Services
 
         public int CountOfAddressesPerUser(PandaUser user)
         {
-            var count = pandaDbContext.Addresses.Count(a => a.UserId == user.Id);
+            var count = pandaDbContext
+                .Addresses
+                .Count(a => a.UserId == user.Id);
+
             return count;
         }
 
@@ -37,7 +39,7 @@ namespace Panda.Services
             var addresFromDb = this.pandaDbContext
                 .Addresses
                 .Where(a => a.Id == addressId)
-               .Include(a => a.Flat)
+                .Include(a => a.Flat)
                 .FirstOrDefault();
             return addresFromDb;
         }

@@ -10,8 +10,6 @@ namespace Panda.Services
 
         Package GetPackage(string id);
 
-        //PackageStatus GetPackageStatus(string status);
-
         ICollection<Package> GetAllPackages();
 
         void UpdatePackage(Package package);

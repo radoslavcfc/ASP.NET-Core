@@ -41,7 +41,7 @@ namespace Panda.App.Controllers
         {
             var viewModel = new PackageCreateBindingModel();
           
-            viewModel.UsersCollection = this.usersService.GetAllUsersNoAdmins().Select(u => new UserDropDownModel
+            viewModel.UsersCollection = this.userManager.GetUsersInRoleAsync("admin").Result.Select(u => new UserDropDownModel
             {
                 Id = u.Id,
                 Name = u.UserName

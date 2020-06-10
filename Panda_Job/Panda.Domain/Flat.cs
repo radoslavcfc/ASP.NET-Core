@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Panda.Domain
 {
@@ -14,9 +12,7 @@ namespace Panda.Domain
         public int? Floor { get; set; }
         public string Entrance { get; set; }
         public int? Apartment { get; set; }
-
         public Address Address { get; set; }
-
         public string AddressId { get; set; }
     }
 }

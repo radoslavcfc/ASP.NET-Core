@@ -19,7 +19,8 @@ namespace Panda_Job.Controllers
         private readonly IUsersService usersService;
 
         public AddressesController(UserManager<PandaUser> userManager,
-                                    IAddressesService addressesService, IUsersService usersService)
+                                    IAddressesService addressesService, 
+                                    IUsersService usersService)
         {
             this.userManager = userManager;
             this.addressesService = addressesService;

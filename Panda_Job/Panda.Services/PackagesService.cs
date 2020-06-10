@@ -30,22 +30,14 @@ namespace Panda.Services
             return package;
         }
 
-        //public PackageStatus GetPackageStatus(string status)
-        //{
-        //    //PackageStatus statusDb = this.pandaDbContext.PackageStatus.SingleOrDefault(statusEntity => statusEntity.ToString() == status);
-
-        //    return PackageStatus.Delivered;
-        //}
-
+       
         public IQueryable<Package> GetPackagesWithRecipientAndStatus()
         {
             IQueryable<Package> packageWithRecipiuentAndStatusDb = pandaDbContext.Packages
                  .Include(package => package.Recipient);
-                // .Include(package => package.Status);
 
             return packageWithRecipiuentAndStatusDb;
         }
-
         public void UpdatePackage(Package package)
         {
             this.pandaDbContext.Update(package);

@@ -45,6 +45,7 @@ namespace Panda.Data
                 .WithOne()                
                 .OnDelete(DeleteBehavior.Restrict);
 
+            //Explicitly stated type to avoid the SQL error
             builder.Entity<Receipt>()
                .Property("Fee")
                .HasColumnType("Decimal");
