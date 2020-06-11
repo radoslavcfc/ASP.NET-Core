@@ -100,5 +100,12 @@ namespace Panda.Services
              addres.IsDeleted = true;
              pandaDbContext.SaveChanges();
         }
+
+
+        public void UpdateAddress(Address addressToUpdate)
+        {
+            this.pandaDbContext.Addresses.Update(addressToUpdate);
+            this.pandaDbContext.SaveChanges();
+        }
     }
 }

@@ -15,5 +15,6 @@ namespace Panda.Services
 
         string ShortenedAddressToString(Address fullAddress);
         void MarkAsDeleted(string id);
+        void UpdateAddress(Address addressToUpdate);
     }
 }

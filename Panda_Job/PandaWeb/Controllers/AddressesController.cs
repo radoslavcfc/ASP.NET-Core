@@ -20,7 +20,7 @@ namespace Panda_Job.Controllers
         private readonly IUsersService usersService;
 
         public AddressesController(UserManager<PandaUser> userManager,
-                                    IAddressesService addressesService, 
+                                    IAddressesService addressesService,
                                     IUsersService usersService)
         {
             this.userManager = userManager;
@@ -105,7 +105,7 @@ namespace Panda_Job.Controllers
                 addresToRegister.Flat = flatToRegister;
             }
 
-          
+
             this.addressesService.CreateAddress(addresToRegister);
 
             TempData["SuccessCreatedAddress"] = "The address has been successfully saved!";
@@ -113,7 +113,7 @@ namespace Panda_Job.Controllers
             return this.RedirectToAction("Index", "Addresses");
         }
 
-     
+
         public ActionResult Delete(string id)
         {
             var addressFromDb = this.addressesService.GetAddressById(id);
@@ -126,7 +126,7 @@ namespace Panda_Job.Controllers
         }
 
         [HttpPost("Addresses/Delete")]
-        
+
         public ActionResult Delete(DeleteAddressModel model)
         {
             var id = model.Id;
@@ -151,30 +151,27 @@ namespace Panda_Job.Controllers
                 AddressType = address.AddressType,
                 PropertyType = address.PropertyType,
                 Number = address.Number,
-                
+
             };
 
             if (address.PropertyType == PropertyType.Flat)
             {
-                var flatModel = new AddFlatModel
-                {
-                    
-                    Entrance = model.FlatModel.Entrance,
-                    Floor = model.FlatModel.Floor,
-                    Apartment = model.FlatModel.Apartment
-                };
-                model.FlatModel = flatModel;
+                model.FlatModel = new AddFlatModel();
+
+                model.FlatModel.Entrance = address.Flat.Entrance;
+                model.FlatModel.Floor = address.Flat.Floor;
+                model.FlatModel.Apartment = address.Flat.Apartment;
             }
             return this.View("Preview", model);
         }
 
-        public ActionResult Edit(AddOrEditNewAddressModel model)
+        public ActionResult Update(AddOrEditNewAddressModel model)
         {
             var idForUpdate = model.Id;
             var addressToUpdate = this.addressesService.GetAddressById(idForUpdate);
             if (!ModelState.IsValid)
             {
-                return this.View("Edit");
+                return this.View("Preview",model);
             }
             //Could be done with Automapper, or even other function to be implemented
             //ToDo
@@ -185,15 +182,22 @@ namespace Panda_Job.Controllers
             addressToUpdate.StreetName = model.StreetName;
             if (model.PropertyType == PropertyType.Flat)
             {
+                if (addressToUpdate.Flat == null)
+                {
+                    addressToUpdate.Flat = new Flat();
+                    addressToUpdate.PropertyType = PropertyType.Flat;
+                }
+
                 addressToUpdate.Flat.Floor = model.FlatModel.Floor;
                 addressToUpdate.Flat.Entrance = model.FlatModel.Entrance;
                 addressToUpdate.Flat.Apartment = model.FlatModel.Apartment;
             }
-            else 
+            else
             {
-
-                addressToUpdate.Flat = null; 
+                addressToUpdate.PropertyType = PropertyType.House;
+                addressToUpdate.Flat = null;
             }
+            this.addressesService.UpdateAddress(addressToUpdate);
 
             TempData["SuccessEditAddress"] = "The address has been successfully edited and saved!";
 
