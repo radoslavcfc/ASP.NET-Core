@@ -4,16 +4,20 @@ using Panda.Domain;
 using Panda.Domain.Enums;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Panda.Services
 {
     public class AddressesService : IAddressesService
     {
-        private readonly PandaDbContext pandaDbContext;
+        //Short address string symbols:
         private const string spacePlusComa = ", ";
         private const string appartment = "Ap. ";
         private const string floor = "Floor ";
         private const string entrance = "Ent. ";
+
+        private readonly PandaDbContext pandaDbContext;
+       
         public AddressesService(PandaDbContext pandaDbContext)
         {
             this.pandaDbContext = pandaDbContext;
@@ -85,6 +89,15 @@ namespace Panda.Services
                      fullAddress.Flat.Floor;    
             }
             return addressToString;
+        }
+
+        public async Task MarkAsDeleted(string id)
+        {
+            var addres = this.pandaDbContext.Addresses
+                .Where(a => a.Id == id)
+                .FirstOrDefault();
+             addres.IsDeleted = true;
+             await pandaDbContext.SaveChangesAsync();
         }
     }
 }

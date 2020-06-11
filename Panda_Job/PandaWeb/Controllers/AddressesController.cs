@@ -121,5 +121,12 @@ namespace Panda_Job.Controllers
             };
             return this.View(model);
         }
+
+        public ActionResult Delete(DeleteAddressModel model)
+        {
+            var id = model.Id;
+            this.addressesService.MarkAsDeleted(id);
+            return this.Redirect("/Addresses/Index");
+        }
     }
 }
