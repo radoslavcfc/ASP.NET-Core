@@ -7,6 +7,7 @@ using Panda.Domain.Enums;
 using Panda.Services;
 
 using PandaWeb.Models.Address;
+using PandaWeb.Models.Flat;
 using System.Linq;
 
 namespace Panda_Job.Controllers
@@ -48,18 +49,18 @@ namespace Panda_Job.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            var model = new AddNewAddressModel();
+            var model = new AddOrEditNewAddressModel();
             return this.View(model);
         }
 
         [HttpPost]
         [ActionName("Create")]
-        public IActionResult CreatePost(AddNewAddressModel model)
+        public IActionResult CreatePost(AddOrEditNewAddressModel model)
         {
             return this.View("Preview", model);
         }
 
-        public IActionResult Save(AddNewAddressModel model)
+        public IActionResult Save(AddOrEditNewAddressModel model)
         {
             var userId = this.userManager.GetUserId(this.User);
             var user = this.usersService.GetUserById(userId);
@@ -104,6 +105,7 @@ namespace Panda_Job.Controllers
                 addresToRegister.Flat = flatToRegister;
             }
 
+          
             this.addressesService.CreateAddress(addresToRegister);
 
             TempData["SuccessCreatedAddress"] = "The address has been successfully saved!";
@@ -133,6 +135,68 @@ namespace Panda_Job.Controllers
             TempData["Deleted message"] = "The address was successfully deleted!";
 
             //return this.View("Deleted");
+            return this.RedirectToAction("Index", "Addresses");
+        }
+
+        public ActionResult Edit(string id)
+        {
+            var address = this.addressesService.GetAddressById(id);
+            var model = new AddOrEditNewAddressModel
+            {
+                Id = address.Id,
+                Country = address.Country,
+                Region = address.Region,
+                Town = address.Town,
+                StreetName = address.StreetName,
+                AddressType = address.AddressType,
+                PropertyType = address.PropertyType,
+                Number = address.Number,
+                
+            };
+
+            if (address.PropertyType == PropertyType.Flat)
+            {
+                var flatModel = new AddFlatModel
+                {
+                    
+                    Entrance = model.FlatModel.Entrance,
+                    Floor = model.FlatModel.Floor,
+                    Apartment = model.FlatModel.Apartment
+                };
+                model.FlatModel = flatModel;
+            }
+            return this.View("Preview", model);
+        }
+
+        public ActionResult Edit(AddOrEditNewAddressModel model)
+        {
+            var idForUpdate = model.Id;
+            var addressToUpdate = this.addressesService.GetAddressById(idForUpdate);
+            if (!ModelState.IsValid)
+            {
+                return this.View("Edit");
+            }
+            //Could be done with Automapper, or even other function to be implemented
+            //ToDo
+            addressToUpdate.Country = model.Country;
+            addressToUpdate.Region = model.Region;
+            addressToUpdate.Town = model.Town;
+            addressToUpdate.Number = model.Number;
+            addressToUpdate.StreetName = model.StreetName;
+            if (model.PropertyType == PropertyType.Flat)
+            {
+                addressToUpdate.Flat.Floor = model.FlatModel.Floor;
+                addressToUpdate.Flat.Entrance = model.FlatModel.Entrance;
+                addressToUpdate.Flat.Apartment = model.FlatModel.Apartment;
+            }
+            else 
+            {
+
+                addressToUpdate.Flat = null; 
+            }
+
+            TempData["SuccessEditAddress"] = "The address has been successfully edited and saved!";
+
             return this.RedirectToAction("Index", "Addresses");
         }
     }

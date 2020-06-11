@@ -28,7 +28,7 @@ namespace Panda.App.Controllers
                 var currentUserAddressesCount = this.AddressesService.CountOfAddressesPerUser(currentUser);
                 if (currentUserAddressesCount == 0)
                 {
-                    var addressModel = new AddNewAddressModel();
+                    var addressModel = new AddOrEditNewAddressModel();
                     return this.View(addressModel);
                 }
             }
