@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Panda.Data;
 using Panda.Domain;
 using Panda.Domain.Enums;
@@ -27,6 +28,7 @@ namespace Panda.Services
         {
             var count = pandaDbContext
                 .Addresses
+                .Where(a => a.IsDeleted == false)
                 .Count(a => a.UserId == user.Id);
 
             return count;
@@ -42,25 +44,24 @@ namespace Panda.Services
         {
             var addresFromDb = this.pandaDbContext
                 .Addresses
-                .Where(a => a.Id == addressId)
+                .Where(a => a.Id == addressId && a.IsDeleted == false)
                 .Include(a => a.Flat)
                 .FirstOrDefault();
             return addresFromDb;
         }
 
-        public IEnumerable<Address> ListOfAddressesByUser(string userName)
+        public IQueryable<Address> ListOfAddressesByUser(string userName)
         {
             var user = this.pandaDbContext
                 .Users
-                .Where(u => u.UserName == userName)
-                .FirstOrDefault();
+                .Where(u => u.UserName == userName);
 
             var list = this.pandaDbContext
                 .Addresses
-                .Where(a => a.UserId == user.Id)
+                .Where(a => a.UserId == user.FirstOrDefault().Id && a.IsDeleted == false)
                 .OrderBy(a => a.AddressType)
-                .Include(a => a.Flat)
-                .ToList();
+                .Include(a => a.Flat);
+                
             return list;
         }
 
@@ -91,13 +92,13 @@ namespace Panda.Services
             return addressToString;
         }
 
-        public async Task MarkAsDeleted(string id)
+        public  void MarkAsDeleted(string id)
         {
             var addres = this.pandaDbContext.Addresses
                 .Where(a => a.Id == id)
                 .FirstOrDefault();
              addres.IsDeleted = true;
-             await pandaDbContext.SaveChangesAsync();
+             pandaDbContext.SaveChanges();
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using Panda.Domain;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Panda.Services
 {
@@ -8,7 +10,7 @@ namespace Panda.Services
         void CreateAddress(Address address);
 
         int CountOfAddressesPerUser(PandaUser user);
-        IEnumerable<Address> ListOfAddressesByUser(string userName);
+        IQueryable<Address> ListOfAddressesByUser(string userName);
         Address GetAddressById(string addressId);
 
         string ShortenedAddressToString(Address fullAddress);
