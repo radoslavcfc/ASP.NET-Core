@@ -30,7 +30,7 @@ namespace Panda_Job.Controllers
         public IActionResult Index()
         {
             var listOfAddresses = this.addressesService
-                .ListOfAddressesByUser(this.User.Identity.Name);
+                .ListOfAddressesByUser(this.User.Identity.Name).ToList();
 
             var model = new ListAddressesModel
             {
@@ -111,6 +111,7 @@ namespace Panda_Job.Controllers
             return this.RedirectToAction("Index", "Addresses");
         }
 
+     
         public ActionResult Delete(string id)
         {
             var addressFromDb = this.addressesService.GetAddressById(id);
@@ -122,11 +123,17 @@ namespace Panda_Job.Controllers
             return this.View(model);
         }
 
+        [HttpPost("Addresses/Delete")]
+        
         public ActionResult Delete(DeleteAddressModel model)
         {
             var id = model.Id;
             this.addressesService.MarkAsDeleted(id);
-            return this.Redirect("/Addresses/Index");
+
+            TempData["Deleted message"] = "The address was successfully deleted!";
+
+            //return this.View("Deleted");
+            return this.RedirectToAction("Index", "Addresses");
         }
     }
 }

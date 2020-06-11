@@ -41,8 +41,10 @@ else
                 <a href="/Addresses/Create" class="btn btn-lg btn-dark">Add address</a>
             </div>
         }
+
         var currentUser = userService.GetUserByUserName(this.User.Identity.Name);
         var areDetailsNull = currentUser.PhoneNumber == null && currentUser.FirstName == null && currentUser.LastName == null;
+
         if (areDetailsNull)
         {
             <h2 class="text-center">Please add your contact details!</h2>

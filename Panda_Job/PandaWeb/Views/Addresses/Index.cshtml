@@ -10,7 +10,10 @@
 @if (TempData["SuccessCreatedAddress"] != null)
 {
     <div class="alert alert-info">@TempData["SuccessCreatedAddress"]</div>
-   
+}
+@if (TempData["Deleted message"] != null)
+{
+    <div class="alert alert-info">@TempData["Deleted message"]</div>
 }
 <hr />
 <br />
@@ -19,7 +22,6 @@
 
     <caption style="caption-side:top">@("Adresses of " + this.User.Identity.Name.Capitalize())</caption>
 
-
     @foreach (var item in Model.ShortAddressDetailsModelsList)
     {
         @if (item.AddressType == AddressType.Alternative)
@@ -27,25 +29,49 @@
             primaryAddressClass = "table-light";
         }
         <tr class="@primaryAddressClass row">
-            <td class="col-10">
+            <td class="col-8">
                 @item.ShotenedContent
             </td>
             <td class="col-1">
                 <button class="btn btn-dark"> Edit</button>
 
             </td>
-            <td class="col-1">
-                <a asp-controller="Addresses" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-dark"> Delete</a>
 
-            </td>
+            @if (item.AddressType == AddressType.Primary)
+            {
+                <td class="col-3 text-center">
+                    PRIMARY
+                </td>
+            }
+            else
+            {
+                <td class="col-2">
+                    <a asp-controller="Addresses"
+                       asp-action="Delete"
+                       asp-route-id="@item.Id"
+                       class="btn btn-dark"
+                       data-toggle="tooltip"
+                       title="Make this address Primary!">
+                        Primarize
+                    </a>
+                </td>
+                <td class="col-1">
+                    <a asp-controller="Addresses" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-dark"> Delete</a>
+                </td>
+            }
+
         </tr>
-
     }
-
 </table>
 <br />
 <hr />
 <div class="container w-75 d-flex p-3">
     <a class="btn btn-dark" href="/Addresses/Create">Add address</a>
 </div>
-
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+}
