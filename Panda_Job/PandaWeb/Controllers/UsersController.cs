@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Panda.Domain;
 using Panda.Services;
 using PandaWeb.Models.User;
+using System;
 using System.Threading.Tasks;
 
 namespace PandaWeb.Controllers
@@ -126,18 +127,18 @@ namespace PandaWeb.Controllers
             return this.Redirect("/Users/ShowData");
         }
 
-        public async Task<IActionResult> EditEditPhoneNumber(string email)
+        [HttpGet]
+
+       
+        public IActionResult  ChangePassword()
         {
-            var currentUser = this.userManager.GetUserAsync(this.User).Result;
+           var currentUser = userManager.GetUserAsync(this.User).Result;
             if (currentUser == null)
             {
                 return NotFound();
             }
-            currentUser.Email = email;
-            await this.userManager.UpdateAsync(currentUser);
-            await this.userManager.UpdateNormalizedEmailAsync(currentUser);
-            this.usersService.SaveToDataBaseAsync();
-            return this.Redirect("/Users/ShowData");
+            var passwordModel = new ChangePasswordModel();
+            return this.View(passwordModel);
         }
         [NonAction]
         private string FullNameCreator(string firstName, string lastName)

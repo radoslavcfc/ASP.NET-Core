@@ -15,15 +15,16 @@
     color: #FFFFFF;
 }
 
+.width-30 {
+    width: 30%;
+}
 .hr-2 {
     height: 2px;
 }
 .hideField{
     display: none;
 }
-.width-30{
-    width: 30%;
-}
+
 .margin-30{
     margin: 0.3%;
 }

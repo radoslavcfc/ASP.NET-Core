@@ -64,10 +64,7 @@
         <tr>
             <td class="text-white bg-dark font-weight-bold text-lg-left">Password Change </td>
             <td>
-                <button class="btn btn-dark float-right" onclick="edit('@User.Identity.Name')">Change Password</button>
-                <input class="hideField" type="text" value="@Model.Email" />
-                <input class="btn btn-dark float-right hideField" type="button" value="Save" />
-                <input class="btn btn-dark float-right hideField" type="button" value="Cancel" onclick="toggle()" />
+                <a asp-controller="Users" asp-action="ChangePassword" class="btn btn-dark float-right">Change</a>
             </td>
         </tr>
         <tr>
