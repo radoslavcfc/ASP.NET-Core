@@ -140,6 +140,21 @@ namespace PandaWeb.Controllers
             var passwordModel = new ChangePasswordModel();
             return this.View(passwordModel);
         }
+
+        [HttpPost]
+        [ActionName("ChangePassword")]
+        public IActionResult ChangePasswordPost(ChangePasswordModel model)
+        {
+            var currentUser = userManager.GetUserAsync(this.User).Result;
+            if (currentUser == null)
+            {
+                return NotFound();
+            }
+
+            
+            return this.View();
+        }
+
         [NonAction]
         private string FullNameCreator(string firstName, string lastName)
         {
