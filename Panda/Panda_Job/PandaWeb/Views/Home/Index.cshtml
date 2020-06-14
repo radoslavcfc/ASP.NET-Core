@@ -7,12 +7,16 @@
 }
 @if (!this.User.Identity.IsAuthenticated)
 {
+    @if (TempData["Changed Password"] != null)
+    {
+        <div class="alert alert-info">@TempData["Changed Password"]</div>
+    }
     <div class="jumbotron w-50 m-auto mt-3 bg-panda">
         <h1 class="text-white">Welcome to Delivery Services.</h1>
         <hr class="bg-white hr-2" />
         <h3 class="text-white"><a href="/Identity/Account/Login">Login</a> if you have an account.</h3>
         <h3 class="text-white"><a href="/Identity/Account/Register">Register</a> if you don't.</h3>
-        
+
     </div>
 }
 else

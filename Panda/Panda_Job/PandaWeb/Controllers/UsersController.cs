@@ -15,11 +15,14 @@ namespace PandaWeb.Controllers
         private readonly IUsersService usersService;
         
         private readonly UserManager<PandaUser> userManager;
+        private readonly SignInManager<PandaUser> signInManager;
 
-        public UsersController(IUsersService usersService, UserManager<PandaUser> userManager)
+        public UsersController(IUsersService usersService, UserManager<PandaUser> userManager,
+            SignInManager<PandaUser> signInManager)
         {
             this.usersService = usersService;
             this.userManager = userManager;
+            this.signInManager = signInManager;
         }
         [Authorize(Roles = "Admin")]
         public IActionResult Index()
@@ -152,11 +155,15 @@ namespace PandaWeb.Controllers
                 return NotFound();
             }
             var currentUserPass = await this.userManager.CheckPasswordAsync(currentUser, model.CurrentPassword);
+
+            //Double checked, just to try CheckPasswordAsync method
             if (currentUserPass)
             {
-
+                await this.userManager.ChangePasswordAsync(currentUser, model.CurrentPassword, model.NewPassword);
             }
-            return this.View();
+            await this.signInManager.SignOutAsync();
+            TempData["Changed Password"] = "Your password was successfully changed, Please sign in ";
+            return this.RedirectToAction("Index", "Home");
         }
 
         [NonAction]
