@@ -30,7 +30,10 @@ namespace Panda.Data
             builder.Entity<PandaUser>()
                 .HasKey(user => user.Id);
 
-            builder.Entity<PandaUser>()
+            //Used EF Fluent API to define relations with the customized user. 
+            //An address property has been added later with migration direclty
+            
+           /* builder.Entity<PandaUser>()
                 .HasMany(user => user.Packages)
                 .WithOne(package => package.Recipient)
                 .HasForeignKey(package => package.RecipientId);
@@ -43,7 +46,7 @@ namespace Panda.Data
             builder.Entity<Receipt>()
                 .HasOne(receipt => receipt.Package)
                 .WithOne()                
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Restrict);*/
 
             //Explicitly stated type to avoid the SQL error
             builder.Entity<Receipt>()
