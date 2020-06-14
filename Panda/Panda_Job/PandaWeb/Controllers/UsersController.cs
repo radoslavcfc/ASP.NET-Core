@@ -88,8 +88,8 @@ namespace PandaWeb.Controllers
             return this.View(model);
         }
 
-        [HttpGet("Users/ShowData")]
-        public IActionResult ShowData()
+        [HttpGet("Users/ManageData")]
+        public IActionResult ManageData()
         {
             var currentUser = this.userManager.GetUserAsync(this.User).Result;
 
