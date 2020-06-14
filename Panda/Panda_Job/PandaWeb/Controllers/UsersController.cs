@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Panda.Domain;
 using Panda.Services;
 using PandaWeb.Models.User;
@@ -143,15 +144,18 @@ namespace PandaWeb.Controllers
 
         [HttpPost]
         [ActionName("ChangePassword")]
-        public IActionResult ChangePasswordPost(ChangePasswordModel model)
+        public async Task<IActionResult> ChangePasswordPost(ChangePasswordModel model)
         {
-            var currentUser = userManager.GetUserAsync(this.User).Result;
+            var currentUser = await userManager.GetUserAsync(this.User);
             if (currentUser == null)
             {
                 return NotFound();
             }
+            var currentUserPass = await this.userManager.CheckPasswordAsync(currentUser, model.CurrentPassword);
+            if (currentUserPass)
+            {
 
-            
+            }
             return this.View();
         }
 

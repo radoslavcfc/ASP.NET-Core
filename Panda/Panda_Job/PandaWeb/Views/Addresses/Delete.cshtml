@@ -1,0 +1,28 @@
+﻿@model DeleteAddressModel
+@{
+    ViewData["Title"] = "Delete Address";
+}
+
+<form class="mx-auto w-50 mt-4" method="post">
+    <div asp-validation-summary="All"></div>
+    <div class="form-group">
+        <h1>@ViewData["Title"]</h1>
+    </div>
+
+    <input asp-for="@Model.ShortAddress" class="form-control inputData" disabled="disabled" />
+
+    <div class="form-group">
+        <hr /> <br />
+    </div>
+    <div id="saveBut" class="form-group">
+        <input type="submit" class="btn btn-dark" value="Confirm" />
+        <input type="submit" asp-controller="Addresses" asp-action="Index" class="btn btn-dark" value="Cancel" onclick="enable();" />
+    </div>
+</form>
+@section Scripts{
+<script>
+    function enable() {
+        $(".inputData").attr("disabled", null);
+    }
+</script>
+   }
