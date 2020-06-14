@@ -30,7 +30,7 @@
                 <button class="btn btn-dark float-right" onclick="toggle('emailField')">Edit</button>
                 <form method="post" action="/Users/EditInfo">
                     <input class="hideField margin-30" type="email" name="email" value="@Model.Email" />
-                    <input class="btn btn-dark float-right hideField w-25 margin-30" type="button" value="Cancel" onclick="toggle('emailField')"/>
+                    <input class="btn btn-dark float-right hideField w-25 margin-30" type="button" value="Cancel" onclick="toggle('emailField')" />
                     <input class="btn btn-dark float-right hideField w-25 margin-30" type="submit" value="Save" />
                 </form>
             </td>
@@ -40,13 +40,14 @@
             <td class="text-white bg-dark font-weight-bold text-lg-left">Phone Number</td>
             <td id="phoneNumberField">
                 <span>
-                    @Model.PhoneNumber</span>
-                    <button class="btn btn-dark float-right" onclick="toggle('phoneNumberField')">Edit</button>
-                    <form method="post" action="/Users/EditInfo">
-                        <input class="hideField margin-30" type="tel" name="phoneNumber" value="@Model.PhoneNumber" required />
-                        <input class="btn btn-dark float-right hideField w-25 margin-30" type="button" value="Cancel" onclick="toggle('phoneNumberField')"/>
-                        <input class="btn btn-dark float-right hideField w-25 margin-30" type="submit" value="Save" />
-                    </form>
+                    @Model.PhoneNumber
+                </span>
+                <button class="btn btn-dark float-right" onclick="toggle('phoneNumberField')">Edit</button>
+                <form method="post" action="/Users/EditInfo">
+                    <input class="hideField margin-30" type="tel" name="phoneNumber" value="@Model.PhoneNumber" required />
+                    <input class="btn btn-dark float-right hideField w-25 margin-30" type="button" value="Cancel" onclick="toggle('phoneNumberField')" />
+                    <input class="btn btn-dark float-right hideField w-25 margin-30" type="submit" value="Save" />
+                </form>
             </td>
         </tr>
         <tr>
@@ -55,8 +56,8 @@
                 <span>@Model.SecondContactNumber</span>
                 <button class="btn btn-dark float-right" onclick="toggle('secondPhoneNumberField')">Edit</button>
                 <form method="post" action="/Users/EditInfo">
-                    <input class="hideField w-50 margin-30" type="tel" name="secondContactNumber"value="@Model.SecondContactNumber" />
-                    <input class="btn btn-dark float-right hideField w-25 margin-30" type="button" value="Cancel"onclick="toggle('secondPhoneNumberField')" />
+                    <input class="hideField w-50 margin-30" type="tel" name="secondContactNumber" value="@Model.SecondContactNumber" />
+                    <input class="btn btn-dark float-right hideField w-25 margin-30" type="button" value="Cancel" onclick="toggle('secondPhoneNumberField')" />
                     <input class="btn btn-dark float-right hideField w-25 margin-30" type="submit" value="Save" />
                 </form>
             </td>
@@ -69,7 +70,9 @@
         </tr>
         <tr>
             <td class="text-white bg-dark font-weight-bold text-lg-left">Delete Account</td>
-            <td><button class="btn btn-dark float-right" onclick="edit('@User.Identity.Name')">Delete my account</button></td>
+            <td>
+                <a class="btn btn-dark float-right" asp-controller="Users" asp-action="DeleteAccount">Delete my account</a>
+            </td>
         </tr>
     </table>
 </div>

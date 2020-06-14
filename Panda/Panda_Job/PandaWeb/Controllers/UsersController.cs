@@ -154,18 +154,45 @@ namespace PandaWeb.Controllers
             {
                 return NotFound();
             }
-            var currentUserPass = await this.userManager.CheckPasswordAsync(currentUser, model.CurrentPassword);
-
-            //Double checked, just to try CheckPasswordAsync method
-            if (currentUserPass)
-            {
-                await this.userManager.ChangePasswordAsync(currentUser, model.CurrentPassword, model.NewPassword);
-            }
+           
+            await this.userManager.ChangePasswordAsync(currentUser, model.CurrentPassword, model.NewPassword);            
             await this.signInManager.SignOutAsync();
             TempData["Changed Password"] = "Your password was successfully changed, Please sign in ";
             return this.RedirectToAction("Index", "Home");
         }
 
+        public IActionResult DeleteAccount()
+        {
+            var currentUser = userManager.GetUserAsync(this.User).Result;
+            if (currentUser == null)
+            {
+                return NotFound();
+            }
+            var passwordModel = new DeleteAccountModel();
+            return this.View(passwordModel);
+        }
+
+        [HttpPost]
+        [ActionName("DeleteAccount")]
+        public async Task<IActionResult> DeleteAccount(DeleteAccountModel model)
+        {
+            var currentUser = await userManager.GetUserAsync(this.User);
+            if (currentUser == null)
+            {
+                return NotFound();
+            }
+            var currentUserPass = await this.userManager.CheckPasswordAsync(currentUser, model.Password);
+            if (currentUserPass)
+            {
+                await this.signInManager.SignOutAsync();
+                
+                return this.RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                return this.View(model);
+            }
+        }
         [NonAction]
         private string FullNameCreator(string firstName, string lastName)
         {

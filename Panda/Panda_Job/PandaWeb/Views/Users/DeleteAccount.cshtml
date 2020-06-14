@@ -1,0 +1,29 @@
+﻿@model DeleteAccountModel
+@{
+    ViewData["Title"] = "Delete Account";
+}
+
+<form class="mx-auto width-30" method="post">
+    <div asp-validation-summary="All"></div>
+    <div class="form-group">
+        <h1>@ViewData["Title"]</h1>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.Password"></label>
+        <input asp-for="@Model.Password" class="form-control inputData" />
+        <span asp-validation-for="@Model.Password" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.IAgree"></label>
+        <input asp-for="@Model.IAgree" class="form-control inputData" />
+        <span asp-validation-for="@Model.IAgree" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <hr /> <br />
+    </div>
+    <div id="saveBut" class="form-group justify-content-around">
+        <input type="submit" class="btn btn-dark" value="Save" />
+        <a hrf="/Users/DeleteAccount" class="btn btn-dark text-white" value="Cancel"> Cancel</a>
+    </div>
+</form>
