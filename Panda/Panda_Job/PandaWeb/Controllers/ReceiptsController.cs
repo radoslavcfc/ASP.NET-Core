@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System;
+using System.Threading.Tasks;
 
 namespace Panda.App.Controllers
 {
@@ -42,6 +43,7 @@ namespace Panda.App.Controllers
             {
                 return View(myReceiptsOfUser);
             }
+
             else
             {
                 var personalReceipt = myReceiptsOfUser.Where(r => r.Recipient == User.Identity.Name).ToList();
@@ -76,9 +78,9 @@ namespace Panda.App.Controllers
         }
 
         [HttpGet("/Receipts/Create/{packageId}")]
-        public IActionResult Create(string packageId)
+        public async Task<IActionResult> Create(string packageId)
         {
-            var currentPackage = this.packagesService.GetPackageAsync(packageId).Result;
+            var currentPackage = await this.packagesService.GetPackageAsync(packageId);
             var receipt = new Receipt
             {
                 Fee = Convert.ToDecimal(currentPackage.Weight * 2.67),
@@ -86,7 +88,7 @@ namespace Panda.App.Controllers
                 RecipientId = currentPackage.RecipientId,
                 PackageId = currentPackage.Id
             };
-            this.receiptsService.CreateReceiptAsync(receipt);
+            await this.receiptsService.CreateReceiptAsync(receipt);
 
             TempData["RecieptsAdded"] = "Successfuly created a receipt";
             var id = receipt.Id;

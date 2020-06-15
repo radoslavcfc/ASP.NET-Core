@@ -119,7 +119,7 @@ namespace Panda_Job.Controllers
             return this.RedirectToAction("Index", "Addresses");
         }
 
-        public async Task<ActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(string id)
         {
             var addressFromDb = await this.addressesService.GetAddressByIdAsync(id);
             var model = new DeleteAddressModel
@@ -132,7 +132,7 @@ namespace Panda_Job.Controllers
 
         [HttpPost("Addresses/Delete")]
 
-        public async Task<ActionResult> Delete(DeleteAddressModel model)
+        public async Task<IActionResult> Delete(DeleteAddressModel model)
         {
             var id = model.Id;
             await this.addressesService.MarkAsDeletedAsync(id);
@@ -170,7 +170,7 @@ namespace Panda_Job.Controllers
             return this.View("Preview", model);
         }
 
-        public async Task<ActionResult> Update(AddOrEditNewAddressModel model)
+        public async Task<IActionResult> Update(AddOrEditNewAddressModel model)
         {
             var idForUpdate = model.Id;
             var addressToUpdate = await this.addressesService.GetAddressByIdAsync(idForUpdate);

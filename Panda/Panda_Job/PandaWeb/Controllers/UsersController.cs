@@ -1,11 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+
 using Panda.Domain;
 using Panda.Services;
 using PandaWeb.Models.User;
-using System;
 using System.Threading.Tasks;
 
 namespace PandaWeb.Controllers
@@ -27,12 +26,13 @@ namespace PandaWeb.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
-            var allUsersFromDb = userManager.GetUsersInRoleAsync("user").Result;
+            var allUsersFromDb = usersService.GetAllUsersNoAdmins();
             var model = new AllUsersIndexViewModel();
             foreach (var singleUser in allUsersFromDb)
             {
                 var modelUser = new UserIndexViewModel
                 {
+                    Id = singleUser.Id,
                     FullName = this.FullNameCreator(singleUser.FirstName, singleUser.LastName),
                     PhoneNumber = singleUser.PhoneNumber
                 };
@@ -49,48 +49,53 @@ namespace PandaWeb.Controllers
         }
 
         [HttpPost]
-        public IActionResult CompleteData(UserCompleteDataModel model)
+        public async Task<IActionResult> CompleteData(UserCompleteDataModel model)
         {
             if (!ModelState.IsValid)
             {
                 return this.View(model);
             }
 
-            var user = this.userManager.GetUserAsync(this.User).Result;
-            if (user == null)
+            var currentUser = await GetTheCurrentUserAsync();
+            if (currentUser == null)
             {
                 return this.NotFound();
             }
 
-            user.FirstName = model.FirstName;
-            user.LastName = model.LastName;
-            user.PhoneNumber = model.PhoneNumber;
-            user.SecondContactNumber = model.SecondContactNumber;
-            this.userManager.UpdateAsync(user);
-            this.usersService.UpdateUserInfoAsync(user);
+            currentUser.FirstName = model.FirstName;
+            currentUser.LastName = model.LastName;
+            currentUser.PhoneNumber = model.PhoneNumber;
+            currentUser.SecondContactNumber = model.SecondContactNumber;
+
+            await this.userManager.UpdateAsync(currentUser);
+            await this.usersService.UpdateUserInfoAsync(currentUser);
             return this.Redirect("/");
         }
 
-
-        public IActionResult Details(string id)
+        public async Task<IActionResult> Details(string id)
         {
-            var user = this.usersService.GetUserByIdAsync(id).Result;
+            var currentUser = await this.GetTheCurrentUserAsync();
             var model = new UserDetailViewModel
             {
-                Id = user.Id,
-                FullName = this.FullNameCreator(user.FirstName, user.LastName),
-                Email = user.Email,
-                PhoneNumber = user.PhoneNumber,
-                RegisteredOn = user.RegisteredOn.ToString("D"),
-                SecondContactNumber = user.SecondContactNumber
+                Id = currentUser.Id,
+                FullName = this.FullNameCreator(currentUser.FirstName, currentUser.LastName),
+                Email = currentUser.Email,
+                PhoneNumber = currentUser.PhoneNumber,
+                RegisteredOn = currentUser.RegisteredOn.ToString("D"),
+                SecondContactNumber = currentUser.SecondContactNumber
             };
             return this.View(model);
         }
 
         [HttpGet("Users/ManageData")]
-        public IActionResult ManageData()
+        public async Task<IActionResult> ManageData()
         {
-            var currentUser = this.userManager.GetUserAsync(this.User).Result;
+            var currentUser = await this.GetTheCurrentUserAsync();
+
+            if (currentUser == null)
+            {
+                return NotFound();
+            }
 
             ShowUsersDataModel model = new ShowUsersDataModel
             {
@@ -108,7 +113,7 @@ namespace PandaWeb.Controllers
 
         public async Task<IActionResult> EditInfo(string email, string phoneNumber, string secondContactNumber)
         {
-            var currentUser = this.userManager.GetUserAsync(this.User).Result;
+            var currentUser = await this.GetTheCurrentUserAsync();
             if (currentUser == null)
             {
                 return NotFound();
@@ -131,15 +136,8 @@ namespace PandaWeb.Controllers
         }
 
         [HttpGet]
-
-       
-        public IActionResult  ChangePassword()
+        public IActionResult ChangePassword()
         {
-           var currentUser = userManager.GetUserAsync(this.User).Result;
-            if (currentUser == null)
-            {
-                return NotFound();
-            }
             var passwordModel = new ChangePasswordModel();
             return this.View(passwordModel);
         }
@@ -148,7 +146,7 @@ namespace PandaWeb.Controllers
         [ActionName("ChangePassword")]
         public async Task<IActionResult> ChangePasswordPost(ChangePasswordModel model)
         {
-            var currentUser = await userManager.GetUserAsync(this.User);
+            var currentUser = await this.GetTheCurrentUserAsync();
             if (currentUser == null)
             {
                 return NotFound();
@@ -160,22 +158,18 @@ namespace PandaWeb.Controllers
             return this.RedirectToAction("Index", "Home");
         }
 
+        [HttpGet]
         public IActionResult DeleteAccount()
         {
-            var currentUser = userManager.GetUserAsync(this.User).Result;
-            if (currentUser == null)
-            {
-                return NotFound();
-            }
-            var passwordModel = new DeleteAccountModel();
-            return this.View(passwordModel);
+            var deleteModel = new DeleteAccountModel();
+            return this.View(deleteModel);
         }
 
         [HttpPost]
         [ActionName("DeleteAccount")]
         public async Task<IActionResult> DeleteAccount(DeleteAccountModel model)
         {
-            var currentUser = await userManager.GetUserAsync(this.User);
+            var currentUser = await this.GetTheCurrentUserAsync();
             if (currentUser == null)
             {
                 return NotFound();
@@ -192,6 +186,13 @@ namespace PandaWeb.Controllers
             {
                 return this.View(model);
             }
+        }
+
+        [NonAction]
+        private async Task<PandaUser> GetTheCurrentUserAsync()
+        {
+            var currentUser = await userManager.GetUserAsync(this.User);
+            return currentUser;
         }
         [NonAction]
         private string FullNameCreator(string firstName, string lastName)
