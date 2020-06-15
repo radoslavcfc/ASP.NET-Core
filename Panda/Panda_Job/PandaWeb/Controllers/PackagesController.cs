@@ -116,7 +116,7 @@ namespace Panda.App.Controllers
                         .ShortenedAddressToString(
                                 this.addressesService
                                     .GetAddressById(
-                                        p.ShippingAddress)),
+                                        p.ShippingAddress).Result),
                     RecipientFullName = 
                         (this.usersService.GetUserById(p.RecipientId).FirstName + " " +
                         (this.usersService.GetUserById(p.RecipientId).LastName).Substring(0,1)),
@@ -158,7 +158,7 @@ namespace Panda.App.Controllers
                     Weight = p.Weight,
                     ShippingAddress = this.addressesService
                     .ShortenedAddressToString(this.addressesService.GetAddressById
-                    (p.ShippingAddress)),
+                    (p.ShippingAddress).Result),
                     RecipientFullName =
                         (this.usersService.GetUserById(p.RecipientId).FirstName + " " +
                         (this.usersService.GetUserById(p.RecipientId).LastName).Substring(0, 1)),
@@ -191,7 +191,7 @@ namespace Panda.App.Controllers
                 Id = package.Id,
                 ShippingAddress = this.addressesService
                     .ShortenedAddressToString(this.addressesService.GetAddressById
-                    (package.ShippingAddress)),
+                    (package.ShippingAddress).Result),
                 Status = package.Status.ToString(),
                 EstimatedDeliveryDate = package.EstimatedDeliveryDate?
                     .ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),

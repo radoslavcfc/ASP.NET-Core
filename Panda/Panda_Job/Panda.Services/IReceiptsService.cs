@@ -1,14 +1,16 @@
 ﻿using Panda.Domain;
-using System.Collections.Generic;
+
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Panda.Services
 {
     public interface IReceiptsService
     {
-        void CreateReceipt(Receipt receipt);
+        Task CreateReceipt(Receipt receipt);
 
-        List<Receipt> GetAllReceiptsWithRecipient();
+        IQueryable<Receipt> GetAllReceiptsWithRecipient();
 
-        List<Receipt> GetAllReceiptsWithRecipientAndPackage();
+        IQueryable<Receipt> GetAllReceiptsWithRecipientAndPackage();
     }
 }

@@ -28,7 +28,8 @@ namespace Panda.App.Controllers
                 
         public IActionResult Index()
         {
-            List<ReceiptViewModelByUser> myReceiptsOfUser = this.receiptsService.GetAllReceiptsWithRecipient()
+            List<ReceiptViewModelByUser> myReceiptsOfUser = this.receiptsService
+                .GetAllReceiptsWithRecipient()
                 .Select(receipt => new ReceiptViewModelByUser
                 {
                     Id = receipt.Id,
@@ -51,7 +52,8 @@ namespace Panda.App.Controllers
         [HttpGet("/Receipts/Details/{id}")]
         public IActionResult Details(string id)
         {
-            Receipt receiptFromDb = this.receiptsService.GetAllReceiptsWithRecipientAndPackage()
+            Receipt receiptFromDb = this.receiptsService
+                .GetAllReceiptsWithRecipientAndPackage()
                 .Where(receipt => receipt.Id == id)                
                 .SingleOrDefault();
 
@@ -64,7 +66,7 @@ namespace Panda.App.Controllers
                             .ShortenedAddressToString(
                                      this.addressesService
                                      .GetAddressById(receiptFromDb
-                                                .Package.ShippingAddress)),
+                                                .Package.ShippingAddress).Result),
                 PackageWeight = receiptFromDb.Package.Weight,
                 PackageDescription = receiptFromDb.Package.Description,
                 IssuedOn = receiptFromDb.IssuedOn.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)

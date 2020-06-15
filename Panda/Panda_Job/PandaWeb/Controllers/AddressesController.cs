@@ -116,7 +116,7 @@ namespace Panda_Job.Controllers
 
         public ActionResult Delete(string id)
         {
-            var addressFromDb = this.addressesService.GetAddressById(id);
+            var addressFromDb = this.addressesService.GetAddressById(id).Result;
             var model = new DeleteAddressModel
             {
                 Id = id,
@@ -140,7 +140,7 @@ namespace Panda_Job.Controllers
 
         public ActionResult Edit(string id)
         {
-            var address = this.addressesService.GetAddressById(id);
+            var address = this.addressesService.GetAddressById(id).Result;
             var model = new AddOrEditNewAddressModel
             {
                 Id = address.Id,
@@ -168,7 +168,7 @@ namespace Panda_Job.Controllers
         public ActionResult Update(AddOrEditNewAddressModel model)
         {
             var idForUpdate = model.Id;
-            var addressToUpdate = this.addressesService.GetAddressById(idForUpdate);
+            var addressToUpdate = this.addressesService.GetAddressById(idForUpdate).Result;
             if (!ModelState.IsValid)
             {
                 return this.View("Preview",model);
