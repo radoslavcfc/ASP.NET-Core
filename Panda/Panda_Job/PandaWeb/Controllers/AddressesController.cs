@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
+
 using Panda.Domain;
 using Panda.Domain.Enums;
 using Panda.Services;
@@ -69,15 +69,9 @@ namespace Panda_Job.Controllers
             {
                 model.AddressType = AddressType.Primary;
             }
-
             else
             {
                 model.AddressType = AddressType.Alternative;
-            }
-
-            if (model.PropertyType == PropertyType.House)
-            {
-                ModelState["FlatModel.Apartment"].ValidationState = ModelValidationState.Valid;
             }
 
             //The model state is checked after the system allocate the type of the address automatically
