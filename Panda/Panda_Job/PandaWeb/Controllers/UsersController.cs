@@ -127,7 +127,7 @@ namespace PandaWeb.Controllers
 
             await this.userManager.UpdateAsync(currentUser);
             await this.userManager.UpdateNormalizedEmailAsync(currentUser);
-            this.usersService.SaveToDataBaseAsync();
+            await this.usersService.SaveToDataBaseAsync();
             return this.Redirect("/Users/ShowData");
         }
 

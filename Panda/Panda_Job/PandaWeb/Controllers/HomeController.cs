@@ -12,21 +12,22 @@ namespace Panda.App.Controllers
     public class HomeController : Controller
     {
         private readonly IUsersService usersService;
+        private readonly IAddressesService addressesService;
+
         public HomeController(IUsersService usersService, IAddressesService addressesService)
         {
             this.usersService = usersService;
-            AddressesService = addressesService;
+            this.addressesService = addressesService;
         }
-        public IAddressesService AddressesService { get; }
+        
 
         public IActionResult Index()
         {
-
             if (this.User.Identity.IsAuthenticated)
             {
                 var currentUserName = this.User.Identity.Name;
                 var currentUser = this.usersService.GetUserByUserName(currentUserName);
-                var currentUserAddressesCount = this.AddressesService.CountOfAddressesPerUser(currentUser);
+                var currentUserAddressesCount = this.addressesService.CountOfAddressesPerUser(currentUser);
                 if (currentUserAddressesCount == 0)
                 {
                     var addressModel = new AddOrEditNewAddressModel();

@@ -71,6 +71,9 @@ namespace Panda.Services
         {
             var user = await this.pandaDbContext.Users.Where(u => u.Id == currentUser.Id).FirstOrDefaultAsync();
             user.IsDeleted = true;
+            user.UserName = null;
+            user.PasswordHash = null;
+            user.NormalizedUserName = null;
             await this.pandaDbContext.SaveChangesAsync();
             return true;
         }
