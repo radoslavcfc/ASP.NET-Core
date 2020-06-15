@@ -22,7 +22,7 @@
                     <th scope="row">@rowNumber</th>
                     <td>@user.FullName</td>
                     <td>@user.PhoneNumber</td>
-                    <td><a asp-controller="Users" asp-action="Details" asp-route-fullName="@user.FullName">More...</a></td>
+                    <td><a asp-controller="Users" asp-action="Details" asp-route-fullName="@user.Id">More...</a></td>
                 </tr>
                 rowNumber++;
             }

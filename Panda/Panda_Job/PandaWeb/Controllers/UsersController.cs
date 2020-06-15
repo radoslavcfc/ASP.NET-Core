@@ -72,10 +72,9 @@ namespace PandaWeb.Controllers
         }
 
 
-        public IActionResult Details(string fullName)
+        public IActionResult Details(string id)
         {
-           
-            var user = this.usersService.GetUserByFullName(fullName);
+            var user = this.usersService.GetUserById(id).Result;
             var model = new UserDetailViewModel
             {
                 Id = user.Id,

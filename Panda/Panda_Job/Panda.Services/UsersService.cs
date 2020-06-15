@@ -16,50 +16,22 @@ namespace Panda.Services
             this.pandaDbContext = pandaDbContext;
         }
 
-        public PandaUser GetUserById(string Id)
+        public async Task<PandaUser> GetUserById(string Id)
         {
-            PandaUser userDb = this.pandaDbContext
+            PandaUser userDb = await this.pandaDbContext
                 .Users
-                .SingleOrDefault
-                    (user => 
-                        user.Id == Id);
-
-            return userDb;
-        }
-
-        public PandaUser GetUserByUserName(string userName)
-        {
-            PandaUser userDb = this.pandaDbContext
-                .Users
-                .SingleOrDefault
-                    (user => 
-                        user.UserName == userName);
-            
-            return userDb;
-        }
-
-        public PandaUser GetUserByFullName(string fullName)
-        {
-            var firstName = fullName.Split(' ')[0];
-            PandaUser userDb = this.pandaDbContext
-                .Users
-                .SingleOrDefault
+                .FirstOrDefaultAsync
                     (user =>
-                        user.FirstName == firstName);
+                        user.Id == Id &&
+                        user.IsDeleted == false);
 
             return userDb;
         }
-        public void UpdateUserInfo (PandaUser user)
+
+        public async Task UpdateUserInfo(PandaUser user)
         {
-            try
-            {
-                this.pandaDbContext.Update(user);
-                this.pandaDbContext.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                    throw;
-            };
+            this.pandaDbContext.Update(user);
+            await this.pandaDbContext.SaveChangesAsync();
         }
 
         public async Task SaveToDataBaseAsync()
@@ -69,11 +41,14 @@ namespace Panda.Services
 
         public async Task<bool> DeleteAccountAsync(PandaUser currentUser)
         {
-            var user = await this.pandaDbContext.Users.Where(u => u.Id == currentUser.Id).FirstOrDefaultAsync();
+            var user = await this.pandaDbContext.Users
+                .Where(u => u.Id == currentUser.Id).FirstOrDefaultAsync();
+
             user.IsDeleted = true;
             user.UserName = null;
             user.PasswordHash = null;
             user.NormalizedUserName = null;
+
             await this.pandaDbContext.SaveChangesAsync();
             return true;
         }
@@ -84,7 +59,7 @@ namespace Panda.Services
         /// equivalent to the UserManager.GetUsersInRoleAsync("admin");
         /// </summary>
         /// <returns></returns>
-        public List<PandaUser> GetAllUsersNoAdmins()
+        public IQueryable<PandaUser> GetAllUsersNoAdmins()
         {
             //CREATE PROCEDURE UsersOnlyInfo AS
             //SELECT U.[Id] ,U.[UserName] ,U.[NormalizedUserName],U.[Email] ,U.[NormalizedEmail] ,U.[EmailConfirmed] ,U.[PasswordHash],
@@ -97,7 +72,8 @@ namespace Panda.Services
             //ON UR.RoleId = r.Id
             //WHERE R.Name != 'Admin' AND U.IsDeleted = 0;
 
-            var users = this.pandaDbContext.Users.FromSqlRaw("EXEC UsersOnlyInfo").ToList();
+            var users = this.pandaDbContext.Users
+                .FromSqlRaw("EXEC UsersOnlyInfo");
             return users;
         }
     }

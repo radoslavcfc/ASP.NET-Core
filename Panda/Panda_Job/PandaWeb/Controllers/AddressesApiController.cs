@@ -23,7 +23,7 @@ namespace PandaWeb.Controllers
         [Route("addresses/api/fetch", Order = 1)]
         public ActionResult<ListOfAddresesWithCountModel> AddressesFetch(UserApiModel inputModel)
         {
-            var currentUser = this.usersService.GetUserById(inputModel.Id);
+            var currentUser = this.usersService.GetUserById(inputModel.Id).Result;
             var count = addressesService.CountOfAddressesPerUser(currentUser);
 
             var listModel = new ListOfAddresesWithCountModel();

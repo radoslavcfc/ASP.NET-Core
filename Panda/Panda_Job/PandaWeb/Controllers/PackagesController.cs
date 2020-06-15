@@ -19,20 +19,17 @@ namespace Panda.App.Controllers
         private readonly UserManager<PandaUser> userManager;
         private readonly IUsersService usersService;
         private readonly IPackagesService packagesService;
-    
         private readonly IAddressesService addressesService;
 
         public PackagesController(
             UserManager<PandaUser> userManager,
             IUsersService usersService, 
-            IPackagesService packagesService,
-           
+            IPackagesService packagesService,           
             IAddressesService addressesService)
         {
             this.userManager = userManager;
             this.usersService = usersService;
-            this.packagesService = packagesService;
-           
+            this.packagesService = packagesService;           
             this.addressesService = addressesService;
         }
 
@@ -118,8 +115,8 @@ namespace Panda.App.Controllers
                                     .GetAddressById(
                                         p.ShippingAddress).Result),
                     RecipientFullName = 
-                        (this.usersService.GetUserById(p.RecipientId).FirstName + " " +
-                        (this.usersService.GetUserById(p.RecipientId).LastName).Substring(0,1)),
+                        (this.usersService.GetUserById(p.RecipientId).Result.FirstName + " " +
+                        (this.usersService.GetUserById(p.RecipientId).Result.LastName).Substring(0,1)),
                     RecipientId = p.RecipientId
 
                 }).ToList();
@@ -135,16 +132,6 @@ namespace Panda.App.Controllers
             }           
         }
 
-        [HttpGet("/Packages/Deliver/{packageId}")]
-
-        public IActionResult Deliver(string packageId)
-        {
-            var currentPackage = this.packagesService.GetPackage(packageId);
-            currentPackage.Status = PackageStatus.Delivered;
-            this.packagesService.UpdatePackage(currentPackage);
-            
-            return this.Redirect($"/Receipts/Create/{packageId}");
-        }
 
         [HttpGet]
         public IActionResult Delivered()
@@ -160,8 +147,8 @@ namespace Panda.App.Controllers
                     .ShortenedAddressToString(this.addressesService.GetAddressById
                     (p.ShippingAddress).Result),
                     RecipientFullName =
-                        (this.usersService.GetUserById(p.RecipientId).FirstName + " " +
-                        (this.usersService.GetUserById(p.RecipientId).LastName).Substring(0, 1)),
+                        (this.usersService.GetUserById(p.RecipientId).Result.FirstName + " " +
+                        (this.usersService.GetUserById(p.RecipientId).Result.LastName).Substring(0, 1)),
                     RecipientId = p.RecipientId
                 }).ToList();
 
@@ -185,7 +172,9 @@ namespace Panda.App.Controllers
         [HttpGet]
         public IActionResult Details(string Id)
         {
-            var package = this.packagesService.GetPackage(Id);
+            var package = this.packagesService
+                .GetPackage(Id).Result;
+
             var model = new PackageDetailsViewModel
             {
                 Id = package.Id,
@@ -199,8 +188,21 @@ namespace Panda.App.Controllers
                 RecipientFullName = package.Recipient.FirstName + " " + package.Recipient.LastName.Substring(0,1),
                 Description = package.Description
             };
+
             return this.View(model);
         }
 
+        [HttpGet("/Packages/Deliver/{packageId}")]
+
+        public IActionResult Deliver(string packageId)
+        {
+            var currentPackage = this.packagesService
+                .GetPackage(packageId).Result;
+
+            currentPackage.Status = PackageStatus.Delivered;
+            this.packagesService.UpdatePackage(currentPackage);
+
+            return this.Redirect($"/Receipts/Create/{packageId}");
+        }
     }
 }

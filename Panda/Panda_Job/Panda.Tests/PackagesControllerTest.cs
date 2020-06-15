@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
-using Panda.App.Controllers;
 using Panda.Domain;
 using Panda.Services;
 using System.Collections.Generic;

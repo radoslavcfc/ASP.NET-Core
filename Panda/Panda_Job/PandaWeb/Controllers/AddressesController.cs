@@ -63,7 +63,7 @@ namespace Panda_Job.Controllers
         public IActionResult Save(AddOrEditNewAddressModel model)
         {
             var userId = this.userManager.GetUserId(this.User);
-            var user = this.usersService.GetUserById(userId);
+            var user = this.usersService.GetUserById(userId).Result;
 
             if (this.addressesService.CountOfAddressesPerUser(user) == 0)
             {

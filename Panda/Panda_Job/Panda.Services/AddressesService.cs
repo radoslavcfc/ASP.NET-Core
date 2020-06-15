@@ -46,7 +46,7 @@ namespace Panda.Services
                .Addresses
                .Where(a => a.Id == addressId && a.IsDeleted == false)
                .Include(a => a.Flat)
-               .FirstAsync();
+               .FirstOrDefaultAsync();
             return addresFromDb;
         }
 
@@ -69,7 +69,7 @@ namespace Panda.Services
         {
             var addres = await this.pandaDbContext.Addresses
                 .Where(a => a.Id == id)
-                .FirstAsync();
+                .FirstOrDefaultAsync();
 
              addres.IsDeleted = true;
 

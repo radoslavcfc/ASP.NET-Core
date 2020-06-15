@@ -3,6 +3,7 @@ using Panda.Data;
 using Panda.Domain;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Panda.Services
 {
@@ -15,37 +16,28 @@ namespace Panda.Services
             this.pandaDbContext = pandaDbContext;
         }
 
-        public void CreatePackage(Package package)
+        public async Task CreatePackage(Package package)
         {
-            this.pandaDbContext.Packages.Add(package);
-            this.pandaDbContext.SaveChanges();
+            await this.pandaDbContext.Packages
+                .AddAsync(package);
+            await this.pandaDbContext.SaveChangesAsync();
         }
 
-        public Package GetPackage(string id)
+        public async Task<Package> GetPackage(string id)
         {
-            Package package = this.pandaDbContext
+            Package package = await this.pandaDbContext
                 .Packages
-                .Where(packageDb => packageDb.Id == id 
+                .Where(packageDb => packageDb.Id == id
                             && packageDb.IsDeleted == false)
                 .Include(packageDb => packageDb.Recipient)
-                .SingleOrDefault();
+                .FirstOrDefaultAsync();
 
             return package;
         }
-
-       
-        public IQueryable<Package> GetPackagesWithRecipientAndStatus()
-        {
-            IQueryable<Package> packageWithRecipiuentAndStatusDb =
-                    pandaDbContext.Packages
-                 .Include(package => package.Recipient);
-
-            return packageWithRecipiuentAndStatusDb;
-        }
-        public void UpdatePackage(Package package)
+        public async Task UpdatePackage(Package package)
         {
             this.pandaDbContext.Update(package);
-            this.pandaDbContext.SaveChanges();
+            await this.pandaDbContext.SaveChangesAsync();
         }
 
         public IQueryable<Package> GetAllPackages()

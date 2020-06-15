@@ -1,16 +1,16 @@
 ﻿using Panda.Domain;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Panda.Services
 {
     public interface IUsersService
     {
-        List<PandaUser> GetAllUsersNoAdmins();
-        PandaUser GetUserById(string Id);
-        PandaUser GetUserByUserName(string UserName);
-        PandaUser GetUserByFullName(string fullName);
-        void UpdateUserInfo(PandaUser user);
+        IQueryable<PandaUser> GetAllUsersNoAdmins();
+        Task<PandaUser> GetUserById(string Id);
+              
+        Task UpdateUserInfo(PandaUser user);
         Task SaveToDataBaseAsync();
         Task<bool> DeleteAccountAsync(PandaUser currentUser);
     }

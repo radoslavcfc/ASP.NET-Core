@@ -1,19 +1,19 @@
 ﻿using Panda.Domain;
-using System.Collections.Generic;
+
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Panda.Services
 {
     public interface IPackagesService
     {
-        void CreatePackage(Package package);
+        Task CreatePackage(Package package);
 
-        Package GetPackage(string id);
+        Task<Package> GetPackage(string id);
 
         IQueryable<Package> GetAllPackages();
 
-        void UpdatePackage(Package package);
-
-        IQueryable<Package> GetPackagesWithRecipientAndStatus();
+        Task UpdatePackage(Package package);
+               
     }
 }

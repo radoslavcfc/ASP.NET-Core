@@ -5,6 +5,7 @@ using PandaWeb.Models.Address;
 using PandaWeb.Models.Error;
 using System;
 using System.Diagnostics;
+using System.Security.Claims;
 
 namespace Panda.App.Controllers
 {
@@ -23,9 +24,10 @@ namespace Panda.App.Controllers
         {
             if (this.User.Identity.IsAuthenticated)
             {
-                var currentUserName = this.User.Identity.Name;
-                var currentUser = this.usersService.GetUserByUserName(currentUserName);
-                var currentUserAddressesCount = this.addressesService.CountOfAddressesPerUser(currentUser);
+                var currentUser = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var user = this.usersService.GetUserById(currentUser).Result;
+
+                var currentUserAddressesCount = this.addressesService.CountOfAddressesPerUser(user);
                 if (currentUserAddressesCount == 0)
                 {
                     var addressModel = new AddOrEditNewAddressModel();
