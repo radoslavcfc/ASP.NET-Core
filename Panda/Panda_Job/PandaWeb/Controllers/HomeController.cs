@@ -19,8 +19,6 @@ namespace Panda.App.Controllers
             this.usersService = usersService;
             this.addressesService = addressesService;
         }
-        
-
         public IActionResult Index()
         {
             if (this.User.Identity.IsAuthenticated)

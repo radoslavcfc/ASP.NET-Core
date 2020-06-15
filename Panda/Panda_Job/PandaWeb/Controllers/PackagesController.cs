@@ -39,7 +39,7 @@ namespace Panda.App.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
-            var viewModel = new PackageCreateBindingModel();
+            var viewModel = new PackageCreateModel();
           
             viewModel.UsersCollection = this.userManager
                 .GetUsersInRoleAsync("user")
@@ -54,7 +54,7 @@ namespace Panda.App.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public IActionResult Create(PackageCreateBindingModel bindingModel)
+        public IActionResult Create(PackageCreateModel bindingModel)
         {
             if (!this.ModelState.IsValid)
             {

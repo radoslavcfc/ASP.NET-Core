@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PandaWeb.Models.Package
 {
-    public class PackageCreateBindingModel
+    public class PackageCreateModel
     {
         [Required]
         [StringLength(100, ErrorMessage = "Description invalid.", MinimumLength = 5)]
