@@ -184,6 +184,7 @@ namespace PandaWeb.Controllers
             var currentUserPass = await this.userManager.CheckPasswordAsync(currentUser, model.Password);
             if (currentUserPass)
             {
+                await this.usersService.DeleteAccountAsync(currentUser);
                 await this.signInManager.SignOutAsync();
                 
                 return this.RedirectToAction("Index", "Home");

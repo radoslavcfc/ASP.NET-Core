@@ -62,9 +62,17 @@ namespace Panda.Services
             };
         }
 
-        public async void SaveToDataBaseAsync()
+        public async Task SaveToDataBaseAsync()
         {
             await this.pandaDbContext.SaveChangesAsync();
+        }
+
+        public async Task<bool> DeleteAccountAsync(PandaUser currentUser)
+        {
+            var user = await this.pandaDbContext.Users.Where(u => u.Id == currentUser.Id).FirstOrDefaultAsync();
+            user.IsDeleted = true;
+            await this.pandaDbContext.SaveChangesAsync();
+            return true;
         }
 
         /// <summary>

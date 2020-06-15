@@ -1,4 +1,5 @@
 ﻿using Panda.Domain;
+using System.Threading.Tasks;
 
 namespace Panda.Services
 {
@@ -9,6 +10,7 @@ namespace Panda.Services
         PandaUser GetUserByUserName(string UserName);
         PandaUser GetUserByFullName(string fullName);
         void UpdateUserInfo(PandaUser user);
-        void SaveToDataBaseAsync();
+        Task SaveToDataBaseAsync();
+        Task<bool> DeleteAccountAsync(PandaUser currentUser);
     }
 }

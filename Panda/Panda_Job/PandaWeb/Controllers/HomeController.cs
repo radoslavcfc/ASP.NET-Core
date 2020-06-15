@@ -21,6 +21,7 @@ namespace Panda.App.Controllers
 
         public IActionResult Index()
         {
+
             if (this.User.Identity.IsAuthenticated)
             {
                 var currentUserName = this.User.Identity.Name;
