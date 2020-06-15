@@ -9,10 +9,10 @@ namespace Panda.Services
     {
         Task CreateAddressAsync(Address address);
         int CountOfAddressesPerUser(PandaUser user);
-        IQueryable<Address> ListOfAddressesByUser(string userName);
-        Task<Address> GetAddressByIdAsync(string addressId);
+        IQueryable<Address> ListOfAddressesByUser(string userName);      
         string ShortenedAddressToString(Address fullAddress);
         Task MarkAsDeletedAsync(string id);
         Task UpdateAddressAsync(Address addressToUpdate);
+        Task<Address> GetAddressByIdAsync(string addressId);
     }
 }

@@ -28,7 +28,18 @@ namespace Panda.Services
 
             return userDb;
         }
+        public PandaUser GetUserById(string Id)
+        {
+            PandaUser userDb = this.pandaDbContext
+                .Users
+                .Include(p => p.Addresses)
+                .FirstOrDefault
+                    (user =>
+                        user.Id == Id &&
+                        user.IsDeleted == false);
 
+            return userDb;
+        }
         public async Task UpdateUserInfoAsync(PandaUser user)
         {
             this.pandaDbContext.Update(user);

@@ -52,7 +52,7 @@ namespace Panda.App.Controllers
         }
 
         [HttpGet("/Receipts/Details/{id}")]
-        public IActionResult Details(string id)
+        public async Task<IActionResult> Details(string id)
         {
             Receipt receiptFromDb = this.receiptsService
                 .GetAllReceiptsWithRecipientAndPackage()
@@ -66,9 +66,9 @@ namespace Panda.App.Controllers
                 Recipient = receiptFromDb.Recipient.UserName,
                 DeliveryAddress = this.addressesService
                             .ShortenedAddressToString(
-                                     this.addressesService
+                                     await this.addressesService
                                      .GetAddressByIdAsync(receiptFromDb
-                                                .Package.ShippingAddress).Result),
+                                                .Package.ShippingAddress)),
                 PackageWeight = receiptFromDb.Package.Weight,
                 PackageDescription = receiptFromDb.Package.Description,
                 IssuedOn = receiptFromDb.IssuedOn.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)

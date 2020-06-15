@@ -40,13 +40,14 @@ namespace Panda.Services
            await this.pandaDbContext.SaveChangesAsync();
         }
 
-        public async Task<Address> GetAddressByIdAsync(string addressId)
+       
+        public Task<Address> GetAddressByIdAsync(string addressId)
         {
-            var addresFromDb = await this.pandaDbContext
-               .Addresses
-               .Where(a => a.Id == addressId && a.IsDeleted == false)
-               .Include(a => a.Flat)
-               .FirstOrDefaultAsync();
+            var addresFromDb = this.pandaDbContext
+              .Addresses
+              .Where(a => a.Id == addressId && a.IsDeleted == false)
+              .Include(a => a.Flat)
+              .FirstOrDefaultAsync();
             return addresFromDb;
         }
 
@@ -111,5 +112,7 @@ namespace Panda.Services
             }
             return addressToString;
         }
+
+        
     }
 }
