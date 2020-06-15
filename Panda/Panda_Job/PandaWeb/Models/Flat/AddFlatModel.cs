@@ -8,6 +8,6 @@ namespace PandaWeb.Models.Flat
         public string Entrance { get; set; }
 
         [Required]
-        public int Apartment { get; set; }
+        public int? Apartment { get; set; }
     }
 }
