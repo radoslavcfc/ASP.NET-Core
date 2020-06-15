@@ -10,6 +10,7 @@ using System;
 using System.Globalization;
 using System.Linq;
 using PandaWeb.Models.User;
+using System.Threading.Tasks;
 
 namespace Panda.App.Controllers
 {
@@ -32,51 +33,10 @@ namespace Panda.App.Controllers
             this.packagesService = packagesService;           
             this.addressesService = addressesService;
         }
-
-        [Authorize(Roles = "Admin")]
-        public IActionResult Create()
-        {
-            var viewModel = new PackageCreateModel();
-
-            viewModel.UsersCollection =
-               this.usersService.GetAllUsersNoAdmins()
-               .Select(u => new UserDropDownModel
-               {
-                   Id = u.Id,
-                   Name = u.UserName
-               });
-            
-            return this.View(viewModel);
-        }
-
-        [HttpPost]
-        [Authorize(Roles = "Admin")]
-        public IActionResult Create(PackageCreateModel bindingModel)
-        {
-            if (!this.ModelState.IsValid)
-            {
-                return this.Redirect("/Packages/Create");
-            }
-
-            Package package = new Package
-            {
-                Description = bindingModel.Description,
-                RecipientId = bindingModel.Recipient,
-                ShippingAddress = bindingModel.ShippingAddress,
-                Weight = bindingModel.Weight,
-                Status = PackageStatus.Pending,
-                EstimatedDeliveryDate = DateTime.UtcNow.AddDays(4)
-            };
-
-            this.packagesService.CreatePackageAsync(package);
-            TempData["SuccessCreatedPackage"] = "A New package has been successfuly created!";
-            return this.Redirect($"/Packages/Details/{package.Id}");
-        }
-
         [HttpGet]
         public IActionResult Index()
         {
-            var collection = this.packagesService.GetAllPackages()                
+            var collection = this.packagesService.GetAllPackages()
                 .Select(p => new PackageHomeViewModel
                 {
                     Id = p.Id,
@@ -97,6 +57,46 @@ namespace Panda.App.Controllers
                      .ToList();
                 return this.View(personalColl);
             }
+        }
+
+        [Authorize(Roles = "Admin")]
+        public IActionResult Create()
+        {
+            var viewModel = new PackageCreateModel();
+
+            viewModel.UsersCollection =
+               this.usersService.GetAllUsersNoAdmins()
+               .Select(u => new UserDropDownModel
+               {
+                   Id = u.Id,
+                   Name = u.UserName
+               });
+            
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Create(PackageCreateModel bindingModel)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.Redirect("/Packages/Create");
+            }
+
+            Package package = new Package
+            {
+                Description = bindingModel.Description,
+                RecipientId = bindingModel.Recipient,
+                ShippingAddress = bindingModel.ShippingAddress,
+                Weight = bindingModel.Weight,
+                Status = PackageStatus.Pending,
+                EstimatedDeliveryDate = DateTime.UtcNow.AddDays(4)
+            };
+
+            await this.packagesService.CreatePackageAsync(package);
+            TempData["SuccessCreatedPackage"] = "A New package has been successfuly created!";
+            return this.Redirect($"/Packages/Details/{package.Id}");
         }
 
         [HttpGet]
@@ -120,14 +120,16 @@ namespace Panda.App.Controllers
                     RecipientId = p.RecipientId
 
                 }).ToList();
+
             if (this.User.IsInRole("Admin"))
             {
                 return this.View(model);
             }
             else
             {
-               
-                var personalCol = model.Where(p => p.RecipientId == this.userManager.GetUserId(this.User)).ToList();
+                var personalCol = model
+                    .Where(p => p.RecipientId == this.userManager
+                                .GetUserId(this.User)).ToList();
                 return this.View(personalCol);
             }           
         }
@@ -170,17 +172,17 @@ namespace Panda.App.Controllers
         }
 
         [HttpGet]
-        public IActionResult Details(string Id)
+        public async Task<IActionResult> Details(string Id)
         {
-            var package = this.packagesService
-                .GetPackageAsync(Id).Result;
+            var package = await this.packagesService
+                .GetPackageAsync(Id);
 
             var model = new PackageDetailsViewModel
             {
                 Id = package.Id,
                 ShippingAddress = this.addressesService
-                    .ShortenedAddressToString(this.addressesService.GetAddressByIdAsync
-                    (package.ShippingAddress).Result),
+                    .ShortenedAddressToString(
+                        await this.addressesService.GetAddressByIdAsync(package.ShippingAddress)),
                 Status = package.Status.ToString(),
                 EstimatedDeliveryDate = package.EstimatedDeliveryDate?
                     .ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
@@ -194,13 +196,18 @@ namespace Panda.App.Controllers
 
         [HttpGet("/Packages/Deliver/{packageId}")]
 
-        public IActionResult Deliver(string packageId)
+        public async Task<IActionResult> Deliver(string packageId)
         {
-            var currentPackage = this.packagesService
-                .GetPackageAsync(packageId).Result;
+            var currentPackage = await this.packagesService
+                .GetPackageAsync(packageId);
+
+            if (currentPackage == null)
+            {
+                return this.NotFound();
+            }
 
             currentPackage.Status = PackageStatus.Delivered;
-            this.packagesService.UpdatePackageAsync(currentPackage);
+            await  this.packagesService.UpdatePackageAsync(currentPackage);
 
             return this.Redirect($"/Receipts/Create/{packageId}");
         }
