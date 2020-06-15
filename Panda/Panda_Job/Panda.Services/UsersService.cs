@@ -84,21 +84,21 @@ namespace Panda.Services
         /// equivalent to the UserManager.GetUsersInRoleAsync("admin");
         /// </summary>
         /// <returns></returns>
-        //public List<PandaUser> GetAllUsersNoAdmins()
-        //{
-        //    //CREATE PROCEDURE UsersOnlyInfo AS
-        //    //SELECT U.[Id] ,U.[UserName] ,U.[NormalizedUserName],U.[Email] ,U.[NormalizedEmail] ,U.[EmailConfirmed] ,U.[PasswordHash],
-        //    //U.[SecurityStamp] ,U.[ConcurrencyStamp] ,U.[PhoneNumber] ,U.[PhoneNumberConfirmed] ,U.[TwoFactorEnabled],U.[LockoutEnd],
-        //    //U.[LockoutEnabled],U.[AccessFailedCount],U.[UserRoleId],U.[FirstName],U.[LastName],U.[SecondContactNumber] ,U.[RegisteredOn]
-        //    //FROM[PandaDB].[dbo].[AspNetUsers] AS U
-        //    //LEFT JOIN[PandaDB].[dbo].[AspNetUserRoles] AS UR
-        //    //ON U.Id = UR.UserId
-        //    //LEFT JOIN[PandaDB].[dbo].[AspNetRoles] AS R
-        //    //ON UR.RoleId = r.Id
-        //    //WHERE R.Name != 'Admin';
+        public List<PandaUser> GetAllUsersNoAdmins()
+        {
+            //CREATE PROCEDURE UsersOnlyInfo AS
+            //SELECT U.[Id] ,U.[UserName] ,U.[NormalizedUserName],U.[Email] ,U.[NormalizedEmail] ,U.[EmailConfirmed] ,U.[PasswordHash],
+            //U.[SecurityStamp] ,U.[ConcurrencyStamp] ,U.[PhoneNumber] ,U.[PhoneNumberConfirmed] ,U.[TwoFactorEnabled],U.[LockoutEnd],
+            //U.[LockoutEnabled],U.[AccessFailedCount],U.[UserRoleId],U.[FirstName],U.[LastName],U.[SecondContactNumber] ,U.[RegisteredOn]
+            //FROM[PandaDB].[dbo].[AspNetUsers] AS U
+            //LEFT JOIN[PandaDB].[dbo].[AspNetUserRoles] AS UR
+            //ON U.Id = UR.UserId
+            //LEFT JOIN[PandaDB].[dbo].[AspNetRoles] AS R
+            //ON UR.RoleId = r.Id
+            //WHERE R.Name != 'Admin' AND U.IsDeleted = 0;
 
-        //    var users = this.pandaDbContext.Users.FromSqlRaw("EXEC UsersOnlyInfo").ToList();
-        //    return users;
-        //}
+            var users = this.pandaDbContext.Users.FromSqlRaw("EXEC UsersOnlyInfo").ToList();
+            return users;
+        }
     }
 }

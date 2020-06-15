@@ -23,17 +23,21 @@ namespace Panda.Services
 
         public Package GetPackage(string id)
         {
-            Package package = this.pandaDbContext.Packages
-                .Where(packageDb => packageDb.Id == id)
+            Package package = this.pandaDbContext
+                .Packages
+                .Where(packageDb => packageDb.Id == id 
+                            && packageDb.IsDeleted == false)
                 .Include(packageDb => packageDb.Recipient)
                 .SingleOrDefault();
+
             return package;
         }
 
        
         public IQueryable<Package> GetPackagesWithRecipientAndStatus()
         {
-            IQueryable<Package> packageWithRecipiuentAndStatusDb = pandaDbContext.Packages
+            IQueryable<Package> packageWithRecipiuentAndStatusDb =
+                    pandaDbContext.Packages
                  .Include(package => package.Recipient);
 
             return packageWithRecipiuentAndStatusDb;
@@ -44,9 +48,11 @@ namespace Panda.Services
             this.pandaDbContext.SaveChanges();
         }
 
-        public ICollection<Package> GetAllPackages()
+        public IQueryable<Package> GetAllPackages()
         {
-            var collection = this.pandaDbContext.Packages.ToList();
+            var collection = this.pandaDbContext
+                .Packages
+                .Where(p => p.IsDeleted == false);
             return collection;
         }
     }

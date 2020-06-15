@@ -1,9 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Panda.Data;
 using Panda.Domain;
 using Panda.Domain.Enums;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -34,19 +32,21 @@ namespace Panda.Services
             return count;
         }
 
-        public void CreateAddress(Address address)
+        public async Task CreateAddress(Address address)
         {
-            this.pandaDbContext.Addresses.Add(address);
-            this.pandaDbContext.SaveChanges();
+           await this.pandaDbContext
+                .Addresses.AddAsync(address);
+
+           await this.pandaDbContext.SaveChangesAsync();
         }
 
-        public Address GetAddressById(string addressId)
+        public async Task<Address> GetAddressById(string addressId)
         {
-            var addresFromDb = this.pandaDbContext
-                .Addresses
-                .Where(a => a.Id == addressId && a.IsDeleted == false)
-                .Include(a => a.Flat)
-                .FirstOrDefault();
+            var addresFromDb = await this.pandaDbContext
+               .Addresses
+               .Where(a => a.Id == addressId && a.IsDeleted == false)
+               .Include(a => a.Flat)
+               .FirstAsync();
             return addresFromDb;
         }
 
@@ -58,11 +58,30 @@ namespace Panda.Services
 
             var list = this.pandaDbContext
                 .Addresses
-                .Where(a => a.UserId == user.FirstOrDefault().Id && a.IsDeleted == false)
+                .Where(a => a.UserId == user.FirstOrDefault().Id &&
+                            a.IsDeleted == false)
                 .OrderBy(a => a.AddressType)
                 .Include(a => a.Flat);
                 
             return list;
+        }
+        public  async Task MarkAsDeleted(string id)
+        {
+            var addres = await this.pandaDbContext.Addresses
+                .Where(a => a.Id == id)
+                .FirstAsync();
+
+             addres.IsDeleted = true;
+
+             await pandaDbContext.SaveChangesAsync();
+        }
+
+        public async Task UpdateAddress(Address addressToUpdate)
+        {
+            this.pandaDbContext.Addresses
+                .Update(addressToUpdate);
+
+            await this.pandaDbContext.SaveChangesAsync();
         }
 
         public string ShortenedAddressToString(Address fullAddress)
@@ -76,6 +95,7 @@ namespace Panda.Services
                 fullAddress.StreetName +
                 spacePlusComa +
                 fullAddress.Number;
+
             if (fullAddress.PropertyType == PropertyType.Flat)
             {
                 addressToString +=
@@ -87,25 +107,9 @@ namespace Panda.Services
                      fullAddress.Flat.Apartment +
                      spacePlusComa +
                      floor +
-                     fullAddress.Flat.Floor;    
+                     fullAddress.Flat.Floor;
             }
             return addressToString;
-        }
-
-        public  void MarkAsDeleted(string id)
-        {
-            var addres = this.pandaDbContext.Addresses
-                .Where(a => a.Id == id)
-                .FirstOrDefault();
-             addres.IsDeleted = true;
-             pandaDbContext.SaveChanges();
-        }
-
-
-        public void UpdateAddress(Address addressToUpdate)
-        {
-            this.pandaDbContext.Addresses.Update(addressToUpdate);
-            this.pandaDbContext.SaveChanges();
         }
     }
 }

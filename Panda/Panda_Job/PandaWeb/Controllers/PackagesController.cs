@@ -30,7 +30,7 @@ namespace Panda.App.Controllers
             IAddressesService addressesService)
         {
             this.userManager = userManager;
-           this.usersService = usersService;
+            this.usersService = usersService;
             this.packagesService = packagesService;
            
             this.addressesService = addressesService;
@@ -40,14 +40,14 @@ namespace Panda.App.Controllers
         public IActionResult Create()
         {
             var viewModel = new PackageCreateModel();
-          
-            viewModel.UsersCollection = this.userManager
-                .GetUsersInRoleAsync("user")
-                .Result.Select(u => new UserDropDownModel
-                     {
-                        Id = u.Id,
-                        Name = u.UserName
-                     });
+
+            viewModel.UsersCollection =
+               this.usersService.GetAllUsersNoAdmins()
+               .Select(u => new UserDropDownModel
+               {
+                   Id = u.Id,
+                   Name = u.UserName
+               });
             
             return this.View(viewModel);
         }

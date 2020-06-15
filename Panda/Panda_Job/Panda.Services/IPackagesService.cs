@@ -10,7 +10,7 @@ namespace Panda.Services
 
         Package GetPackage(string id);
 
-        ICollection<Package> GetAllPackages();
+        IQueryable<Package> GetAllPackages();
 
         void UpdatePackage(Package package);
 
