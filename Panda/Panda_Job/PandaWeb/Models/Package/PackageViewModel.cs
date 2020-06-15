@@ -1,6 +1,6 @@
 ﻿namespace PandaWeb.Models.Package
 {
-    public class PackageDeliveredViewModel
+    public class PackageViewModel
     {
         public string Id { get; set; }
 

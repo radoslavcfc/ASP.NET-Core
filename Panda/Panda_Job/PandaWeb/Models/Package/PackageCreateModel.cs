@@ -12,6 +12,7 @@ namespace PandaWeb.Models.Package
         public string Description { get; set; }
 
         [Required]
+        [Range(0.1, 1000, ErrorMessage = "Only positive number allowed")]
         [Display(Name ="Weight in kg")]       
         public double Weight { get; set; }
 

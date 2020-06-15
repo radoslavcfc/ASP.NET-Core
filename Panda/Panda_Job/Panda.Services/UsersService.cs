@@ -65,7 +65,7 @@ namespace Panda.Services
             //CREATE OR ALTER PROCEDURE UsersOnlyInfo AS
             //SELECT U.[Id] ,U.[UserName] ,U.[NormalizedUserName],U.[Email] ,U.[NormalizedEmail] ,U.[EmailConfirmed] ,U.[PasswordHash],
             //U.[SecurityStamp] ,U.[ConcurrencyStamp] ,U.[PhoneNumber] ,U.[PhoneNumberConfirmed] ,U.[TwoFactorEnabled],U.[LockoutEnd],
-            //U.[LockoutEnabled],U.[AccessFailedCount],U.[UserRoleId],U.[FirstName],U.[LastName],U.[SecondContactNumber] ,U.[RegisteredOn]
+            //U.[LockoutEnabled],U.[AccessFailedCount],U.[UserRoleId],U.[FirstName],U.[LastName],U.[SecondContactNumber] ,U.[RegisteredOn], U.[IsDeleted]
             //FROM[PandaDB].[dbo].[AspNetUsers] AS U
             //LEFT JOIN[PandaDB].[dbo].[AspNetUserRoles] AS UR
             //ON U.Id = UR.UserId

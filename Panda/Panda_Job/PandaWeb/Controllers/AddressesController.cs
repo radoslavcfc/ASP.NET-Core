@@ -50,18 +50,18 @@ namespace Panda_Job.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            var model = new AddOrEditNewAddressModel();
+            var model = new UpdateAddressModel();
             return this.View(model);
         }
 
         [HttpPost]
         [ActionName("Create")]
-        public IActionResult CreatePost(AddOrEditNewAddressModel model)
+        public IActionResult CreatePost(UpdateAddressModel model)
         {
             return this.View("Preview", model);
         }
 
-        public async Task<IActionResult> Save(AddOrEditNewAddressModel model)
+        public async Task<IActionResult> Save(UpdateAddressModel model)
         {
             var userId = this.userManager.GetUserId(this.User);
             var user = await this.usersService.GetUserByIdAsync(userId);
@@ -146,7 +146,7 @@ namespace Panda_Job.Controllers
         public async Task<ActionResult> Edit(string id)
         {
             var address = await this.addressesService.GetAddressByIdAsync(id);
-            var model = new AddOrEditNewAddressModel
+            var model = new UpdateAddressModel
             {
                 Id = address.Id,
                 Country = address.Country,
@@ -170,7 +170,7 @@ namespace Panda_Job.Controllers
             return this.View("Preview", model);
         }
 
-        public async Task<IActionResult> Update(AddOrEditNewAddressModel model)
+        public async Task<IActionResult> Update(UpdateAddressModel model)
         {
             var idForUpdate = model.Id;
             var addressToUpdate = await this.addressesService.GetAddressByIdAsync(idForUpdate);

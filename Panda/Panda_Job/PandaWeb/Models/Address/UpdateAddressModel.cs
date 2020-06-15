@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PandaWeb.Models.Address
 {
-    public class AddOrEditNewAddressModel
+    public class UpdateAddressModel
     {
 
         public string Id { get; set; }
@@ -21,6 +21,8 @@ namespace PandaWeb.Models.Address
 
         public PropertyType PropertyType { get; set; }
 
+        [Required]
+        [Range(1, 9999, ErrorMessage = "Only positive number allowed")]
         public int Number { get; set; }
         public AddFlatModel FlatModel { get; set; } 
 

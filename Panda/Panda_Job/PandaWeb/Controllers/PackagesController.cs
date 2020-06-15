@@ -91,6 +91,7 @@ namespace Panda.App.Controllers
                 ShippingAddress = bindingModel.ShippingAddress,
                 Weight = bindingModel.Weight,
                 Status = PackageStatus.Pending,
+                CreatedOn = DateTime.UtcNow,
                 EstimatedDeliveryDate = DateTime.UtcNow.AddDays(4)
             };
 
@@ -104,7 +105,7 @@ namespace Panda.App.Controllers
         {
             var model = this.packagesService.GetAllPackages()
                 .Where(p => p.Status == PackageStatus.Pending)
-                .Select(p => new PackagePendingViewModel
+                .Select(p => new PackageViewModel
                 {
                     Id = p.Id,
                     Description = p.Description,
@@ -134,13 +135,12 @@ namespace Panda.App.Controllers
             }           
         }
 
-
         [HttpGet]
         public IActionResult Delivered()
         {
             var model = this.packagesService.GetAllPackages()
                 .Where(p => p.Status == PackageStatus.Delivered)
-                .Select(p => new PackageDeliveredViewModel
+                .Select(p => new PackageViewModel
                 {
                     Id = p.Id,
                     Description = p.Description,

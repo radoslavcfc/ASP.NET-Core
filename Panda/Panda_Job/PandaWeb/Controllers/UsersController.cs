@@ -17,7 +17,7 @@ namespace PandaWeb.Controllers
         private readonly SignInManager<PandaUser> signInManager;
 
         public UsersController(IUsersService usersService, UserManager<PandaUser> userManager,
-            SignInManager<PandaUser> signInManager)
+           SignInManager<PandaUser> signInManager)
         {
             this.usersService = usersService;
             this.userManager = userManager;
@@ -74,15 +74,15 @@ namespace PandaWeb.Controllers
 
         public async Task<IActionResult> Details(string id)
         {
-            var currentUser = await this.GetTheCurrentUserAsync();
+            var selectedtUser = await this.usersService.GetUserByIdAsync(id);
             var model = new UserDetailViewModel
             {
-                Id = currentUser.Id,
-                FullName = this.FullNameCreator(currentUser.FirstName, currentUser.LastName),
-                Email = currentUser.Email,
-                PhoneNumber = currentUser.PhoneNumber,
-                RegisteredOn = currentUser.RegisteredOn.ToString("D"),
-                SecondContactNumber = currentUser.SecondContactNumber
+                Id = selectedtUser.Id,
+                FullName = this.FullNameCreator(selectedtUser.FirstName, selectedtUser.LastName),
+                Email = selectedtUser.Email,
+                PhoneNumber = selectedtUser.PhoneNumber,
+                RegisteredOn = selectedtUser.RegisteredOn.ToString("D"),
+                SecondContactNumber = selectedtUser.SecondContactNumber
             };
             return this.View(model);
         }
@@ -175,7 +175,7 @@ namespace PandaWeb.Controllers
                 return NotFound();
             }
             var currentUserPass = await this.userManager.CheckPasswordAsync(currentUser, model.Password);
-            if (currentUserPass)
+            if (currentUserPass && model.IAgree)
             {
                 await this.usersService.DeleteAccountAsync(currentUser);
                 await this.signInManager.SignOutAsync();
