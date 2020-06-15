@@ -7,14 +7,12 @@ namespace Panda.Services
 {
     public interface IAddressesService
     {
-        Task CreateAddress(Address address);
-
+        Task CreateAddressAsync(Address address);
         int CountOfAddressesPerUser(PandaUser user);
         IQueryable<Address> ListOfAddressesByUser(string userName);
-        Task<Address> GetAddressById(string addressId);
-
+        Task<Address> GetAddressByIdAsync(string addressId);
         string ShortenedAddressToString(Address fullAddress);
-        Task MarkAsDeleted(string id);
-        Task UpdateAddress(Address addressToUpdate);
+        Task MarkAsDeletedAsync(string id);
+        Task UpdateAddressAsync(Address addressToUpdate);
     }
 }

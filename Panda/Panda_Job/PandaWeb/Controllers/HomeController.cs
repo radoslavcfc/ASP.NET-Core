@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Panda.Services;
 using PandaWeb.Models.Address;
 using PandaWeb.Models.Error;
-using System;
 using System.Diagnostics;
 using System.Security.Claims;
 
@@ -22,19 +21,7 @@ namespace Panda.App.Controllers
         }
         public IActionResult Index()
         {
-            if (this.User.Identity.IsAuthenticated)
-            {
-                var currentUser = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-                var user = this.usersService.GetUserById(currentUser).Result;
-
-                var currentUserAddressesCount = this.addressesService.CountOfAddressesPerUser(user);
-                if (currentUserAddressesCount == 0)
-                {
-                    var addressModel = new AddOrEditNewAddressModel();
-                    return this.View(addressModel);
-                }
-            }
-            return this.View();
+           return this.View();
         }
 
         [AllowAnonymous]        

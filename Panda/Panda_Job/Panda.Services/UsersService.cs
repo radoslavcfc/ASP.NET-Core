@@ -16,10 +16,11 @@ namespace Panda.Services
             this.pandaDbContext = pandaDbContext;
         }
 
-        public async Task<PandaUser> GetUserById(string Id)
+        public async Task<PandaUser> GetUserByIdAsync(string Id)
         {
             PandaUser userDb = await this.pandaDbContext
                 .Users
+                .Include(p => p.Addresses)
                 .FirstOrDefaultAsync
                     (user =>
                         user.Id == Id &&
@@ -28,7 +29,7 @@ namespace Panda.Services
             return userDb;
         }
 
-        public async Task UpdateUserInfo(PandaUser user)
+        public async Task UpdateUserInfoAsync(PandaUser user)
         {
             this.pandaDbContext.Update(user);
             await this.pandaDbContext.SaveChangesAsync();
@@ -61,7 +62,7 @@ namespace Panda.Services
         /// <returns></returns>
         public IQueryable<PandaUser> GetAllUsersNoAdmins()
         {
-            //CREATE PROCEDURE UsersOnlyInfo AS
+            //CREATE OR ALTER PROCEDURE UsersOnlyInfo AS
             //SELECT U.[Id] ,U.[UserName] ,U.[NormalizedUserName],U.[Email] ,U.[NormalizedEmail] ,U.[EmailConfirmed] ,U.[PasswordHash],
             //U.[SecurityStamp] ,U.[ConcurrencyStamp] ,U.[PhoneNumber] ,U.[PhoneNumberConfirmed] ,U.[TwoFactorEnabled],U.[LockoutEnd],
             //U.[LockoutEnabled],U.[AccessFailedCount],U.[UserRoleId],U.[FirstName],U.[LastName],U.[SecondContactNumber] ,U.[RegisteredOn]

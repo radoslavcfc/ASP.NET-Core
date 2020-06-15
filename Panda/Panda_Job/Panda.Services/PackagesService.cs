@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Panda.Data;
 using Panda.Domain;
-using System.Collections.Generic;
+
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,14 +16,14 @@ namespace Panda.Services
             this.pandaDbContext = pandaDbContext;
         }
 
-        public async Task CreatePackage(Package package)
+        public async Task CreatePackageAsync(Package package)
         {
             await this.pandaDbContext.Packages
                 .AddAsync(package);
             await this.pandaDbContext.SaveChangesAsync();
         }
 
-        public async Task<Package> GetPackage(string id)
+        public async Task<Package> GetPackageAsync(string id)
         {
             Package package = await this.pandaDbContext
                 .Packages
@@ -34,7 +34,7 @@ namespace Panda.Services
 
             return package;
         }
-        public async Task UpdatePackage(Package package)
+        public async Task UpdatePackageAsync(Package package)
         {
             this.pandaDbContext.Update(package);
             await this.pandaDbContext.SaveChangesAsync();

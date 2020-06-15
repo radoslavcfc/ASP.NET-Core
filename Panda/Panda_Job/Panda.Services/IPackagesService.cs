@@ -7,13 +7,13 @@ namespace Panda.Services
 {
     public interface IPackagesService
     {
-        Task CreatePackage(Package package);
+        Task CreatePackageAsync(Package package);
 
-        Task<Package> GetPackage(string id);
+        Task<Package> GetPackageAsync(string id);
 
         IQueryable<Package> GetAllPackages();
 
-        Task UpdatePackage(Package package);
+        Task UpdatePackageAsync(Package package);
                
     }
 }

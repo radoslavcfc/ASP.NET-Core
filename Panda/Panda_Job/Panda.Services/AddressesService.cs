@@ -32,7 +32,7 @@ namespace Panda.Services
             return count;
         }
 
-        public async Task CreateAddress(Address address)
+        public async Task CreateAddressAsync(Address address)
         {
            await this.pandaDbContext
                 .Addresses.AddAsync(address);
@@ -40,7 +40,7 @@ namespace Panda.Services
            await this.pandaDbContext.SaveChangesAsync();
         }
 
-        public async Task<Address> GetAddressById(string addressId)
+        public async Task<Address> GetAddressByIdAsync(string addressId)
         {
             var addresFromDb = await this.pandaDbContext
                .Addresses
@@ -65,7 +65,7 @@ namespace Panda.Services
                 
             return list;
         }
-        public  async Task MarkAsDeleted(string id)
+        public  async Task MarkAsDeletedAsync(string id)
         {
             var addres = await this.pandaDbContext.Addresses
                 .Where(a => a.Id == id)
@@ -76,7 +76,7 @@ namespace Panda.Services
              await pandaDbContext.SaveChangesAsync();
         }
 
-        public async Task UpdateAddress(Address addressToUpdate)
+        public async Task UpdateAddressAsync(Address addressToUpdate)
         {
             this.pandaDbContext.Addresses
                 .Update(addressToUpdate);

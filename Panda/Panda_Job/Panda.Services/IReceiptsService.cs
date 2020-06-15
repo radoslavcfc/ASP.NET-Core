@@ -7,7 +7,7 @@ namespace Panda.Services
 {
     public interface IReceiptsService
     {
-        Task CreateReceipt(Receipt receipt);
+        Task CreateReceiptAsync(Receipt receipt);
 
         IQueryable<Receipt> GetAllReceiptsWithRecipient();
 

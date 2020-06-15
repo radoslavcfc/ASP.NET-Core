@@ -8,9 +8,9 @@ namespace Panda.Services
     public interface IUsersService
     {
         IQueryable<PandaUser> GetAllUsersNoAdmins();
-        Task<PandaUser> GetUserById(string Id);
+        Task<PandaUser> GetUserByIdAsync(string Id);
               
-        Task UpdateUserInfo(PandaUser user);
+        Task UpdateUserInfoAsync(PandaUser user);
         Task SaveToDataBaseAsync();
         Task<bool> DeleteAccountAsync(PandaUser currentUser);
     }

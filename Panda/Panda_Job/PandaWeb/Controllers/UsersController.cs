@@ -67,14 +67,14 @@ namespace PandaWeb.Controllers
             user.PhoneNumber = model.PhoneNumber;
             user.SecondContactNumber = model.SecondContactNumber;
             this.userManager.UpdateAsync(user);
-            this.usersService.UpdateUserInfo(user);
+            this.usersService.UpdateUserInfoAsync(user);
             return this.Redirect("/");
         }
 
 
         public IActionResult Details(string id)
         {
-            var user = this.usersService.GetUserById(id).Result;
+            var user = this.usersService.GetUserByIdAsync(id).Result;
             var model = new UserDetailViewModel
             {
                 Id = user.Id,

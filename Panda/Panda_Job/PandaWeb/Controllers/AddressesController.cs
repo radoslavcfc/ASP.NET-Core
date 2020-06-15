@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Panda.Domain;
 using Panda.Domain.Enums;
 using Panda.Services;
@@ -9,6 +9,7 @@ using Panda.Services;
 using PandaWeb.Models.Address;
 using PandaWeb.Models.Flat;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Panda_Job.Controllers
 {
@@ -60,18 +61,24 @@ namespace Panda_Job.Controllers
             return this.View("Preview", model);
         }
 
-        public IActionResult Save(AddOrEditNewAddressModel model)
+        public async Task<IActionResult> Save(AddOrEditNewAddressModel model)
         {
             var userId = this.userManager.GetUserId(this.User);
-            var user = this.usersService.GetUserById(userId).Result;
+            var user = await this.usersService.GetUserByIdAsync(userId);
 
             if (this.addressesService.CountOfAddressesPerUser(user) == 0)
             {
                 model.AddressType = AddressType.Primary;
             }
+
             else
             {
                 model.AddressType = AddressType.Alternative;
+            }
+
+            if (model.PropertyType == PropertyType.House)
+            {
+                ModelState["FlatModel.Apartment"].ValidationState = ModelValidationState.Valid;
             }
 
             //The model state is checked after the system allocate the type of the address automatically
@@ -105,18 +112,16 @@ namespace Panda_Job.Controllers
                 addresToRegister.Flat = flatToRegister;
             }
 
-
-            this.addressesService.CreateAddress(addresToRegister);
+            await this.addressesService.CreateAddressAsync(addresToRegister);
 
             TempData["SuccessCreatedAddress"] = "The address has been successfully saved!";
 
             return this.RedirectToAction("Index", "Addresses");
         }
 
-
-        public ActionResult Delete(string id)
+        public async Task<ActionResult> Delete(string id)
         {
-            var addressFromDb = this.addressesService.GetAddressById(id).Result;
+            var addressFromDb = await this.addressesService.GetAddressByIdAsync(id);
             var model = new DeleteAddressModel
             {
                 Id = id,
@@ -127,10 +132,10 @@ namespace Panda_Job.Controllers
 
         [HttpPost("Addresses/Delete")]
 
-        public ActionResult Delete(DeleteAddressModel model)
+        public async Task<ActionResult> Delete(DeleteAddressModel model)
         {
             var id = model.Id;
-            this.addressesService.MarkAsDeleted(id);
+            await this.addressesService.MarkAsDeletedAsync(id);
 
             TempData["Deleted message"] = "The address was successfully deleted!";
 
@@ -138,9 +143,9 @@ namespace Panda_Job.Controllers
             return this.RedirectToAction("Index", "Addresses");
         }
 
-        public ActionResult Edit(string id)
+        public async Task<ActionResult> Edit(string id)
         {
-            var address = this.addressesService.GetAddressById(id).Result;
+            var address = await this.addressesService.GetAddressByIdAsync(id);
             var model = new AddOrEditNewAddressModel
             {
                 Id = address.Id,
@@ -165,10 +170,15 @@ namespace Panda_Job.Controllers
             return this.View("Preview", model);
         }
 
-        public ActionResult Update(AddOrEditNewAddressModel model)
+        public async Task<ActionResult> Update(AddOrEditNewAddressModel model)
         {
             var idForUpdate = model.Id;
-            var addressToUpdate = this.addressesService.GetAddressById(idForUpdate).Result;
+            var addressToUpdate = await this.addressesService.GetAddressByIdAsync(idForUpdate);
+
+            if (model.PropertyType == PropertyType.House)
+            {
+                ModelState["FlatModel.Apartment"].ValidationState = ModelValidationState.Valid;
+            }
             if (!ModelState.IsValid)
             {
                 return this.View("Preview",model);
@@ -180,6 +190,7 @@ namespace Panda_Job.Controllers
             addressToUpdate.Town = model.Town;
             addressToUpdate.Number = model.Number;
             addressToUpdate.StreetName = model.StreetName;
+
             if (model.PropertyType == PropertyType.Flat)
             {
                 if (addressToUpdate.Flat == null)
@@ -197,7 +208,7 @@ namespace Panda_Job.Controllers
                 addressToUpdate.PropertyType = PropertyType.House;
                 addressToUpdate.Flat = null;
             }
-            this.addressesService.UpdateAddress(addressToUpdate);
+            await this.addressesService.UpdateAddressAsync(addressToUpdate);
 
             TempData["SuccessEditAddress"] = "The address has been successfully edited and saved!";
 

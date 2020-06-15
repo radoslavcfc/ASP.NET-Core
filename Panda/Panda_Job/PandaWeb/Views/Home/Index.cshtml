@@ -1,70 +1,80 @@
-﻿@model AddOrEditNewAddressModel
+﻿@inject IUsersService userService
 
-@inject IUsersService userService
+@using System.Security.Claims
 
-@{
+@{ 
+
     ViewData["Title"] = "Main Index";
-}
+ }
+
 @if (!this.User.Identity.IsAuthenticated)
 {
-    @if (TempData["Changed Password"] != null)
-    {
-        <div class="alert alert-info">@TempData["Changed Password"]</div>
-    }
-    <div class="jumbotron w-50 m-auto mt-3 bg-panda">
-        <h1 class="text-white">Welcome to Delivery Services.</h1>
-        <hr class="bg-white hr-2" />
-        <h3 class="text-white"><a href="/Identity/Account/Login">Login</a> if you have an account.</h3>
-        <h3 class="text-white"><a href="/Identity/Account/Register">Register</a> if you don't.</h3>
+     @if (TempData["Changed Password"] != null)
+         {
+             <div class="alert alert-info">@TempData["Changed Password"]</div>
+         }
 
-    </div>
+      <div class="jumbotron w-50 m-auto mt-3 bg-panda">
+          <h1 class="text-white">Welcome to Delivery Services.</h1>
+          <hr class="bg-white hr-2" />
+          <h3 class="text-white"><a href="/Identity/Account/Login">Login</a> if you have an account.</h3>
+          <h3 class="text-white"><a href="/Identity/Account/Register">Register</a> if you don't.</h3>
+      </div> 
 }
+
 else
 {
     if (this.User.IsInRole("Admin"))
     {
-        <h1 class="text-center">Hello!</h1>
-        <h3 class="text-center">You have logged in as an admin</h3>
-        <h2 class="text-center">Please select from the following options</h2>
-        <div class="container w-25 d-flex justify-content-center btn-group-vertical ">
-            <form>
-                <button asp-controller="Packages" asp-action="Create" class="btn btn-dark m-3">Create new package</button>
-                <a href='@Url.Action("Index","Packages")' class="btn btn-dark m-3">See all packages</a>
-                <a href="/Receipts/Index" class="btn btn-dark m-3">See all receipts</a>
-                <a href="/Users/Index" class="btn btn-dark m-3">See all users</a>
-            </form>
-        </div>
+       <h1 class="text-center">Hello!</h1>
+       <h3 class="text-center">You have logged in as an admin</h3>
+       <h2 class="text-center">Please select from the following options</h2>
+       <div class="container w-25 d-flex justify-content-center btn-group-vertical ">
+           <form>
+               <button asp-controller="Packages" asp-action="Create" class="btn btn-dark m-3">Create new package</button>
+               <a href='@Url.Action("Index", "Packages")' class="btn btn-dark m-3">See all packages</a>
+               <a href="/Receipts/Index" class="btn btn-dark m-3">See all receipts</a>
+               <a href="/Users/Index" class="btn btn-dark m-3">See all users</a>
+           </form>
+       </div> 
     }
     else
     {
-        <h1 class="text-center">Hello, @this.User.Identity.Name.Capitalize()!</h1>
-        @if (Model != null)
-        {
-            <h2 class="text-center">Please add your addres!</h2>
-            <div class="container w-25 d-flex justify-content-center p-3 btn-group-vertical">
-                <a href="/Addresses/Create" class="btn btn-lg btn-dark">Add address</a>
-            </div>
-        }
+          <h1 class="text-center">Hello, @this.User.Identity.Name.Capitalize()!</h1>
 
-        var currentUser = userService.GetUserByUserName(this.User.Identity.Name);
-        var areDetailsNull = currentUser.PhoneNumber == null && currentUser.FirstName == null && currentUser.LastName == null;
+        var currentUser = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var userFromDb = this.userService.GetUserByIdAsync(currentUser).Result;
 
-        if (areDetailsNull)
-        {
+        var areDetailsNull = userFromDb.PhoneNumber == null &&
+                             userFromDb.FirstName == null &&
+                             userFromDb.LastName == null;
+
+        var userHasAddress = userFromDb.Addresses.Count > 0;
+
+
+          @if (!userHasAddress)
+            {
+                <h2 class="text-center">Please add your addres!</h2>
+                <div class="container w-25 d-flex justify-content-center p-3 btn-group-vertical">
+                  <a href="/Addresses/Create" class="btn btn-lg btn-dark">Add address</a>
+                </div>
+            }
+          else if (areDetailsNull)
+          {
             <h2 class="text-center">Please add your contact details!</h2>
             <div class="container w-50 d-flex justify-content-center p-3 btn-group-vertical">
                 <a href="/Users/CompleteData" class="btn btn-lg btn-dark">Complete your contact information</a>
             </div>
-        }
-        else
-        {
-            <h2 class="text-center">Please select from the following options</h2>
+          }
+            else
+          {
+           <h2 class="text-center">Please select from the following options</h2>
             <div class="container w-25 d-flex justify-content-center p-3 btn-group-vertical">
                 <a href="/Packages/Index" class="btn btn-lg btn-dark">See your packages</a>
                 <a href="/Receipts/Index" class="btn btn-lg btn-dark">See your receipts</a>
                 <a href="/Addresses/Index" class="btn btn-lg btn-dark">Manage your addresses</a>
                 <a href="/Users/ManageData" class="btn btn-lg btn-dark">Manage your Personal Data</a>
             </div>
-        }
+          }
     }
 }

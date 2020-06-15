@@ -63,7 +63,7 @@ namespace Panda.Tests
             var testUserId = "TestId1";
             var expectedData = GetTestData().SingleOrDefault(user =>
             user.Id == testUserId);
-            var actualData = usersService.GetUserById(testUserId);
+            var actualData = usersService.GetUserByIdAsync(testUserId);
           //  Assert.Equal(expectedData.UserName, actualData.UserName);
            
         }
@@ -78,7 +78,7 @@ namespace Panda.Tests
             SeedTestData(context);
             var usersService = new UsersService(context);
             string testUserId = "TestUser3";
-            var actualData = usersService.GetUserById(testUserId);
+            var actualData = usersService.GetUserByIdAsync(testUserId);
             Assert.Null(actualData);
         }
 

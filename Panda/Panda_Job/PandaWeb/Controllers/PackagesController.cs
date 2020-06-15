@@ -68,7 +68,7 @@ namespace Panda.App.Controllers
                 EstimatedDeliveryDate = DateTime.UtcNow.AddDays(4)
             };
 
-            this.packagesService.CreatePackage(package);
+            this.packagesService.CreatePackageAsync(package);
             TempData["SuccessCreatedPackage"] = "A New package has been successfuly created!";
             return this.Redirect($"/Packages/Details/{package.Id}");
         }
@@ -112,11 +112,11 @@ namespace Panda.App.Controllers
                     ShippingAddress = this.addressesService
                         .ShortenedAddressToString(
                                 this.addressesService
-                                    .GetAddressById(
+                                    .GetAddressByIdAsync(
                                         p.ShippingAddress).Result),
                     RecipientFullName = 
-                        (this.usersService.GetUserById(p.RecipientId).Result.FirstName + " " +
-                        (this.usersService.GetUserById(p.RecipientId).Result.LastName).Substring(0,1)),
+                        (this.usersService.GetUserByIdAsync(p.RecipientId).Result.FirstName + " " +
+                        (this.usersService.GetUserByIdAsync(p.RecipientId).Result.LastName).Substring(0,1)),
                     RecipientId = p.RecipientId
 
                 }).ToList();
@@ -144,11 +144,11 @@ namespace Panda.App.Controllers
                     Description = p.Description,
                     Weight = p.Weight,
                     ShippingAddress = this.addressesService
-                    .ShortenedAddressToString(this.addressesService.GetAddressById
+                    .ShortenedAddressToString(this.addressesService.GetAddressByIdAsync
                     (p.ShippingAddress).Result),
                     RecipientFullName =
-                        (this.usersService.GetUserById(p.RecipientId).Result.FirstName + " " +
-                        (this.usersService.GetUserById(p.RecipientId).Result.LastName).Substring(0, 1)),
+                        (this.usersService.GetUserByIdAsync(p.RecipientId).Result.FirstName + " " +
+                        (this.usersService.GetUserByIdAsync(p.RecipientId).Result.LastName).Substring(0, 1)),
                     RecipientId = p.RecipientId
                 }).ToList();
 
@@ -173,13 +173,13 @@ namespace Panda.App.Controllers
         public IActionResult Details(string Id)
         {
             var package = this.packagesService
-                .GetPackage(Id).Result;
+                .GetPackageAsync(Id).Result;
 
             var model = new PackageDetailsViewModel
             {
                 Id = package.Id,
                 ShippingAddress = this.addressesService
-                    .ShortenedAddressToString(this.addressesService.GetAddressById
+                    .ShortenedAddressToString(this.addressesService.GetAddressByIdAsync
                     (package.ShippingAddress).Result),
                 Status = package.Status.ToString(),
                 EstimatedDeliveryDate = package.EstimatedDeliveryDate?
@@ -197,10 +197,10 @@ namespace Panda.App.Controllers
         public IActionResult Deliver(string packageId)
         {
             var currentPackage = this.packagesService
-                .GetPackage(packageId).Result;
+                .GetPackageAsync(packageId).Result;
 
             currentPackage.Status = PackageStatus.Delivered;
-            this.packagesService.UpdatePackage(currentPackage);
+            this.packagesService.UpdatePackageAsync(currentPackage);
 
             return this.Redirect($"/Receipts/Create/{packageId}");
         }

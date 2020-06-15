@@ -4,6 +4,7 @@ using Panda.Services;
 using PandaWeb.Models.Address;
 using PandaWeb.Models.User;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace PandaWeb.Controllers
 {
@@ -21,9 +22,9 @@ namespace PandaWeb.Controllers
 
         [HttpPost]
         [Route("addresses/api/fetch", Order = 1)]
-        public ActionResult<ListOfAddresesWithCountModel> AddressesFetch(UserApiModel inputModel)
+        public async Task<ActionResult<ListOfAddresesWithCountModel>> AddressesFetch(UserApiModel inputModel)
         {
-            var currentUser = this.usersService.GetUserById(inputModel.Id).Result;
+            var currentUser =  await this.usersService.GetUserByIdAsync(inputModel.Id);
             var count = addressesService.CountOfAddressesPerUser(currentUser);
 
             var listModel = new ListOfAddresesWithCountModel();

@@ -17,7 +17,7 @@ namespace Panda.Services
             this.pandaDbContext = pandaDbContext;
         }
 
-        public async Task CreateReceipt(Receipt receipt)
+        public async Task CreateReceiptAsync(Receipt receipt)
         {
             await this.pandaDbContext
                 .Receipts.AddAsync(receipt);

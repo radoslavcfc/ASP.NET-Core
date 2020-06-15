@@ -65,7 +65,7 @@ namespace Panda.App.Controllers
                 DeliveryAddress = this.addressesService
                             .ShortenedAddressToString(
                                      this.addressesService
-                                     .GetAddressById(receiptFromDb
+                                     .GetAddressByIdAsync(receiptFromDb
                                                 .Package.ShippingAddress).Result),
                 PackageWeight = receiptFromDb.Package.Weight,
                 PackageDescription = receiptFromDb.Package.Description,
@@ -78,7 +78,7 @@ namespace Panda.App.Controllers
         [HttpGet("/Receipts/Create/{packageId}")]
         public IActionResult Create(string packageId)
         {
-            var currentPackage = this.packagesService.GetPackage(packageId);
+            var currentPackage = this.packagesService.GetPackageAsync(packageId).Result;
             var receipt = new Receipt
             {
                 Fee = Convert.ToDecimal(currentPackage.Weight * 2.67),
@@ -86,7 +86,7 @@ namespace Panda.App.Controllers
                 RecipientId = currentPackage.RecipientId,
                 PackageId = currentPackage.Id
             };
-            this.receiptsService.CreateReceipt(receipt);
+            this.receiptsService.CreateReceiptAsync(receipt);
 
             TempData["RecieptsAdded"] = "Successfuly created a receipt";
             var id = receipt.Id;
