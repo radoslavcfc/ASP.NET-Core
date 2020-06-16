@@ -118,31 +118,6 @@ namespace Panda_Job.Controllers
 
             return this.RedirectToAction("Index", "Addresses");
         }
-
-        public async Task<IActionResult> Delete(string id)
-        {
-            var addressFromDb = await this.addressesService.GetAddressByIdAsync(id);
-            var model = new DeleteAddressModel
-            {
-                Id = id,
-                ShortAddress = this.addressesService.ShortenedAddressToString(addressFromDb)
-            };
-            return this.View(model);
-        }
-
-        [HttpPost("Addresses/Delete")]
-
-        public async Task<IActionResult> Delete(DeleteAddressModel model)
-        {
-            var id = model.Id;
-            await this.addressesService.MarkAsDeletedAsync(id);
-
-            TempData["Deleted message"] = "The address was successfully deleted!";
-
-            //return this.View("Deleted");
-            return this.RedirectToAction("Index", "Addresses");
-        }
-
         public async Task<ActionResult> Edit(string id)
         {
             var address = await this.addressesService.GetAddressByIdAsync(id);
@@ -212,6 +187,29 @@ namespace Panda_Job.Controllers
 
             TempData["SuccessEditAddress"] = "The address has been successfully edited and saved!";
 
+            return this.RedirectToAction("Index", "Addresses");
+        }
+        public async Task<IActionResult> Delete(string id)
+        {
+            var addressFromDb = await this.addressesService.GetAddressByIdAsync(id);
+            var model = new DeleteAddressModel
+            {
+                Id = id,
+                ShortAddress = this.addressesService.ShortenedAddressToString(addressFromDb)
+            };
+            return this.View(model);
+        }
+
+        [HttpPost("Addresses/Delete")]
+
+        public async Task<IActionResult> Delete(DeleteAddressModel model)
+        {
+            var id = model.Id;
+            await this.addressesService.MarkAsDeletedAsync(id);
+
+            TempData["Deleted message"] = "The address was successfully deleted!";
+
+            //return this.View("Deleted");
             return this.RedirectToAction("Index", "Addresses");
         }
     }

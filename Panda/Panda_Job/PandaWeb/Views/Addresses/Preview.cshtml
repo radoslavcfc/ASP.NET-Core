@@ -50,9 +50,10 @@
         </div>
     </div>
     @if (Model.PropertyType == PropertyType.Flat)
-    {
+            {
+                ViewData["PreviewMode"] = "disabled";
         <div class="form-row m-2" id="flatDetails">
-            <partial name="_FlatDetailsPartial.cshtml" />
+            <partial name="_FlatDetailsPartial.cshtml" view-data="ViewData" />
         </div>
 
     }
