@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using Panda.Domain;
 using Panda.Services;
 using PandaWeb.Models.User;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace PandaWeb.Controllers
@@ -26,7 +28,9 @@ namespace PandaWeb.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
-            var allUsersFromDb = await userManager.GetUsersInRoleAsync("user");
+           var allUsersFromDb = await userManager
+                .GetUsersInRoleAsync("user");
+                
             var model = new AllUsersIndexViewModel();
 
             foreach (var singleUser in allUsersFromDb)
@@ -214,7 +218,7 @@ namespace PandaWeb.Controllers
         [HttpPost]
         public async Task<IActionResult> HardDelete(HardDeleteUserModel model)
         {
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid || model.Confirm == false)
             {
                 return this.View(model);
             }

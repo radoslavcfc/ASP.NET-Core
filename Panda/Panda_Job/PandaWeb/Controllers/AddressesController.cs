@@ -148,12 +148,14 @@ namespace Panda_Job.Controllers
         public async Task<IActionResult> Update(UpdateAddressModel model)
         {
             var idForUpdate = model.Id;
-            var addressToUpdate = await this.addressesService.GetAddressByIdAsync(idForUpdate);
+            var addressToUpdate = await this.addressesService
+                .GetAddressByIdAsync(idForUpdate);
 
             if (model.PropertyType == PropertyType.House)
             {
                 ModelState["FlatModel.Apartment"].ValidationState = ModelValidationState.Valid;
             }
+
             if (!ModelState.IsValid)
             {
                 return this.View("Preview",model);
@@ -181,6 +183,7 @@ namespace Panda_Job.Controllers
             {
                 addressToUpdate.PropertyType = PropertyType.House;
                 addressToUpdate.Flat = null;
+                //TODO flat delete from Db
             }
             await this.addressesService.UpdateAddressAsync(addressToUpdate);
 
