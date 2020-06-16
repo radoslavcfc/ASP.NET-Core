@@ -213,6 +213,7 @@ namespace PandaWeb.Controllers
         {
             var idOfUser = model.Id;
             var user = await this.usersService.GetUserByIdWithDeletedAsync(idOfUser);
+            await this.usersService.DeleteAllDataForUserAsync(idOfUser);
             await this.userManager.DeleteAsync(user);
             TempData["UserRemoved"] = "The user has been removed from the database!";
             return this.RedirectToAction("Index", "Users");

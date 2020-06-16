@@ -85,5 +85,34 @@ namespace Panda.Services
                 .FromSqlRaw("EXEC UsersOnlyInfo");
             return users;
         }
+
+        public async Task DeleteAllDataForUserAsync(string id)
+        {
+            var flatsToRemove = this.pandaDbContext
+                .Flats
+                .Where(f => f.Address.UserId == id);
+
+            this.pandaDbContext.RemoveRange(flatsToRemove);
+
+            var addressesToRemove = this.pandaDbContext
+                .Addresses
+                .Where(a => a.UserId == id);
+
+            this.pandaDbContext.RemoveRange(addressesToRemove);
+
+            var packagesToRemove = this.pandaDbContext
+                .Packages
+                .Where(p => p.RecipientId == id);
+
+            this.pandaDbContext.RemoveRange(packagesToRemove);
+
+            var recieptsToRemove = this.pandaDbContext
+                .Receipts
+                .Where(r => r.RecipientId == id);
+
+            this.pandaDbContext.RemoveRange(recieptsToRemove);
+
+           await this.pandaDbContext.SaveChangesAsync();
+        }
     }
 }
