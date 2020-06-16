@@ -1,6 +1,6 @@
 ﻿namespace PandaWeb.Models.Package
 {
-    public class PackageViewModel
+    public class PackageListAllViewModel
     {
         public string Id { get; set; }
 
@@ -11,6 +11,7 @@
         public string RecipientId { get; set; }
         public string RecipientFullName { get; set; }
 
+        public string Status { get; set; }
         public double Weight { get; set; }
     }
 }

@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Panda.Data;
 using Panda.Domain;
-
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -45,6 +46,27 @@ namespace Panda.Services
             var collection = this.pandaDbContext
                 .Packages
                 .Where(p => p.IsDeleted == false);
+            return collection;
+        }
+
+        public IEnumerable<Package> GetAllPackagesWithStatusForUser(string currentUserId,string status)
+        {
+            var collection = this.pandaDbContext
+                .Packages
+                .Where(p => 
+                     p.RecipientId == currentUserId &&
+                     p.Status.ToString() == status && 
+                     p.IsDeleted == false)
+                .AsEnumerable(); 
+            return collection;
+        }
+    
+        public IEnumerable<Package> GetAllPackagesWithStatusForAdmin(string status)
+        {
+            var collection = this.pandaDbContext
+                .Packages
+                .Where(p => p.Status.ToString() == status)
+                .AsEnumerable(); ;
             return collection;
         }
     }

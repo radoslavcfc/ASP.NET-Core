@@ -11,6 +11,8 @@ using System.Globalization;
 using System.Linq;
 using PandaWeb.Models.User;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Security.Claims;
 
 namespace Panda.App.Controllers
 {
@@ -100,16 +102,33 @@ namespace Panda.App.Controllers
             return this.Redirect($"/Packages/Details/{package.Id}");
         }
 
-        [HttpGet]
-        public IActionResult Pending()
+        [HttpGet ("/Packages/ListAll/{status}")]
+        public IActionResult ListAll(string status)
         {
-            var model = this.packagesService.GetAllPackages()
-                .Where(p => p.Status == PackageStatus.Pending)
-                .Select(p => new PackageViewModel
+            var currentUserRole = this.User.Identity.Name;
+                
+            IEnumerable<Package> packageFromDb;
+
+            if (currentUserRole == "admin")
+            {
+                packageFromDb = this.packagesService
+                    .GetAllPackagesWithStatusForAdmin(status);
+            }
+
+            else 
+            {
+                var currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                packageFromDb = this.packagesService
+                    .GetAllPackagesWithStatusForUser(currentUserId, status); 
+            }
+
+            var model = packageFromDb
+                .Select(p => new PackageListAllViewModel
                 {
                     Id = p.Id,
                     Description = p.Description,
                     Weight = p.Weight,
+                    Status = p.Status.ToString(),
                     ShippingAddress = this.addressesService.ShortenedAddressToString(
                          this.addressesService.GetAddressByIdAsync(p.ShippingAddress).Result),
                     RecipientFullName =
@@ -119,54 +138,44 @@ namespace Panda.App.Controllers
 
                 }).ToList();
 
-            if (this.User.IsInRole("Admin"))
-            {
-                return this.View(model);
-            }
-            else
-            {
-                var personalCol = model
-                    .Where(p => p.RecipientId == this.userManager
-                                .GetUserId(this.User)).ToList();
-                return this.View(personalCol);
-            }           
+            return this.View(model);                     
         }
 
-        [HttpGet]
-        public IActionResult Delivered()
-        {
-            var model = this.packagesService.GetAllPackages()
-                .Where(p => p.Status == PackageStatus.Delivered)
-                .Select(p => new PackageViewModel
-                {
-                    Id = p.Id,
-                    Description = p.Description,
-                    Weight = p.Weight,
-                    ShippingAddress = this.addressesService
-                    .ShortenedAddressToString(this.addressesService.GetAddressByIdAsync
-                    (p.ShippingAddress).Result),
-                    RecipientFullName =
-                        (this.usersService.GetUserByIdAsync(p.RecipientId).Result.FirstName + " " +
-                        (this.usersService.GetUserByIdAsync(p.RecipientId).Result.LastName).Substring(0, 1)),
-                    RecipientId = p.RecipientId
-                }).ToList();
+        //[HttpGet]
+        //public IActionResult Delivered()
+        //{
+        //    var model = this.packagesService.GetAllPackages()
+        //        .Where(p => p.Status == PackageStatus.Delivered)
+        //        .Select(p => new PackageListAllViewModel
+        //        {
+        //            Id = p.Id,
+        //            Description = p.Description,
+        //            Weight = p.Weight,
+        //            ShippingAddress = this.addressesService
+        //            .ShortenedAddressToString(this.addressesService.GetAddressByIdAsync
+        //            (p.ShippingAddress).Result),
+        //            RecipientFullName =
+        //                (this.usersService.GetUserByIdAsync(p.RecipientId).Result.FirstName + " " +
+        //                (this.usersService.GetUserByIdAsync(p.RecipientId).Result.LastName).Substring(0, 1)),
+        //            RecipientId = p.RecipientId
+        //        }).ToList();
 
-            if (this.User.IsInRole("Admin"))
-            {
-                return this.View(model);
-            }
-            else
-            {
-                var personalCol = model
-                    .Where(p => 
-                        p.RecipientId == this.userManager
-                            //.GetUserId(this.User)
-                            .GetUserAsync(this.User)
-                            .Result.Id)
-                    .ToList();
-                return this.View(personalCol);
-            }
-        }
+        //    if (this.User.IsInRole("Admin"))
+        //    {
+        //        return this.View(model);
+        //    }
+        //    else
+        //    {
+        //        var personalCol = model
+        //            .Where(p => 
+        //                p.RecipientId == this.userManager
+        //                    //.GetUserId(this.User)
+        //                    .GetUserAsync(this.User)
+        //                    .Result.Id)
+        //            .ToList();
+        //        return this.View(personalCol);
+        //    }
+        //}
 
         [HttpGet]
         public async Task<IActionResult> Details(string Id)
