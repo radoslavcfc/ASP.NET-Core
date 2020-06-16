@@ -49,21 +49,7 @@
         </div>
     </div>
     <div class="form-row" id="flatDetails" style="display:none">
-        <div class="col-md-4">
-            <label asp-for="@Model.FlatModel.Floor"></label>
-            <input asp-for="@Model.FlatModel.Floor" class="form-control inputData" />
-            <span asp-validation-for="@Model.FlatModel.Floor" class="text-danger"></span>
-        </div>
-        <div class="col-md-4">
-            <label asp-for="@Model.FlatModel.Entrance"></label>
-            <input asp-for="@Model.FlatModel.Entrance" class="form-control inputData" />
-            <span asp-validation-for="@Model.FlatModel.Entrance" class="text-danger"></span>
-        </div>
-        <div class="col-md-4">
-            <label asp-for="@Model.FlatModel.Apartment"></label>
-            <input asp-for="@Model.FlatModel.Apartment" class="form-control" />
-            <span asp-validation-for="@Model.FlatModel.Apartment" class="text-danger inputData"></span>
-        </div>
+       <partial name="_FlatDetailsPartial.cshtml" />
     </div>
     <div class="form-group">
         <hr /> <br />

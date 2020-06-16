@@ -24,17 +24,19 @@ namespace PandaWeb.Controllers
             this.signInManager = signInManager;
         }
         [Authorize(Roles = "Admin")]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var allUsersFromDb = usersService.GetAllUsersNoAdmins();
+            var allUsersFromDb = await userManager.GetUsersInRoleAsync("user");
             var model = new AllUsersIndexViewModel();
+
             foreach (var singleUser in allUsersFromDb)
             {
                 var modelUser = new UserIndexViewModel
                 {
                     Id = singleUser.Id,
                     FullName = this.FullNameCreator(singleUser.FirstName, singleUser.LastName),
-                    PhoneNumber = singleUser.PhoneNumber
+                    PhoneNumber = singleUser.PhoneNumber,
+                    IsDeleted = singleUser.IsDeleted
                 };
                 model.AllUsersCollection.Add(modelUser);
             }
@@ -187,6 +189,8 @@ namespace PandaWeb.Controllers
                 return this.View(model);
             }
         }
+
+
 
         [NonAction]
         private async Task<PandaUser> GetTheCurrentUserAsync()

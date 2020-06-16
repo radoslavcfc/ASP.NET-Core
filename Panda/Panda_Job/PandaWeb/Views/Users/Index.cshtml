@@ -1,16 +1,16 @@
 ﻿@model AllUsersIndexViewModel
 @{ 
     ViewData["Title"] = "Users Index";
-    
 }
     
     <a class="btn btn-dark" href="/Home/Index">Back to index</a>
-    <table class="table table-dark w-50 m-auto">
+    <table class="table w-50 m-auto">
         <thead>
-            <tr>
+            <tr class="text-white bg-dark">
                 <th scope="col">#</th>
                 <th scope="col">Full Name</th>
                 <th scope="col">Contact Number</th>
+                <th scope="col">Status</th>
                 <th scope="col">Details</th>
             </tr>
         </thead>
@@ -18,12 +18,18 @@
             @{ var rowNumber = 1;} 
             @foreach (var user in Model.AllUsersCollection)
             {
-                <tr>
-                    <th scope="row">@rowNumber</th>
-                    <td>@user.FullName</td>
-                    <td>@user.PhoneNumber</td>
-                    <td><a asp-controller="Users" asp-action="Details" asp-route-id="@user.Id">More...</a></td>
-                </tr>
+                var rowColor = user.IsDeleted ? "table-dark" : "text-dark bg-white";
+                var active = user.IsDeleted ? "Non-active" : "Active";
+                var action = user.IsDeleted ? "HardDelete" : "Details";
+                var text = user.IsDeleted ? "Remove" : "More...";
+
+            <tr class="@rowColor">
+                <th scope="row">@rowNumber</th>
+                <td>@user.FullName</td>
+                <td>@user.PhoneNumber</td>
+                <td>@active</td>
+                <td><a class="btn btn-dark" asp-controller="Users" asp-action="@action" asp-route-id="@user.Id"><b>@text</b></a></td>
+            </tr>
                 rowNumber++;
             }
         </tbody>

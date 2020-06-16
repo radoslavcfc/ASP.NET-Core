@@ -4,7 +4,9 @@
 @{
     ViewData["Title"] = "Preview Page";
 }
+
 <h2 class="justify-content-center">@ViewData["Title"]</h2>
+
 <form class="mx-auto w-50" method="post">
     <input asp-for="@Model.Id" class="hide" />
     <h3 class="text-center">Please check if all correct:</h3>
@@ -12,9 +14,7 @@
         <div class="col-md-6">
             <label asp-for="@Model.Country"></label>
             <input disabled="disabled" asp-for="@Model.Country" class="form-control inputData" />
-            <span asp-validation-for="@Model.Country" class="text-danger"></span>
-            @*<span class="glyphicon glyphicon-ok"></span>*@
-
+            <span asp-validation-for="@Model.Country" class="text-danger"></span>           
         </div>
         <div class="col-md-6 ">
             <label asp-for="@Model.Region"></label>
