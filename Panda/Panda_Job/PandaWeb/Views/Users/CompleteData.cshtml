@@ -1,7 +1,5 @@
 ﻿@model UserCompleteDataModel
-@{
-    ViewData["Title"] = "Complete User Info";
-}
+@{ ViewData["Title"] = "Complete User Info"; }
 
 <a class="btn btn-dark" href="/Home/Index">Back to all options</a>
 
@@ -42,3 +40,8 @@
     </div>
 </form>
 
+@section scripts{
+
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

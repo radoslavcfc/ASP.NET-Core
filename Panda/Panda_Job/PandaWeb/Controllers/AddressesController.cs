@@ -158,8 +158,7 @@ namespace Panda_Job.Controllers
             {
                 return this.View("Preview",model);
             }
-            //Could be done with Automapper, or even other function to be implemented
-            //ToDo
+           
             addressToUpdate.Country = model.Country;
             addressToUpdate.Region = model.Region;
             addressToUpdate.Town = model.Town;

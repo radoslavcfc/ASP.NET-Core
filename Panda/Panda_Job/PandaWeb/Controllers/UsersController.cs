@@ -195,15 +195,18 @@ namespace PandaWeb.Controllers
         {
             var userFromDb = await this.usersService
                 .GetUserByIdWithDeletedAsync(id);
+
             if (userFromDb == null)
             {
                 return this.NotFound();
             }
+
             var model = new HardDeleteUserModel
             {
                 Id = userFromDb.Id,
                 FullName = this.FullNameCreator(userFromDb.FirstName, userFromDb.LastName)
             };
+
             return this.View(model);
         }
 
@@ -211,8 +214,20 @@ namespace PandaWeb.Controllers
         [HttpPost]
         public async Task<IActionResult> HardDelete(HardDeleteUserModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return this.View(model);
+            }
+
             var idOfUser = model.Id;
-            var user = await this.usersService.GetUserByIdWithDeletedAsync(idOfUser);
+
+            var user = await this.usersService
+                .GetUserByIdWithDeletedAsync(idOfUser);
+
+            if (user == null)
+            {
+                return this.NotFound();
+            }
             await this.usersService.DeleteAllDataForUserAsync(idOfUser);
             await this.userManager.DeleteAsync(user);
             TempData["UserRemoved"] = "The user has been removed from the database!";

@@ -8,10 +8,11 @@
     </div>
 
     <div class="form-group">
-        <input type="hidden" asp-for="@Model.Id"/>
+        <input type="hidden" asp-for="@Model.Id" />
+
         <label asp-for="@Model.FullName"></label>
-        <input asp-for="@Model.FullName" class="form-control inputData" disabled/>
-        
+        <input asp-for="@Model.FullName" class="form-control inputData" disabled />
+
     </div>
     <div class="form-group">
         <label asp-for="@Model.Confirm"></label>
@@ -26,3 +27,9 @@
         <a hrf="/Users/Index" class="btn btn-dark text-white" value="Cancel"> Cancel</a>
     </div>
 </form>
+
+@section scripts{
+
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

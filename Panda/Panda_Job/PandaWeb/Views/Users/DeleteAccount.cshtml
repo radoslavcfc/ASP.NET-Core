@@ -1,7 +1,5 @@
 ﻿@model DeleteAccountModel
-@{
-    ViewData["Title"] = "Delete Account";
-}
+@{ ViewData["Title"] = "Delete Account"; }
 
 <form class="mx-auto width-30" method="post">
     <div asp-validation-summary="All"></div>
@@ -27,3 +25,9 @@
         <a hrf="/Users/DeleteAccount" class="btn btn-dark text-white" value="Cancel"> Cancel</a>
     </div>
 </form>
+
+@section scripts{
+
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
