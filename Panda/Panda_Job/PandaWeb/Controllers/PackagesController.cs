@@ -128,7 +128,6 @@ namespace Panda.App.Controllers
                     Id = p.Id,
                     Description = p.Description,
                     Weight = p.Weight,
-                    Status = p.Status.ToString(),
                     ShippingAddress = this.addressesService.ShortenedAddressToString(
                          this.addressesService.GetAddressByIdAsync(p.ShippingAddress).Result),
                     RecipientFullName =
@@ -138,46 +137,10 @@ namespace Panda.App.Controllers
 
                 }).ToList();
 
-            ViewData["Status"] = status;
+            ViewData["Status"] = status.ToLower();
 
             return this.View(model);
         }
-
-        //[HttpGet]
-        //public IActionResult Delivered()
-        //{
-        //    var model = this.packagesService.GetAllPackages()
-        //        .Where(p => p.Status == PackageStatus.Delivered)
-        //        .Select(p => new PackageListAllViewModel
-        //        {
-        //            Id = p.Id,
-        //            Description = p.Description,
-        //            Weight = p.Weight,
-        //            ShippingAddress = this.addressesService
-        //            .ShortenedAddressToString(this.addressesService.GetAddressByIdAsync
-        //            (p.ShippingAddress).Result),
-        //            RecipientFullName =
-        //                (this.usersService.GetUserByIdAsync(p.RecipientId).Result.FirstName + " " +
-        //                (this.usersService.GetUserByIdAsync(p.RecipientId).Result.LastName).Substring(0, 1)),
-        //            RecipientId = p.RecipientId
-        //        }).ToList();
-
-        //    if (this.User.IsInRole("Admin"))
-        //    {
-        //        return this.View(model);
-        //    }
-        //    else
-        //    {
-        //        var personalCol = model
-        //            .Where(p => 
-        //                p.RecipientId == this.userManager
-        //                    //.GetUserId(this.User)
-        //                    .GetUserAsync(this.User)
-        //                    .Result.Id)
-        //            .ToList();
-        //        return this.View(personalCol);
-        //    }
-        //}
 
         [HttpGet]
         public async Task<IActionResult> Details(string Id)

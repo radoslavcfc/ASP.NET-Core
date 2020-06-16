@@ -54,11 +54,11 @@ namespace Panda.Services
         {
             var collection = this.pandaDbContext
                 .Packages
-                .Where(p => 
+                .AsEnumerable()
+                .Where(p =>
                      p.RecipientId == currentUserId &&
-                     p.Status.ToString() == status && 
-                     p.IsDeleted == false)
-                .AsEnumerable(); 
+                     p.Status.ToString().ToLower() == status &&
+                     p.IsDeleted == false); 
             return collection;
         }
     
@@ -67,7 +67,8 @@ namespace Panda.Services
             var collection = this.pandaDbContext
                 .Packages
                  .AsEnumerable()
-                .Where(p => p.Status.ToString().ToLower() == status);
+                .Where(p => p.Status.ToString()
+                                    .ToLower() == status);
                 
             return collection;
         }

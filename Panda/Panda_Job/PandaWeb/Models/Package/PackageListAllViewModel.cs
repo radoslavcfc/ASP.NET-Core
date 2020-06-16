@@ -11,7 +11,6 @@
         public string RecipientId { get; set; }
         public string RecipientFullName { get; set; }
 
-        public string Status { get; set; }
         public double Weight { get; set; }
     }
 }
