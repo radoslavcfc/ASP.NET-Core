@@ -1,7 +1,7 @@
 ﻿
 @model List<PackageListAllViewModel>
 @{
-    var status = Model.FirstOrDefault().Status.ToString();
+    string status = ViewData["Status"].ToString();
     ViewData["Title"] = $"All {status} Packages";
 }
 <h1 class="text-center">@ViewData["Title"]</h1>

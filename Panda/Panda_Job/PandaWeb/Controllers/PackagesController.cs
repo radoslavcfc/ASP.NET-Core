@@ -26,13 +26,13 @@ namespace Panda.App.Controllers
 
         public PackagesController(
             UserManager<PandaUser> userManager,
-            IUsersService usersService, 
-            IPackagesService packagesService,           
+            IUsersService usersService,
+            IPackagesService packagesService,
             IAddressesService addressesService)
         {
             this.userManager = userManager;
             this.usersService = usersService;
-            this.packagesService = packagesService;           
+            this.packagesService = packagesService;
             this.addressesService = addressesService;
         }
         [HttpGet]
@@ -73,7 +73,7 @@ namespace Panda.App.Controllers
                    Id = u.Id,
                    Name = u.UserName
                });
-            
+
             return this.View(viewModel);
         }
 
@@ -102,11 +102,11 @@ namespace Panda.App.Controllers
             return this.Redirect($"/Packages/Details/{package.Id}");
         }
 
-        [HttpGet ("/Packages/ListAll/{status}")]
+        [HttpGet("/Packages/ListAll/{status}")]
         public IActionResult ListAll(string status)
         {
             var currentUserRole = this.User.Identity.Name;
-                
+
             IEnumerable<Package> packageFromDb;
 
             if (currentUserRole == "admin")
@@ -115,11 +115,11 @@ namespace Panda.App.Controllers
                     .GetAllPackagesWithStatusForAdmin(status);
             }
 
-            else 
+            else
             {
                 var currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
                 packageFromDb = this.packagesService
-                    .GetAllPackagesWithStatusForUser(currentUserId, status); 
+                    .GetAllPackagesWithStatusForUser(currentUserId, status);
             }
 
             var model = packageFromDb
@@ -138,7 +138,9 @@ namespace Panda.App.Controllers
 
                 }).ToList();
 
-            return this.View(model);                     
+            ViewData["Status"] = status;
+
+            return this.View(model);
         }
 
         //[HttpGet]
@@ -193,7 +195,7 @@ namespace Panda.App.Controllers
                 EstimatedDeliveryDate = package.EstimatedDeliveryDate?
                     .ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
                 Weight = package.Weight,
-                RecipientFullName = package.Recipient.FirstName + " " + package.Recipient.LastName.Substring(0,1),
+                RecipientFullName = package.Recipient.FirstName + " " + package.Recipient.LastName.Substring(0, 1),
                 Description = package.Description
             };
 
@@ -213,7 +215,7 @@ namespace Panda.App.Controllers
             }
 
             currentPackage.Status = PackageStatus.Delivered;
-            await  this.packagesService.UpdatePackageAsync(currentPackage);
+            await this.packagesService.UpdatePackageAsync(currentPackage);
 
             return this.Redirect($"/Receipts/Create/{packageId}");
         }
