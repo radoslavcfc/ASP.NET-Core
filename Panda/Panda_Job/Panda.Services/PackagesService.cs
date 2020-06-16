@@ -50,14 +50,14 @@ namespace Panda.Services
             return collection;
         }
 
-        public IEnumerable<Package> GetAllPackagesWithStatusForUser(string currentUserId,string status)
+        public IEnumerable<Package> GetAllPackagesWithStatusForUser(string currentUserId, string status)
         {
             var collection = this.pandaDbContext
                 .Packages
                 .AsEnumerable()
                 .Where(p =>
                      p.RecipientId == currentUserId &&
-                     p.Status.ToString().ToLower() == status &&
+                     p.Status.ToString() == status &&
                      p.IsDeleted == false); 
             return collection;
         }
@@ -67,8 +67,7 @@ namespace Panda.Services
             var collection = this.pandaDbContext
                 .Packages
                  .AsEnumerable()
-                .Where(p => p.Status.ToString()
-                                    .ToLower() == status);
+                .Where(p => p.Status.ToString() == status);
                 
             return collection;
         }
