@@ -190,7 +190,33 @@ namespace PandaWeb.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> HardDelete(string id)
+        {
+            var userFromDb = await this.usersService
+                .GetUserByIdWithDeletedAsync(id);
+            if (userFromDb == null)
+            {
+                return this.NotFound();
+            }
+            var model = new HardDeleteUserModel
+            {
+                Id = userFromDb.Id,
+                FullName = this.FullNameCreator(userFromDb.FirstName, userFromDb.LastName)
+            };
+            return this.View(model);
+        }
 
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public async Task<IActionResult> HardDelete(HardDeleteUserModel model)
+        {
+            var idOfUser = model.Id;
+            var user = await this.usersService.GetUserByIdWithDeletedAsync(idOfUser);
+            await this.userManager.DeleteAsync(user);
+            TempData["UserRemoved"] = "The user has been removed from the database!";
+            return this.RedirectToAction("Index", "Users");
+        }
 
         [NonAction]
         private async Task<PandaUser> GetTheCurrentUserAsync()

@@ -14,5 +14,6 @@ namespace Panda.Services
         Task SaveToDataBaseAsync();
         Task<bool> DeleteAccountAsync(PandaUser currentUser);
         Task <PandaUser> GetUserByIdWithDeletedAsync(string id);
+        Task DeleteAllDataForUserAsync(string idOfUser);
     }
 }
