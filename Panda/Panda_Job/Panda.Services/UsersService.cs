@@ -27,7 +27,16 @@ namespace Panda.Services
 
             return userDb;
         }
-       
+        public async Task<PandaUser> GetUserByIdWithDeletedAsync(string id)
+        {
+            PandaUser userDb = await this.pandaDbContext
+                .Users
+                .Include(p => p.Addresses)
+                .FirstOrDefaultAsync
+                    (user =>
+                        user.Id == id);
+            return userDb;
+        }
         public async Task UpdateUserInfoAsync(PandaUser user)
         {
             this.pandaDbContext.Update(user);

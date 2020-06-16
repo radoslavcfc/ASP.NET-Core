@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Panda.Data;
 using Panda.Domain;
+using Panda.Domain.Enums;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -65,8 +66,9 @@ namespace Panda.Services
         {
             var collection = this.pandaDbContext
                 .Packages
-                .Where(p => p.Status.ToString() == status)
-                .AsEnumerable(); ;
+                 .AsEnumerable()
+                .Where(p => p.Status.ToString().ToLower() == status);
+                
             return collection;
         }
     }

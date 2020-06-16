@@ -132,8 +132,8 @@ namespace Panda.App.Controllers
                     ShippingAddress = this.addressesService.ShortenedAddressToString(
                          this.addressesService.GetAddressByIdAsync(p.ShippingAddress).Result),
                     RecipientFullName =
-                        (this.usersService.GetUserByIdAsync(p.RecipientId).Result.FirstName + " " +
-                        (this.usersService.GetUserByIdAsync(p.RecipientId).Result.LastName).Substring(0, 1)),
+                        (this.usersService.GetUserByIdWithDeletedAsync(p.RecipientId).Result.FirstName + " " +
+                        (this.usersService.GetUserByIdWithDeletedAsync(p.RecipientId).Result.LastName).Substring(0, 1)),
                     RecipientId = p.RecipientId
 
                 }).ToList();
