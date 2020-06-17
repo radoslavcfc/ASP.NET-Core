@@ -54,15 +54,16 @@ namespace Panda.Tests
 
         //Actual Tests
         [Fact]
-        public void TestGetAllPackagesShouldReturn()
+        public void TestGetAllPackages_ShouldReturn_OnlyIfNotDeleted()
         {
             var inMemoryContext = this.InitializeInMemoryDb();
             var packageService = new PackagesService(inMemoryContext);
             var expectedData = GetTestData();
+            this.SeedTestData(inMemoryContext);
             var actualData = packageService.GetAllPackages().ToList();
 
             Assert.NotEqual(expectedData.Count, actualData.Count);
-            Assert.Single(expectedData);
+            Assert.Single(actualData);
             foreach (var actualPackage in actualData)
             {
                 Assert.True(expectedData.Any(user =>
