@@ -8,7 +8,9 @@ using Microsoft.Extensions.Options;
 using Moq;
 using Panda.App.Controllers;
 using Panda.Domain;
+using Panda.Domain.Enums;
 using Panda.Services;
+using PandaWeb.Models.Package;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -29,10 +31,23 @@ namespace Panda.Tests
 
             var controller = new PackagesController
                (userManagerServiceMock, userServiceMock.Object, packageServiceMock.Object, addressServiceMock.Object);
+
+            controller.ControllerContext = this.InitializeHttpContextWithAdmin();
             return controller;
         }
+
+        private ControllerContext InitializeHttpContextWithAdmin()
+        {
+            var httpContext = new Mock<HttpContext>();
+            httpContext.Setup(m => m.User.IsInRole("admin")).Returns(true);
+
+            var context = new ControllerContext(
+                new ActionContext(httpContext.Object, new RouteData(), new ControllerActionDescriptor()));
+            return context;
+        }
+
         [Fact]
-        public void PackagesControllerIndexTest()
+        public void PackagesController_IndexTest()
         {
             var controller = this.InitializeControllerContstuctor();
 
@@ -47,13 +62,44 @@ namespace Panda.Tests
             var result = controller.Index();
             Assert.IsType<ViewResult>(result);
 
-            httpContext.Setup(m => m.User.IsInRole("user")).Returns(true);
-            var resultWithUserRole = controller.Index();
-            Assert.IsType<ViewResult>(resultWithUserRole);
+            //httpContext.Setup(m => m.User.IsInRole("user")).Returns(true);
+            //var resultWithUserRole = controller.Index();
+            //Assert.IsType<ViewResult>(resultWithUserRole);
+
         }
 
         [Fact]
-        public void PackagesControllerCreateTest()
+        public void PackagesController_IndexTest_CountOfPackages()
+        {
+            var mockPakcageService = new Mock<IPackagesService>();
+            var userManagerServiceMock = TestUserManager<PandaUser>();
+            var addressServiceMock = new Mock<IAddressesService>();
+            var userServiceMock = new Mock<IUsersService>();
+
+            var controller = new PackagesController
+               (userManagerServiceMock, userServiceMock.Object, mockPakcageService.Object, addressServiceMock.Object);
+
+            mockPakcageService.Setup(list => list.GetAllPackages())
+                .Returns(this.GetSampleListPackage());
+
+            var httpContext = new Mock<HttpContext>();
+            httpContext.Setup(m => m.User.IsInRole("admin")).Returns(true);
+            var context = new ControllerContext(
+                new ActionContext(httpContext.Object, new RouteData(), new ControllerActionDescriptor()));
+            controller.ControllerContext = context;
+
+            var result = controller.Index();
+
+            var viewResult = Assert.IsType<ViewResult>(result);
+
+            //Controller transforming the result from the service to List<PackageHomeViewModel>(), after mapping it
+            var model = Assert.IsAssignableFrom<List<PackageHomeViewModel>> (
+            viewResult.ViewData.Model);
+            Assert.Equal(2, model.Count());
+        }
+
+            [Fact]
+        public void PackagesController_CreateTest()
         {
             var controller = this.InitializeControllerContstuctor();
 
@@ -61,7 +107,15 @@ namespace Panda.Tests
             Assert.IsType<ViewResult>(result);
         }
 
-        public static UserManager<TUser> TestUserManager<TUser>(IUserStore<TUser> store = null) 
+        private IQueryable<Package> GetSampleListPackage()
+        {
+            var list = new List<Package>();
+            list.Add(new Package { Id = "1", Description = "1.1" });
+            list.Add(new Package { Id = "2", Description = "2.1" });
+
+            return list.AsQueryable<Package>();
+        }
+        private static UserManager<TUser> TestUserManager<TUser>(IUserStore<TUser> store = null) 
             where TUser : class
         {
             store = store ?? new Mock<IUserStore<TUser>>().Object;
