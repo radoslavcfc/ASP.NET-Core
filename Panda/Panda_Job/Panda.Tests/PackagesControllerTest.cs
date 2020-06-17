@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
@@ -8,6 +11,8 @@ using Panda.Domain;
 using Panda.Services;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
+using System.Security.Principal;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -15,8 +20,7 @@ namespace Panda.Tests
 {
     public class PackagesControllerTest
     {
-        [Fact]
-        public void IndexTest()
+        public PackagesController InitializeControllerContstuctor()
         {
             var packageServiceMock = new Mock<IPackagesService>();
             var userManagerServiceMock = TestUserManager<PandaUser>();
@@ -25,9 +29,33 @@ namespace Panda.Tests
 
             var controller = new PackagesController
                (userManagerServiceMock, userServiceMock.Object, packageServiceMock.Object, addressServiceMock.Object);
+            return controller;
+        }
+        [Fact]
+        public void PackagesControllerIndexTest()
+        {
+            var controller = this.InitializeControllerContstuctor();
 
-            //packageServiceMock.Setup(x => x.GetAllPackages())
-            //    .Returns(new Queryable<Package>() { });
+            var httpContext = new Mock<HttpContext>();
+            httpContext.Setup(m => m.User.IsInRole("admin")).Returns(true);
+           
+            var context = new ControllerContext(
+                new ActionContext(httpContext.Object, new RouteData(), new ControllerActionDescriptor()));
+
+            controller.ControllerContext = context;
+           
+            var result = controller.Index();
+            Assert.IsType<ViewResult>(result);
+
+            httpContext.Setup(m => m.User.IsInRole("user")).Returns(true);
+            var resultWithUserRole = controller.Index();
+            Assert.IsType<ViewResult>(resultWithUserRole);
+        }
+
+        [Fact]
+        public void PackagesControllerCreateTest()
+        {
+            var controller = this.InitializeControllerContstuctor();
 
             var result = controller.Create();
             Assert.IsType<ViewResult>(result);
