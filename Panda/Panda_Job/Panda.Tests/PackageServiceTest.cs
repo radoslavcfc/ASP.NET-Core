@@ -19,11 +19,12 @@ namespace Panda.Tests
                 .UseInMemoryDatabase(databaseName: "pandaDbContextInMemory").Options;
 
             var inMemoryContext = new PandaDbContext(options);
-            //SeedTestData(inMemoryContext);
+            
             return inMemoryContext;
         }
         private List<Package> GetTestData()
         {
+            
             return
             new List<Package>
             {
@@ -47,19 +48,42 @@ namespace Panda.Tests
             };
         }
 
-        private void SeedTestData(PandaDbContext context)
+        private void SeedTestData(PandaDbContext inMemoryContext)
         {
-            context.Packages.AddRange(GetTestData());
-            context.SaveChanges();
+            inMemoryContext.Packages.AddRange(GetTestData());
+            inMemoryContext.SaveChanges();
+        }
+
+        private void ClearData(PandaDbContext inMemoryContext)
+        {
+            if (inMemoryContext.Packages.Count() != 0)
+            {
+                inMemoryContext.Packages.RemoveRange(GetTestData());
+                inMemoryContext.SaveChanges();
+            }
+           
         }
 
         //Actual Tests
+        [Fact]
+        public void TestGetAllUsers_WithoutAnyData()
+        {
+            var inMemoryContext = this.InitializeInMemoryDb();
+            var packageService = new PackagesService(inMemoryContext);
+            this.ClearData(inMemoryContext);
+            var actualData = packageService.GetAllPackages().ToList();
+            Assert.True(actualData.Count() == 0);
+
+            inMemoryContext.Dispose();
+        }
+
         [Fact]
         public void TestGetAllPackages_ShouldReturn_OnlyIfNotDeleted()
         {
             var inMemoryContext = this.InitializeInMemoryDb();
             var packageService = new PackagesService(inMemoryContext);
             var expectedData = GetTestData();
+          
             this.SeedTestData(inMemoryContext);
             var actualData = packageService.GetAllPackages().ToList();
 
@@ -72,15 +96,7 @@ namespace Panda.Tests
                     actualPackage.ShippingAddress == user.ShippingAddress &&
                     actualPackage.Description == user.Description), "Wrong");
             }
-        }
-
-        [Fact]
-        public void TestGetAllUsers_WithoutAnyData()
-        {
-            var inMemoryContext = this.InitializeInMemoryDb();
-            var packageService = new PackagesService(inMemoryContext);
-            var actualData = packageService.GetAllPackages().ToList();
-            Assert.True(actualData.Count() == 0); 
+            inMemoryContext.Dispose();
         }
 
         [Fact]
@@ -88,6 +104,7 @@ namespace Panda.Tests
         {
             var inMemoryContext = this.InitializeInMemoryDb();
             var packageService = new PackagesService(inMemoryContext);
+            this.ClearData(inMemoryContext);
             this.SeedTestData(inMemoryContext);
             var testPackageId = "TestId2";
 
@@ -99,23 +116,24 @@ namespace Panda.Tests
                 .GetPackageAsync(testPackageId);
 
             Assert.Equal(expectedData.Description, actualData.Description);
+           
+            inMemoryContext.Dispose();
         }
 
         [Fact]
-        public void TestGetAllUsers_NonExistanceUser()
+        public async Task TestGetAllUsers_NonExistingUser()
         {
-            var options = new DbContextOptionsBuilder<PandaDbContext>()
-               .UseInMemoryDatabase(databaseName: "GetAllUsers").Options;
+            var inMemoryContext = this.InitializeInMemoryDb();
+            var packageService = new PackagesService(inMemoryContext);
 
-            var context = new PandaDbContext(options);
-            SeedTestData(context);
-
-            var usersService = new UsersService(context);
+          //  SeedTestData(inMemoryContext);
+           
             string testUserId = "TestUser3";
-            var actualData = usersService.GetUserByIdAsync(testUserId).Result;
+            var actualData = await packageService
+                .GetPackageAsync(testUserId);
             Assert.Null(actualData);
+           
+            inMemoryContext.Dispose();
         }
-
-       
     }
 }
