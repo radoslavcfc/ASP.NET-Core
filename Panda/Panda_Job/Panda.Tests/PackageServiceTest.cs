@@ -76,13 +76,9 @@ namespace Panda.Tests
         [Fact]
         public void TestGetAllUsers_WithoutAnyData()
         {
-            var options = new DbContextOptionsBuilder<PandaDbContext>()
-               .UseInMemoryDatabase(databaseName: "GetAllUsers").Options;
-
-            var context = new PandaDbContext(options);
-            SeedTestData(context);
-            var usersService = new UsersService(context);
-            var actualData = usersService.GetAllUsersNoAdmins();
+            var inMemoryContext = this.InitializeInMemoryDb();
+            var packageService = new PackagesService(inMemoryContext);
+            var actualData = packageService.GetAllPackages().ToList();
             Assert.True(actualData.Count() == 0); 
         }
 
