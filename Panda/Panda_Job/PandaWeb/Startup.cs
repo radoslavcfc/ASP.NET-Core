@@ -1,11 +1,8 @@
 
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
 
 using Microsoft.Extensions.Configuration;
@@ -14,7 +11,6 @@ using Microsoft.Extensions.Hosting;
 using Panda.Data;
 using Panda.Domain;
 using Panda.Services;
-using System.IO;
 using System.Linq;
 
 
