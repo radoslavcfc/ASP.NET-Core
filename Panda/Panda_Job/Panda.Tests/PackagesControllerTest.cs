@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
+using Panda.App.Controllers;
 using Panda.Domain;
 using Panda.Services;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -18,16 +20,17 @@ namespace Panda.Tests
         {
             var packageServiceMock = new Mock<IPackagesService>();
             var userManagerServiceMock = TestUserManager<PandaUser>();
-            var receiptsServiceMock = new Mock<IReceiptsService>();
+            var addressServiceMock = new Mock<IAddressesService>();
             var userServiceMock = new Mock<IUsersService>();
 
-            //var controller = new PackagesController
-            //   (userManagerServiceMock, userServiceMock.Object, packageServiceMock.Object, receiptsServiceMock.Object);
-            //userServiceMock.Setup(x => x.GetAllUsers())
-            //    .Returns(new List<PandaUser>() { });
-                
-            //var result = controller.Create();
-            //Assert.IsType<ViewResult>(result);
+            var controller = new PackagesController
+               (userManagerServiceMock, userServiceMock.Object, packageServiceMock.Object, addressServiceMock.Object);
+
+            //packageServiceMock.Setup(x => x.GetAllPackages())
+            //    .Returns(new Queryable<Package>() { });
+
+            var result = controller.Create();
+            Assert.IsType<ViewResult>(result);
         }
 
         public static UserManager<TUser> TestUserManager<TUser>(IUserStore<TUser> store = null) 
