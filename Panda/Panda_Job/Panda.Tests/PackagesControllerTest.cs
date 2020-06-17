@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
+
 using Panda.App.Controllers;
 using Panda.Domain;
 using Panda.Services;
@@ -87,7 +88,6 @@ namespace Panda.Tests
             context = this.InitializeHttpContextWithRole("user");
             var resultWithUserRole = controller.Index();
             Assert.IsType<ViewResult>(resultWithUserRole);
-
         }
 
         [Fact]
@@ -124,7 +124,5 @@ namespace Panda.Tests
             var result = controller.Create();
             Assert.IsType<ViewResult>(result);
         }
-
-        
     }
 }

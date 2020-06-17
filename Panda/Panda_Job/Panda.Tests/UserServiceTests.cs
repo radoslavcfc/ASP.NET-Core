@@ -46,10 +46,10 @@ namespace Panda.Tests
                .UseInMemoryDatabase(databaseName: "GetAllUsers").Options;
 
             var context = new PandaDbContext(options);
-            //SeedTestData(context);
+            SeedTestData(context);
             var usersService = new UsersService(context);
-       //     var actualData = usersService.GetAllUsersNoAdmins();
-       //     Assert.True(actualData.Count==0); 
+            var actualData = usersService.GetAllUsersNoAdmins();
+            Assert.True(actualData.Count() == 0); 
         }
 
         [Fact]
@@ -64,8 +64,7 @@ namespace Panda.Tests
             var expectedData = GetTestData().SingleOrDefault(user =>
             user.Id == testUserId);
             var actualData = usersService.GetUserByIdAsync(testUserId);
-          //  Assert.Equal(expectedData.UserName, actualData.UserName);
-           
+            Assert.Equal(expectedData.UserName, actualData.Result.UserName);
         }
 
         [Fact]
@@ -76,9 +75,10 @@ namespace Panda.Tests
 
             var context = new PandaDbContext(options);
             SeedTestData(context);
+
             var usersService = new UsersService(context);
             string testUserId = "TestUser3";
-            var actualData = usersService.GetUserByIdAsync(testUserId);
+            var actualData = usersService.GetUserByIdAsync(testUserId).Result;
             Assert.Null(actualData);
         }
 
