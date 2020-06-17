@@ -6,6 +6,7 @@ using Panda.Domain;
 using Panda.Services;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Panda.Tests
@@ -83,18 +84,21 @@ namespace Panda.Tests
         }
 
         [Fact]
-        public void TestGetAllUsers_UserDetailsMatch()
+        public async Task TestGetAllUsers_UserDetailsMatch()
         {
-            var options = new DbContextOptionsBuilder<PandaDbContext>()
-               .UseInMemoryDatabase(databaseName: "GetAllUsers").Options;            
-            var context = new PandaDbContext(options);
-            SeedTestData(context);
-            var usersService = new UsersService(context);
-            var testUserId = "TestId1";
-            var expectedData = GetTestData().SingleOrDefault(user =>
-            user.Id == testUserId);
-            var actualData = usersService.GetUserByIdAsync(testUserId);
-          //  Assert.Equal(expectedData.UserName, actualData.Result.UserName);
+            var inMemoryContext = this.InitializeInMemoryDb();
+            var packageService = new PackagesService(inMemoryContext);
+            this.SeedTestData(inMemoryContext);
+            var testPackageId = "TestId2";
+
+            var expectedData = GetTestData()
+                .SingleOrDefault(package =>
+                     package.Id == testPackageId);
+
+            var actualData = await packageService
+                .GetPackageAsync(testPackageId);
+
+            Assert.Equal(expectedData.Description, actualData.Description);
         }
 
         [Fact]
