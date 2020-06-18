@@ -11,7 +11,7 @@
         <input type="hidden" asp-for="@Model.Id" />
 
         <label asp-for="@Model.FullName"></label>
-        <input asp-for="@Model.FullName" class="form-control inputData" disabled />
+        <input asp-for="@Model.FullName" class="form-control inputData" readonly />
 
     </div>
     <div class="form-group">
@@ -24,7 +24,7 @@
     </div>
     <div id="saveBut" class="form-group justify-content-around">
         <input type="submit" class="btn btn-danger" value="REMOVE" />
-        <a hrf="/Users/Index" class="btn btn-dark text-white" value="Cancel"> Cancel</a>
+        <a asp-controller="Users" asp-action="Index"  class="btn btn-dark text-white" value="Cancel"> Cancel</a>
     </div>
 </form>
 
