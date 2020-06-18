@@ -14,6 +14,7 @@ using PandaWeb.Models.User;
 using Panda.Domain;
 using Panda.Domain.Enums;
 using Panda.Services;
+using System.Reflection.Metadata.Ecma335;
 
 namespace Panda.App.Controllers
 {
@@ -49,6 +50,11 @@ namespace Panda.App.Controllers
                 })
                 .ToList();
 
+            if (collection == null)
+            {
+                return this.NotFound();
+            }
+
             if (this.User.IsInRole("Admin"))
             {
                 return this.View(collection);
@@ -75,6 +81,11 @@ namespace Panda.App.Controllers
                    Name = u.UserName
                });
 
+            if (viewModel == null)
+            {
+                return this.NotFound();
+            }
+
             return this.View(viewModel);
         }
 
@@ -98,7 +109,9 @@ namespace Panda.App.Controllers
                 EstimatedDeliveryDate = DateTime.UtcNow.AddDays(4)
             };
 
-            await this.packagesService.CreatePackageAsync(package);
+            await this.packagesService
+                .CreatePackageAsync(package);
+
             TempData["SuccessCreatedPackage"] = "A New package has been successfuly created!";
             return this.Redirect($"/Packages/Details/{package.Id}");
         }
@@ -121,6 +134,11 @@ namespace Panda.App.Controllers
                 var currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
                 packageFromDb = this.packagesService
                     .GetAllPackagesWithStatusForUser(currentUserId, status);
+            }
+
+            if (packageFromDb == null)
+            {
+                return this.NotFound();
             }
 
             var model = packageFromDb
@@ -149,12 +167,21 @@ namespace Panda.App.Controllers
             var package = await this.packagesService
                 .GetPackageAsync(Id);
 
+            if (package == null)
+            {
+                return this.NotFound();
+            }
+
             var model = new PackageDetailsViewModel
             {
                 Id = package.Id,
+                //
+                //!!!To Optimzie!!!
                 ShippingAddress = this.addressesService
                     .ShortenedAddressToString(
                         await this.addressesService.GetAddressByIdAsync(package.ShippingAddress)),
+
+                /////////////////////////////////////////////////////////////////////////////////////
                 Status = package.Status.ToString(),
                 EstimatedDeliveryDate = package.EstimatedDeliveryDate?
                     .ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
