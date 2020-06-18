@@ -91,6 +91,7 @@ namespace Panda.App.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(PackageCreateModel bindingModel)
         {
             if (!this.ModelState.IsValid)

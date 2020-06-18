@@ -13,7 +13,6 @@ namespace PandaWeb.Controllers
     public class UsersController : Controller
     {
         private readonly IUsersService usersService;
-        
         private readonly UserManager<PandaUser> userManager;
         private readonly SignInManager<PandaUser> signInManager;
 
@@ -60,6 +59,7 @@ namespace PandaWeb.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> CompleteData(UserCompleteDataModel model)
         {
             if (!ModelState.IsValid)
@@ -136,6 +136,10 @@ namespace PandaWeb.Controllers
         /// <param name="phoneNumber">New phone number ?</param>
         /// <param name="secondContactNumber">New second phone number</param>
         /// <returns>After successfull managing the new data, it redirects to the main manage panel</returns>
+        /// 
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditInfo(string email, string phoneNumber, string secondContactNumber)
         {
             var currentUser = await this.GetTheCurrentUserAsync();
@@ -171,6 +175,7 @@ namespace PandaWeb.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         [ActionName("ChangePassword")]
         public async Task<IActionResult> ChangePasswordPost(ChangePasswordModel model)
         {
@@ -196,6 +201,7 @@ namespace PandaWeb.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         [ActionName("DeleteAccount")]
         public async Task<IActionResult> DeleteAccount(DeleteAccountModel model)
         {
@@ -238,8 +244,9 @@ namespace PandaWeb.Controllers
             return this.View(model);
         }
 
-        [Authorize(Roles = "Admin")]
         [HttpPost]
+        [Authorize(Roles = "Admin")]
+        [ValidateAntiForgeryToken]       
         public async Task<IActionResult> HardDelete(HardDeleteUserModel model)
         {
             if (!ModelState.IsValid || model.Confirm == false)

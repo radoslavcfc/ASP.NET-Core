@@ -1,15 +1,17 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Linq;
+using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+
 using Panda.Domain;
 using Panda.Domain.Enums;
 using Panda.Services;
-
 using PandaWeb.Models.Address;
 using PandaWeb.Models.Flat;
-using System.Linq;
-using System.Threading.Tasks;
+
 
 namespace Panda_Job.Controllers
 {
