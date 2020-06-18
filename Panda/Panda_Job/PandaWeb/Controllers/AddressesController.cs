@@ -117,9 +117,12 @@ namespace Panda_Job.Controllers
 
             return this.RedirectToAction("Index", "Addresses");
         }
+
+        [HttpGet]
         public async Task<ActionResult> Edit(string id)
         {
-            var address = await this.addressesService.GetAddressByIdAsync(id);
+            var address = await this.addressesService
+                .GetAddressByIdAsync(id);
             var model = new UpdateAddressModel
             {
                 Id = address.Id,
@@ -129,8 +132,7 @@ namespace Panda_Job.Controllers
                 StreetName = address.StreetName,
                 AddressType = address.AddressType,
                 PropertyType = address.PropertyType,
-                Number = address.Number,
-
+                Number = address.Number
             };
 
             if (address.PropertyType == PropertyType.Flat)
@@ -144,6 +146,7 @@ namespace Panda_Job.Controllers
             return this.View("Preview", model);
         }
 
+        [HttpPost]
         public async Task<IActionResult> Update(UpdateAddressModel model)
         {
             var idForUpdate = model.Id;
@@ -190,6 +193,8 @@ namespace Panda_Job.Controllers
 
             return this.RedirectToAction("Index", "Addresses");
         }
+
+        [HttpGet]
         public async Task<IActionResult> Delete(string id)
         {
             var addressFromDb = await this.addressesService.GetAddressByIdAsync(id);
@@ -205,12 +210,16 @@ namespace Panda_Job.Controllers
 
         public async Task<IActionResult> Delete(DeleteAddressModel model)
         {
+            if (model == null)
+            {
+                return this.NotFound();
+            }
+
             var id = model.Id;
             await this.addressesService.MarkAsDeletedAsync(id);
 
             TempData["Deleted message"] = "The address was successfully deleted!";
-
-            //return this.View("Deleted");
+         
             return this.RedirectToAction("Index", "Addresses");
         }
     }
