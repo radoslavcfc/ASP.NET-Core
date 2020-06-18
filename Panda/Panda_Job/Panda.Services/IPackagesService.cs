@@ -1,7 +1,8 @@
-﻿using Panda.Domain;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
+using Panda.Domain;
 
 namespace Panda.Services
 {

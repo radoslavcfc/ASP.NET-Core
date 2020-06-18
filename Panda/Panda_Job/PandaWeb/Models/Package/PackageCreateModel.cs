@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
-using PandaWeb.Models.User;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+
+using PandaWeb.Models.User;
 
 namespace PandaWeb.Models.Package
 {

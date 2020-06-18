@@ -1,5 +1,6 @@
-﻿using Panda.Domain.Enums;
-using System;
+﻿using System;
+
+using Panda.Domain.Enums;
 
 namespace Panda.Domain
 {

@@ -1,5 +1,4 @@
-﻿using Panda.Domain.Enums;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace PandaWeb.Models.Address
 {

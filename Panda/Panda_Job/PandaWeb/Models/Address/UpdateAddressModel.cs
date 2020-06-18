@@ -1,6 +1,6 @@
-﻿using Panda.Domain.Enums;
+﻿using System.ComponentModel.DataAnnotations;
+using Panda.Domain.Enums;
 using PandaWeb.Models.Flat;
-using System.ComponentModel.DataAnnotations;
 
 namespace PandaWeb.Models.Address
 {

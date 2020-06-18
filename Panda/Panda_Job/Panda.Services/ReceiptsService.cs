@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Panda.Data;
-using Panda.Domain;
-
-using System.Data;
+﻿using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+
+using Microsoft.EntityFrameworkCore;
+
+using Panda.Data;
+using Panda.Domain;
 
 namespace Panda.Services
 {

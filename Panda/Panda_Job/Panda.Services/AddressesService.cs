@@ -1,9 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Linq;
+using System.Threading.Tasks;
+
+using Microsoft.EntityFrameworkCore;
+
 using Panda.Data;
 using Panda.Domain;
 using Panda.Domain.Enums;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Panda.Services
 {
@@ -40,7 +42,6 @@ namespace Panda.Services
            await this.pandaDbContext.SaveChangesAsync();
         }
 
-       
         public Task<Address> GetAddressByIdAsync(string addressId)
         {
             var addresFromDb = this.pandaDbContext
@@ -48,6 +49,7 @@ namespace Panda.Services
               .Where(a => a.Id == addressId && a.IsDeleted == false)
               .Include(a => a.Flat)
               .FirstOrDefaultAsync();
+
             return addresFromDb;
         }
 
@@ -112,7 +114,5 @@ namespace Panda.Services
             }
             return addressToString;
         }
-
-        
     }
 }

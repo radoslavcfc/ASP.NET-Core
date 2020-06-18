@@ -1,11 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Panda.Data;
-using Panda.Domain;
-using Panda.Domain.Enums;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
+using Microsoft.EntityFrameworkCore;
+
+using Panda.Data;
+using Panda.Domain;
 
 namespace Panda.Services
 {
@@ -22,6 +22,7 @@ namespace Panda.Services
         {
             await this.pandaDbContext.Packages
                 .AddAsync(package);
+
             await this.pandaDbContext.SaveChangesAsync();
         }
 

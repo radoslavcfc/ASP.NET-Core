@@ -1,8 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Linq;
+using System.Threading.Tasks;
+
+using Microsoft.EntityFrameworkCore;
+
 using Panda.Data;
 using Panda.Domain;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Panda.Services
 {
@@ -86,6 +88,11 @@ namespace Panda.Services
             return users;
         }
 
+        /// <summary>
+        /// Clears all the records linked to the user
+        /// </summary>
+        /// <param name="id">The user id</param>
+        /// <returns>Removes data from database and saves changes to it</returns>
         public async Task DeleteAllDataForUserAsync(string id)
         {
             var flatsToRemove = this.pandaDbContext
