@@ -118,9 +118,12 @@ namespace Panda.App.Controllers
         }
 
         [HttpGet("/Packages/ListAll/{status}")]
-        public IActionResult ListAll(string status)
+        public async Task<IActionResult> ListAll(string status)
         {
-            var currentUserRole = this.User.Identity.Name;
+            var user = await userManager.GetUserAsync(User);
+
+
+            var currentUserRole = await this.usersService.GetRoleByIdAsync(user.Id);
 
             IEnumerable<Package> packageFromDb;
 

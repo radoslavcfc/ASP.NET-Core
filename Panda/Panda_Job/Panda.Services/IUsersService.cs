@@ -15,5 +15,6 @@ namespace Panda.Services
         Task<bool> DeleteAccountAsync(PandaUser currentUser);
         Task <PandaUser> GetUserByIdWithDeletedAsync(string id);
         Task DeleteAllDataForUserAsync(string id);
+        Task<string> GetRoleByIdAsync(string id);
     }
 }

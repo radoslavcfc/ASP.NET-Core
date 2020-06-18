@@ -121,5 +121,20 @@ namespace Panda.Services
 
            await this.pandaDbContext.SaveChangesAsync();
         }
+
+        public async Task<string> GetRoleByIdAsync(string id)
+        {
+            var userRoleId = await this.pandaDbContext
+                .UserRoles
+                .Where(ur => ur.UserId == id)
+                .Select(ur => ur.RoleId)
+                .FirstAsync();
+            var roleName = await this.pandaDbContext
+                .Roles
+                .Where(r => r.Id == userRoleId)
+                .Select(r => r.Name)
+                .FirstAsync();
+            return roleName;
+        }
     }
 }
