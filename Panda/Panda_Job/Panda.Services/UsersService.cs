@@ -134,7 +134,7 @@ namespace Panda.Services
                 .Where(r => r.Id == userRoleId)
                 .Select(r => r.Name)
                 .FirstAsync();
-            return roleName;
+            return roleName.ToLower();
         }
     }
 }
