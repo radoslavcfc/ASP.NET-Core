@@ -139,7 +139,6 @@ namespace PandaWeb.Controllers
         /// 
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditInfo(string email, string phoneNumber, string secondContactNumber)
         {
             var currentUser = await this.GetTheCurrentUserAsync();
