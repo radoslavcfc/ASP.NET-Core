@@ -1,18 +1,19 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using PandaWeb.Models.Package;
-
-using Panda.Domain;
-using Panda.Domain.Enums;
-using Panda.Services;
-using System;
+﻿using System;
 using System.Globalization;
 using System.Linq;
-using PandaWeb.Models.User;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Security.Claims;
+
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+
+using PandaWeb.Models.Package;
+using PandaWeb.Models.User;
+using Panda.Domain;
+using Panda.Domain.Enums;
+using Panda.Services;
 
 namespace Panda.App.Controllers
 {
