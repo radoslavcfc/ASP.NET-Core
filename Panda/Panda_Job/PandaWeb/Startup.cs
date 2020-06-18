@@ -56,8 +56,7 @@ namespace PandaWeb
                  });
 
             services.AddControllers();
-            services.AddControllersWithViews(options =>
-              options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()));
+            
             services.AddMvc();
             services.Configure<IdentityOptions>(options =>
             {

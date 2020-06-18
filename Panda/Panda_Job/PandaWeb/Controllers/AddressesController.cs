@@ -55,11 +55,14 @@ namespace Panda_Job.Controllers
 
         [HttpPost]
         [ActionName("Create")]
+        [ValidateAntiForgeryToken]
         public IActionResult CreatePost(UpdateAddressModel model)
         {
             return this.View("Preview", model);
         }
 
+        [HttpPost]    
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Save(UpdateAddressModel model)
         {
             var userId = this.userManager.GetUserId(this.User);
@@ -147,6 +150,7 @@ namespace Panda_Job.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Update(UpdateAddressModel model)
         {
             var idForUpdate = model.Id;
@@ -195,7 +199,7 @@ namespace Panda_Job.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Delete(string id)
+       public async Task<IActionResult> Delete(string id)
         {
             var addressFromDb = await this.addressesService.GetAddressByIdAsync(id);
             var model = new DeleteAddressModel
@@ -207,7 +211,7 @@ namespace Panda_Job.Controllers
         }
 
         [HttpPost("Addresses/Delete")]
-
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(DeleteAddressModel model)
         {
             if (model == null)
