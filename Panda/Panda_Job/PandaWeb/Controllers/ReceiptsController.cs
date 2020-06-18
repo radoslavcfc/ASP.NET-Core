@@ -1,15 +1,15 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
-using PandaWeb.Models.Receipt;
-
-using Panda.Domain;
-using Panda.Services;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System;
 using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+
+using PandaWeb.Models.Receipt;
+using Panda.Domain;
+using Panda.Services;
 
 namespace Panda.App.Controllers
 {

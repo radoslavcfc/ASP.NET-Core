@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Diagnostics;
+
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using PandaWeb.Models.Error;
-using System.Diagnostics;
 
 namespace Panda.App.Controllers
 {
