@@ -1,13 +1,12 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 using Panda.Domain;
 using Panda.Services;
 using PandaWeb.Models.User;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace PandaWeb.Controllers
 {
@@ -30,7 +29,12 @@ namespace PandaWeb.Controllers
         {
            var allUsersFromDb = await userManager
                 .GetUsersInRoleAsync("user");
-                
+
+            if (allUsersFromDb == null)
+            {
+                return this.NotFound();
+            }
+
             var model = new AllUsersIndexViewModel();
 
             foreach (var singleUser in allUsersFromDb)
@@ -44,6 +48,7 @@ namespace PandaWeb.Controllers
                 };
                 model.AllUsersCollection.Add(modelUser);
             }
+
             return this.View(model);
         }
 
@@ -80,7 +85,14 @@ namespace PandaWeb.Controllers
 
         public async Task<IActionResult> Details(string id)
         {
-            var selectedtUser = await this.usersService.GetUserByIdAsync(id);
+            var selectedtUser = await this.usersService
+                .GetUserByIdAsync(id);
+
+            if (selectedtUser == null)
+            {
+                return this.NotFound();
+            }
+
             var model = new UserDetailViewModel
             {
                 Id = selectedtUser.Id,
@@ -117,9 +129,17 @@ namespace PandaWeb.Controllers
             return this.View(model);
         }
 
+        /// <summary>
+        /// Method verifying if the new entries from the user are different from the current ones
+        /// </summary>
+        /// <param name="email">New email ?</param>
+        /// <param name="phoneNumber">New phone number ?</param>
+        /// <param name="secondContactNumber">New second phone number</param>
+        /// <returns>After successfull managing the new data, it redirects to the main manage panel</returns>
         public async Task<IActionResult> EditInfo(string email, string phoneNumber, string secondContactNumber)
         {
             var currentUser = await this.GetTheCurrentUserAsync();
+
             if (currentUser == null)
             {
                 return NotFound();
@@ -130,14 +150,16 @@ namespace PandaWeb.Controllers
             currentUser.PhoneNumber = phoneNumber ?? currentUser.PhoneNumber;
             currentUser.SecondContactNumber = secondContactNumber ?? currentUser.SecondContactNumber;
 
-            //SecondContactNumber is not requiered if user wants to remove it then it will be null
+            //SecondContactNumber is not requiered if user wants to remove it then it will come as null
 
             currentUser.SecondContactNumber = 
-                    (email == null && phoneNumber == null && secondContactNumber == null) ? null : currentUser.SecondContactNumber;
+                    (email == null && phoneNumber == null && secondContactNumber == null) ?
+                     null : currentUser.SecondContactNumber;
 
             await this.userManager.UpdateAsync(currentUser);
             await this.userManager.UpdateNormalizedEmailAsync(currentUser);
             await this.usersService.SaveToDataBaseAsync();
+
             return this.Redirect("/Users/ManageData");
         }
 
@@ -158,7 +180,9 @@ namespace PandaWeb.Controllers
                 return NotFound();
             }
            
-            await this.userManager.ChangePasswordAsync(currentUser, model.CurrentPassword, model.NewPassword);            
+            await this.userManager
+                .ChangePasswordAsync(currentUser, model.CurrentPassword, model.NewPassword);   
+            
             await this.signInManager.SignOutAsync();
             TempData["Changed Password"] = "Your password was successfully changed, Please sign in ";
             return this.RedirectToAction("Index", "Home");
@@ -237,6 +261,9 @@ namespace PandaWeb.Controllers
             TempData["UserRemoved"] = "The user has been removed from the database!";
             return this.RedirectToAction("Index", "Users");
         }
+
+
+        //Help methods
 
         [NonAction]
         private async Task<PandaUser> GetTheCurrentUserAsync()
