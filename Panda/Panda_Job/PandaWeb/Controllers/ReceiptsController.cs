@@ -20,7 +20,8 @@ namespace Panda.App.Controllers
         private readonly IPackagesService packagesService;
         private readonly IAddressesService addressesService;
 
-        public ReceiptsController(IReceiptsService receiptsService, IPackagesService packagesService, IAddressesService addressesService)
+        public ReceiptsController(IReceiptsService receiptsService, 
+            IPackagesService packagesService, IAddressesService addressesService)
         {            
             this.receiptsService = receiptsService;
             this.packagesService = packagesService;
@@ -29,24 +30,36 @@ namespace Panda.App.Controllers
                 
         public IActionResult Index()
         {
-            List<ReceiptViewModelByUser> myReceiptsOfUser = this.receiptsService
-                .GetAllReceiptsWithRecipient()
+            var collectionFromDb = this.receiptsService
+                .GetAllReceiptsWithRecipient();
+
+            if (collectionFromDb == null)
+            {
+                return this.NotFound();
+            }
+
+            List<ReceiptViewModelByUser> modelCollection = collectionFromDb
                 .Select(receipt => new ReceiptViewModelByUser
                 {
                     Id = receipt.Id,
                     Fee = receipt.Fee,
-                    IssuedOn = receipt.IssuedOn.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
-                    Recipient = receipt.Recipient.FirstName + receipt.Recipient.LastName.Substring(0,1)
+                    IssuedOn = receipt.IssuedOn
+                                .ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
+                    Recipient = receipt.Recipient
+                                .FirstName + receipt.Recipient.LastName.Substring(0,1)
                 })
                 .ToList();
+
             if (this.User.IsInRole("Admin"))
             {
-                return View(myReceiptsOfUser);
+                return View(modelCollection);
             }
 
             else
             {
-                var personalReceipt = myReceiptsOfUser.Where(r => r.Recipient == User.Identity.Name).ToList();
+                var personalReceipt = modelCollection
+                    .Where(r => r.Recipient == User.Identity.Name)
+                    .ToList();
                 return View(personalReceipt);
             }
         }
@@ -59,19 +72,28 @@ namespace Panda.App.Controllers
                 .Where(receipt => receipt.Id == id)                
                 .SingleOrDefault();
 
+            if (receiptFromDb == null)
+            {
+                return this.NotFound();
+            }
+
             ReceiptDetailsViewModel viewModel = new ReceiptDetailsViewModel
             {
                 Id = receiptFromDb.Id,
                 Total = receiptFromDb.Fee,
                 Recipient = receiptFromDb.Recipient.UserName,
+
+                //TODO - simplify 
                 DeliveryAddress = this.addressesService
                             .ShortenedAddressToString(
                                      await this.addressesService
                                      .GetAddressByIdAsync(receiptFromDb
                                                 .Package.ShippingAddress)),
+                /////////////////////////////////////////////////////////////
                 PackageWeight = receiptFromDb.Package.Weight,
                 PackageDescription = receiptFromDb.Package.Description,
-                IssuedOn = receiptFromDb.IssuedOn.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)
+                IssuedOn = receiptFromDb.IssuedOn
+                    .ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)
             };
 
             return this.View(viewModel);
@@ -80,7 +102,14 @@ namespace Panda.App.Controllers
         [HttpGet("/Receipts/Create/{packageId}")]
         public async Task<IActionResult> Create(string packageId)
         {
-            var currentPackage = await this.packagesService.GetPackageAsync(packageId);
+            var currentPackage = await this.packagesService
+                .GetPackageAsync(packageId);
+
+            if (currentPackage == null)
+            {
+                return this.NotFound();
+            }
+
             var receipt = new Receipt
             {
                 Fee = Convert.ToDecimal(currentPackage.Weight * 2.67),
@@ -88,6 +117,7 @@ namespace Panda.App.Controllers
                 RecipientId = currentPackage.RecipientId,
                 PackageId = currentPackage.Id
             };
+
             await this.receiptsService.CreateReceiptAsync(receipt);
 
             TempData["RecieptsAdded"] = "Successfuly created a receipt";
