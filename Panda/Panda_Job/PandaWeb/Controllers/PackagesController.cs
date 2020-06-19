@@ -14,33 +14,36 @@ using PandaWeb.Models.User;
 using Panda.Domain;
 using Panda.Domain.Enums;
 using Panda.Services;
-
+using Microsoft.Extensions.Logging;
 
 namespace Panda.App.Controllers
 {
     [Authorize]
     public class PackagesController : Controller
     {
-        private readonly UserManager<PandaUser> userManager;
-        private readonly IUsersService usersService;
-        private readonly IPackagesService packagesService;
-        private readonly IAddressesService addressesService;
+        private readonly UserManager<PandaUser> _userManager;
+        private readonly IUsersService _usersService;
+        private readonly IPackagesService _packagesService;
+        private readonly IAddressesService _addressesService;
+        private readonly ILogger<PackagesController> _logger;
 
         public PackagesController(
             UserManager<PandaUser> userManager,
             IUsersService usersService,
             IPackagesService packagesService,
-            IAddressesService addressesService)
+            IAddressesService addressesService,
+            ILogger<PackagesController> logger)
         {
-            this.userManager = userManager;
-            this.usersService = usersService;
-            this.packagesService = packagesService;
-            this.addressesService = addressesService;
+            this._userManager = userManager;
+            this._usersService = usersService;
+            this._packagesService = packagesService;
+            this._addressesService = addressesService;
+            this._logger = logger;
         }
         [HttpGet]
         public IActionResult Index()
         {
-            var collection = this.packagesService.GetAllPackages()
+            var collection = this._packagesService.GetAllPackages()
                 .Select(p => new PackageHomeViewModel
                 {
                     Id = p.Id,
@@ -62,7 +65,7 @@ namespace Panda.App.Controllers
             else
             {
                 var personalColl = collection
-                     .Where(p => p.UserId == this.userManager.GetUserId(this.User))
+                     .Where(p => p.UserId == this._userManager.GetUserId(this.User))
                      .ToList();
                 return this.View(personalColl);
             }
@@ -74,7 +77,7 @@ namespace Panda.App.Controllers
             var viewModel = new PackageCreateModel();
 
             viewModel.UsersCollection =
-               this.usersService.GetAllUsersNoAdmins()
+               this._usersService.GetAllUsersNoAdmins()
                .Select(u => new UserDropDownModel
                {
                    Id = u.Id,
@@ -110,7 +113,7 @@ namespace Panda.App.Controllers
                 EstimatedDeliveryDate = DateTime.UtcNow.AddDays(4)
             };
 
-            await this.packagesService
+            await this._packagesService
                 .CreatePackageAsync(package);
 
             TempData["SuccessCreatedPackage"] = "A New package has been successfuly created!";
@@ -120,23 +123,23 @@ namespace Panda.App.Controllers
         [HttpGet("/Packages/ListAll/{status}")]
         public async Task<IActionResult> ListAll(string status)
         {
-            var user = await userManager.GetUserAsync(User);
+            var user = await _userManager.GetUserAsync(User);
 
 
-            var currentUserRole = await this.usersService.GetRoleByIdAsync(user.Id);
+            var currentUserRole = await this._usersService.GetRoleByIdAsync(user.Id);
 
             IEnumerable<Package> packageFromDb;
 
             if (currentUserRole == "admin")
             {
-                packageFromDb = this.packagesService
+                packageFromDb = this._packagesService
                     .GetAllPackagesWithStatusForAdmin(status);
             }
 
             else
             {
                 var currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-                packageFromDb = this.packagesService
+                packageFromDb = this._packagesService
                     .GetAllPackagesWithStatusForUser(currentUserId, status);
             }
 
@@ -151,11 +154,11 @@ namespace Panda.App.Controllers
                     Id = p.Id,
                     Description = p.Description,
                     Weight = p.Weight,
-                    ShippingAddress = this.addressesService.ShortenedAddressToString(
-                         this.addressesService.GetAddressByIdAsync(p.ShippingAddress).Result),
+                    ShippingAddress = this._addressesService.ShortenedAddressToString(
+                         this._addressesService.GetAddressByIdAsync(p.ShippingAddress).Result),
                     RecipientFullName =
-                        (this.usersService.GetUserByIdWithDeletedAsync(p.RecipientId).Result.FirstName + " " +
-                        (this.usersService.GetUserByIdWithDeletedAsync(p.RecipientId).Result.LastName).Substring(0, 1)),
+                        (this._usersService.GetUserByIdWithDeletedAsync(p.RecipientId).Result.FirstName + " " +
+                        (this._usersService.GetUserByIdWithDeletedAsync(p.RecipientId).Result.LastName).Substring(0, 1)),
                     RecipientId = p.RecipientId
 
                 }).ToList();
@@ -168,7 +171,7 @@ namespace Panda.App.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(string Id)
         {
-            var package = await this.packagesService
+            var package = await this._packagesService
                 .GetPackageAsync(Id);
 
             if (package == null)
@@ -181,9 +184,9 @@ namespace Panda.App.Controllers
                 Id = package.Id,
                 //
                 //!!!To Optimzie!!!
-                ShippingAddress = this.addressesService
+                ShippingAddress = this._addressesService
                     .ShortenedAddressToString(
-                        await this.addressesService.GetAddressByIdAsync(package.ShippingAddress)),
+                        await this._addressesService.GetAddressByIdAsync(package.ShippingAddress)),
 
                 /////////////////////////////////////////////////////////////////////////////////////
                 Status = package.Status.ToString(),
@@ -201,7 +204,7 @@ namespace Panda.App.Controllers
 
         public async Task<IActionResult> Deliver(string packageId)
         {
-            var currentPackage = await this.packagesService
+            var currentPackage = await this._packagesService
                 .GetPackageAsync(packageId);
 
             if (currentPackage == null)
@@ -210,7 +213,7 @@ namespace Panda.App.Controllers
             }
 
             currentPackage.Status = PackageStatus.Delivered;
-            await this.packagesService.UpdatePackageAsync(currentPackage);
+            await this._packagesService.UpdatePackageAsync(currentPackage);
 
             return this.Redirect($"/Receipts/Create/{packageId}");
         }
