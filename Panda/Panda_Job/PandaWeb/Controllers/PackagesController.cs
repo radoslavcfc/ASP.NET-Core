@@ -99,6 +99,7 @@ namespace Panda.App.Controllers
 
             if (viewModel == null)
             {
+                _logger.LogWarning($"");
                 return this.NotFound();
             }
 
@@ -112,6 +113,7 @@ namespace Panda.App.Controllers
         {
             if (!this.ModelState.IsValid)
             {
+                _logger.LogWarning($"");
                 return this.Redirect("/Packages/Create");
             }
 
@@ -129,6 +131,8 @@ namespace Panda.App.Controllers
             await this._packagesService
                 .CreatePackageAsync(package);
 
+            _logger.LogInformation($"");
+
             TempData["SuccessCreatedPackage"] = "A New package has been successfuly created!";
             return this.Redirect($"/Packages/Details/{package.Id}");
         }
@@ -138,8 +142,19 @@ namespace Panda.App.Controllers
         {
             var user = await _userManager.GetUserAsync(User);
 
+            if (user == null)
+            {
+                _logger.LogWarning($"");
+                return this.NotFound();
+            }
 
             var currentUserRole = await this._usersService.GetRoleByIdAsync(user.Id);
+
+            if (currentUserRole == null)
+            {
+                _logger.LogWarning($"");
+                return this.NotFound();
+            }
 
             IEnumerable<Package> packageFromDb;
 
@@ -158,6 +173,7 @@ namespace Panda.App.Controllers
 
             if (packageFromDb == null)
             {
+                _logger.LogWarning($"");
                 return this.NotFound();
             }
 
@@ -189,6 +205,7 @@ namespace Panda.App.Controllers
 
             if (package == null)
             {
+                _logger.LogWarning($"");
                 return this.NotFound();
             }
 
@@ -222,11 +239,14 @@ namespace Panda.App.Controllers
 
             if (currentPackage == null)
             {
+                _logger.LogWarning($"");
                 return this.NotFound();
             }
 
             currentPackage.Status = PackageStatus.Delivered;
             await this._packagesService.UpdatePackageAsync(currentPackage);
+
+            _logger.LogInformation($"");
 
             return this.Redirect($"/Receipts/Create/{packageId}");
         }
