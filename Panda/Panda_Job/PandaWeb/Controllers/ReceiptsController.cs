@@ -16,21 +16,21 @@ namespace Panda.App.Controllers
     [Authorize]
     public class ReceiptsController : Controller
     {
-        private readonly IReceiptsService receiptsService;
-        private readonly IPackagesService packagesService;
-        private readonly IAddressesService addressesService;
+        private readonly IReceiptsService _receiptsService;
+        private readonly IPackagesService _packagesService;
+        private readonly IAddressesService _addressesService;
 
         public ReceiptsController(IReceiptsService receiptsService, 
             IPackagesService packagesService, IAddressesService addressesService)
         {            
-            this.receiptsService = receiptsService;
-            this.packagesService = packagesService;
-            this.addressesService = addressesService;
+            this._receiptsService = receiptsService;
+            this._packagesService = packagesService;
+            this._addressesService = addressesService;
         }
                 
         public IActionResult Index()
         {
-            var collectionFromDb = this.receiptsService
+            var collectionFromDb = this._receiptsService
                 .GetAllReceiptsWithRecipient();
 
             if (collectionFromDb == null)
@@ -67,7 +67,7 @@ namespace Panda.App.Controllers
         [HttpGet("/Receipts/Details/{id}")]
         public async Task<IActionResult> Details(string id)
         {
-            Receipt receiptFromDb = this.receiptsService
+            Receipt receiptFromDb = this._receiptsService
                 .GetAllReceiptsWithRecipientAndPackage()
                 .Where(receipt => receipt.Id == id)                
                 .SingleOrDefault();
@@ -84,9 +84,9 @@ namespace Panda.App.Controllers
                 Recipient = receiptFromDb.Recipient.UserName,
 
                 //TODO - simplify 
-                DeliveryAddress = this.addressesService
+                DeliveryAddress = this._addressesService
                             .ShortenedAddressToString(
-                                     await this.addressesService
+                                     await this._addressesService
                                      .GetAddressByIdAsync(receiptFromDb
                                                 .Package.ShippingAddress)),
                 /////////////////////////////////////////////////////////////
@@ -102,7 +102,7 @@ namespace Panda.App.Controllers
         [HttpGet("/Receipts/Create/{packageId}")]
         public async Task<IActionResult> Create(string packageId)
         {
-            var currentPackage = await this.packagesService
+            var currentPackage = await this._packagesService
                 .GetPackageAsync(packageId);
 
             if (currentPackage == null)
@@ -118,7 +118,7 @@ namespace Panda.App.Controllers
                 PackageId = currentPackage.Id
             };
 
-            await this.receiptsService.CreateReceiptAsync(receipt);
+            await this._receiptsService.CreateReceiptAsync(receipt);
 
             TempData["RecieptsAdded"] = "Successfuly created a receipt";
             var id = receipt.Id;
