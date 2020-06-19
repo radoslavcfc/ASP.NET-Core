@@ -43,7 +43,15 @@ namespace Panda.App.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            var collection = this._packagesService.GetAllPackages()
+            var collectionFromDb = this._packagesService.GetAllPackages();
+
+            if (collectionFromDb == null)
+            {
+                _logger.LogWarning($"");
+                return this.NotFound();
+            }
+
+            var modelCollection = collectionFromDb
                 .Select(p => new PackageHomeViewModel
                 {
                     Id = p.Id,
@@ -53,20 +61,17 @@ namespace Panda.App.Controllers
                 })
                 .ToList();
 
-            if (collection == null)
-            {
-                return this.NotFound();
-            }
 
             if (this.User.IsInRole("Admin"))
             {
-                return this.View(collection);
+                return this.View(modelCollection);
             }
             else
             {
-                var personalColl = collection
+                var personalColl = modelCollection
                      .Where(p => p.UserId == this._userManager.GetUserId(this.User))
                      .ToList();
+
                 return this.View(personalColl);
             }
         }
@@ -76,8 +81,16 @@ namespace Panda.App.Controllers
         {
             var viewModel = new PackageCreateModel();
 
+            var usersCollection = this._usersService.GetAllUsersNoAdmins();
+
+            if (usersCollection == null)
+            {
+                _logger.LogWarning($"");
+                return this.NotFound();
+            }
+
             viewModel.UsersCollection =
-               this._usersService.GetAllUsersNoAdmins()
+               usersCollection
                .Select(u => new UserDropDownModel
                {
                    Id = u.Id,
