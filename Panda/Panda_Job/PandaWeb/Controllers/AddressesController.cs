@@ -37,6 +37,12 @@ namespace Panda_Job.Controllers
             var listOfAddresses = this._addressesService
                 .ListOfAddressesByUser(this.User.Identity.Name).ToList();
 
+            if (listOfAddresses == null)
+            {
+                _logger.LogWarning($"Get(listOfAddresses) from DB - NOT FOUND");
+                return this.NotFound();
+            }
+
             var model = new ListAddressesModel
             {
                 ShortAddressDetailsModelsList = listOfAddresses
@@ -72,6 +78,12 @@ namespace Panda_Job.Controllers
             var userId = this._userManager.GetUserId(this.User);
             var user = await this._usersService.GetUserByIdAsync(userId);
 
+            if (user == null)
+            {
+                _logger.LogWarning($"Get(currentUser) from DB - NOT FOUND");
+                return this.NotFound();
+            }
+
             if (this._addressesService.CountOfAddressesPerUser(user) == 0)
             {
                 model.AddressType = AddressType.Primary;
@@ -91,10 +103,11 @@ namespace Panda_Job.Controllers
 
             if (!ModelState.IsValid)
             {
+                _logger.LogWarning($"Model State invalid for {nameof(UpdateAddressModel)}");
                 return this.View("Create");
             }
 
-            var addresToRegister = new Address
+            var addressToRegister = new Address
             {
                 Country = model.Country,
                 Region = model.Region,
@@ -106,20 +119,22 @@ namespace Panda_Job.Controllers
                 UserId = userId
             };
 
-            if (addresToRegister.PropertyType == PropertyType.Flat)
+            if (addressToRegister.PropertyType == PropertyType.Flat)
             {
                 var flatToRegister = new Flat
                 {
-                    AddressId = addresToRegister.Id,
+                    AddressId = addressToRegister.Id,
                     Entrance = model.FlatModel.Entrance,
                     Floor = model.FlatModel.Floor,
                     Apartment = model.FlatModel.Apartment
                 };
-                addresToRegister.Flat = flatToRegister;
+                addressToRegister.Flat = flatToRegister;
             }
 
-            await this._addressesService.CreateAddressAsync(addresToRegister);
+            
+            await this._addressesService.CreateAddressAsync(addressToRegister);
 
+            _logger.LogInformation($"Address with id {addressToRegister.Id} has been registered for user with id{user.Id}");
             TempData["SuccessCreatedAddress"] = "The address has been successfully saved!";
 
             return this.RedirectToAction("Index", "Addresses");
@@ -130,6 +145,13 @@ namespace Panda_Job.Controllers
         {
             var address = await this._addressesService
                 .GetAddressByIdAsync(id);
+
+            if (address == null)
+            {
+                _logger.LogWarning($"Get(address) with {id} from DB - NOT FOUND");
+                return this.NotFound();
+            }
+
             var model = new UpdateAddressModel
             {
                 Id = address.Id,
@@ -160,6 +182,12 @@ namespace Panda_Job.Controllers
             var idForUpdate = model.Id;
             var addressToUpdate = await this._addressesService
                 .GetAddressByIdAsync(idForUpdate);
+
+            if (addressToUpdate == null)
+            {
+                _logger.LogWarning($"Get(address) with {model.Id} from DB - NOT FOUND");
+                return this.NotFound();
+            }
 
             if (model.PropertyType == PropertyType.House)
             {
@@ -197,6 +225,8 @@ namespace Panda_Job.Controllers
             }
             await this._addressesService.UpdateAddressAsync(addressToUpdate);
 
+            _logger.LogInformation($"Address with {addressToUpdate.Id} for user with {addressToUpdate.Id} has been updated");
+
             TempData["SuccessEditAddress"] = "The address has been successfully edited and saved!";
 
             return this.RedirectToAction("Index", "Addresses");
@@ -205,11 +235,19 @@ namespace Panda_Job.Controllers
         [HttpGet]
        public async Task<IActionResult> Delete(string id)
         {
-            var addressFromDb = await this._addressesService.GetAddressByIdAsync(id);
+            var addressFromDb = await this._addressesService
+                .GetAddressByIdAsync(id);
+
+            if (addressFromDb == null)
+            {
+                _logger.LogWarning($"Get(address) with {id} from DB - NOT FOUND");
+                return this.NotFound();
+            }
             var model = new DeleteAddressModel
             {
                 Id = id,
-                ShortAddress = this._addressesService.ShortenedAddressToString(addressFromDb)
+                ShortAddress = this._addressesService
+                    .ShortenedAddressToString(addressFromDb)
             };
             return this.View(model);
         }
@@ -220,11 +258,13 @@ namespace Panda_Job.Controllers
         {
             if (model == null)
             {
+                _logger.LogWarning($"Binding model with {model.Id} - NOT FOUND");
                 return this.NotFound();
             }
 
             var id = model.Id;
             await this._addressesService.MarkAsDeletedAsync(id);
+            _logger.LogInformation($"Address with {id} has been marked as deleted");
 
             TempData["Deleted message"] = "The address was successfully deleted!";
          
