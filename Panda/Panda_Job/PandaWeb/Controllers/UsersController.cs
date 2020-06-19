@@ -34,7 +34,7 @@ namespace PandaWeb.Controllers
 
             if (allUsersFromDb == null)
             {
-                this._logger.LogWarning($"");
+                this._logger.LogWarning($"Collection of users in role USER - NOT FOUND");
                 return this.NotFound();
             }
 
@@ -68,7 +68,7 @@ namespace PandaWeb.Controllers
         {
             if (!ModelState.IsValid)
             {
-                this._logger.LogWarning($"");
+                this._logger.LogWarning($"Model state for UserCompleteDataModel is invalid");
                 return this.View(model);
             }
 
@@ -76,7 +76,7 @@ namespace PandaWeb.Controllers
 
             if (currentUser == null)
             {
-                this._logger.LogWarning($"");
+                this._logger.LogWarning($"Current user - NOT FOUND");
                 return this.NotFound();
             }
 
@@ -88,7 +88,7 @@ namespace PandaWeb.Controllers
             await this._userManager.UpdateAsync(currentUser);
             await this._usersService.UpdateUserInfoAsync(currentUser);
 
-            this._logger.LogInformation($"");
+            this._logger.LogInformation($"User with id {currentUser.Id} was successfully updated");
             return this.Redirect("/");
         }
 
@@ -122,7 +122,7 @@ namespace PandaWeb.Controllers
 
             if (currentUser == null)
             {
-                this._logger.LogWarning($"");
+                this._logger.LogWarning($"Current user - NOT FOUND");
                 return NotFound();
             }
 
@@ -156,7 +156,7 @@ namespace PandaWeb.Controllers
 
             if (currentUser == null)
             {
-                this._logger.LogWarning($"");
+                this._logger.LogWarning($"Current user - NOT FOUND");
                 return NotFound();
             }
             
@@ -175,7 +175,7 @@ namespace PandaWeb.Controllers
             await this._userManager.UpdateNormalizedEmailAsync(currentUser);
             await this._usersService.SaveToDataBaseAsync();
 
-            this._logger.LogInformation($"");
+            this._logger.LogInformation($"User with id {currentUser.Id} was successfully updated");
 
             return this.Redirect("/Users/ManageData");
         }
@@ -196,7 +196,7 @@ namespace PandaWeb.Controllers
 
             if (currentUser == null)
             {
-                this._logger.LogWarning($"");
+                this._logger.LogWarning($"Current user - NOT FOUND");
                 return NotFound();
             }
            
@@ -205,7 +205,8 @@ namespace PandaWeb.Controllers
             
             await this._signInManager.SignOutAsync();
 
-            this._logger.LogInformation($"");
+            this._logger.LogInformation($"Password for user with id {currentUser.Id} was successfully changed");
+
             TempData["Changed Password"] = "Your password was successfully changed, Please sign in ";
             return this.RedirectToAction("Index", "Home");
         }
@@ -225,7 +226,7 @@ namespace PandaWeb.Controllers
             var currentUser = await this.GetTheCurrentUserAsync();
             if (currentUser == null)
             {
-                this._logger.LogWarning($"");
+                this._logger.LogWarning($"Current user - NOT FOUND");
                 return NotFound();
             }
 
@@ -238,7 +239,7 @@ namespace PandaWeb.Controllers
                 await this._usersService.DeleteAccountAsync(currentUser);
                 await this._signInManager.SignOutAsync();
 
-                this._logger.LogInformation($"");
+                this._logger.LogInformation($"User with id {currentUser.Id} has been marked as deleted and signed out ");
 
                 return this.RedirectToAction("Index", "Home");
             }
@@ -257,7 +258,7 @@ namespace PandaWeb.Controllers
 
             if (userFromDb == null)
             {
-                this._logger.LogWarning($"");
+                this._logger.LogWarning($"Current user - NOT FOUND");
                 return this.NotFound();
             }
 
@@ -277,7 +278,7 @@ namespace PandaWeb.Controllers
         {
             if (!ModelState.IsValid || model.Confirm == false)
             {
-                this._logger.LogWarning($"");
+                this._logger.LogWarning($"Model state for HardDeleteUserModel model is invalid, or model.Confirm propery was not selected");
                 return this.View(model);
             }
 
@@ -288,13 +289,13 @@ namespace PandaWeb.Controllers
 
             if (user == null)
             {
-                this._logger.LogWarning($"");
+                this._logger.LogWarning($"Current user - NOT FOUND");
                 return this.NotFound();
             }
             await this._usersService.DeleteAllDataForUserAsync(idOfUser);
             await this._userManager.DeleteAsync(user);
 
-            this._logger.LogInformation($"");
+            this._logger.LogInformation($"User with id {user.Id} has been successfully removed from the DB with all the relevant data");
 
             TempData["UserRemoved"] = "The user has been removed from the database!";
             return this.RedirectToAction("Index", "Users");

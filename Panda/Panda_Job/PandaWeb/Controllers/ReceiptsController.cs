@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using PandaWeb.Models.Receipt;
 using Panda.Domain;
 using Panda.Services;
+using Microsoft.Extensions.Logging;
 
 namespace Panda.App.Controllers
 {
@@ -19,13 +20,15 @@ namespace Panda.App.Controllers
         private readonly IReceiptsService _receiptsService;
         private readonly IPackagesService _packagesService;
         private readonly IAddressesService _addressesService;
+        private readonly ILogger<ReceiptsController> _logger;
 
         public ReceiptsController(IReceiptsService receiptsService, 
-            IPackagesService packagesService, IAddressesService addressesService)
+            IPackagesService packagesService, IAddressesService addressesService, ILogger<ReceiptsController> logger)
         {            
             this._receiptsService = receiptsService;
             this._packagesService = packagesService;
             this._addressesService = addressesService;
+            this._logger = logger;
         }
                 
         public IActionResult Index()
@@ -35,6 +38,7 @@ namespace Panda.App.Controllers
 
             if (collectionFromDb == null)
             {
+                this._logger.LogWarning("Collection with receipts not found");
                 return this.NotFound();
             }
 
@@ -74,6 +78,7 @@ namespace Panda.App.Controllers
 
             if (receiptFromDb == null)
             {
+                this._logger.LogWarning($"Receipt with id {id} - NOT FOUND");
                 return this.NotFound();
             }
 
@@ -107,6 +112,7 @@ namespace Panda.App.Controllers
 
             if (currentPackage == null)
             {
+                this._logger.LogWarning($"Receipt with id {packageId} - NOT FOUND");
                 return this.NotFound();
             }
 
@@ -119,6 +125,8 @@ namespace Panda.App.Controllers
             };
 
             await this._receiptsService.CreateReceiptAsync(receipt);
+
+            _logger.LogInformation($"Receipt with id {receipt.Id} has been successfully created");
 
             TempData["RecieptsAdded"] = "Successfuly created a receipt";
             var id = receipt.Id;

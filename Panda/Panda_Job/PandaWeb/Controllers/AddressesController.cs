@@ -38,7 +38,7 @@ namespace Panda_Job.Controllers
 
             if (listOfAddresses == null)
             {
-                _logger.LogWarning($"Get(listOfAddresses) from DB - NOT FOUND");
+                _logger.LogWarning($"ListOfAddresses from DB - NOT FOUND");
                 return this.NotFound();
             }
 
@@ -79,7 +79,7 @@ namespace Panda_Job.Controllers
 
             if (user == null)
             {
-                _logger.LogWarning($"Get(currentUser) from DB - NOT FOUND");
+                _logger.LogWarning($"CurrentUser from DB - NOT FOUND");
                 return this.NotFound();
             }
 

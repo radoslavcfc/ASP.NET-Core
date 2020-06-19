@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.Security.Claims;
+//using System.Security.Claims;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -47,7 +47,7 @@ namespace Panda.App.Controllers
 
             if (collectionFromDb == null)
             {
-                _logger.LogWarning($"");
+                _logger.LogWarning($"Collection with packages from DB - NOT FOUND");
                 return this.NotFound();
             }
 
@@ -85,7 +85,7 @@ namespace Panda.App.Controllers
 
             if (usersCollection == null)
             {
-                _logger.LogWarning($"");
+                _logger.LogWarning($"Collection with users from DB - NOT FOUND");
                 return this.NotFound();
             }
 
@@ -97,12 +97,6 @@ namespace Panda.App.Controllers
                    Name = u.UserName
                });
 
-            if (viewModel == null)
-            {
-                _logger.LogWarning($"");
-                return this.NotFound();
-            }
-
             return this.View(viewModel);
         }
 
@@ -113,7 +107,7 @@ namespace Panda.App.Controllers
         {
             if (!this.ModelState.IsValid)
             {
-                _logger.LogWarning($"");
+                _logger.LogWarning($"State of binding model PackageCreateModel - INVALID!");
                 return this.Redirect("/Packages/Create");
             }
 
@@ -131,7 +125,7 @@ namespace Panda.App.Controllers
             await this._packagesService
                 .CreatePackageAsync(package);
 
-            _logger.LogInformation($"");
+            _logger.LogInformation($"Package with id {package.Id} - successfully created");
 
             TempData["SuccessCreatedPackage"] = "A New package has been successfuly created!";
             return this.Redirect($"/Packages/Details/{package.Id}");
@@ -144,7 +138,7 @@ namespace Panda.App.Controllers
 
             if (user == null)
             {
-                _logger.LogWarning($"");
+                _logger.LogWarning($"User with ID {user.Id} - NOT FOUND");
                 return this.NotFound();
             }
 
@@ -152,7 +146,7 @@ namespace Panda.App.Controllers
 
             if (currentUserRole == null)
             {
-                _logger.LogWarning($"");
+                _logger.LogWarning($"Role for user with {user.Id} - NOT FOUND");
                 return this.NotFound();
             }
 
@@ -166,14 +160,14 @@ namespace Panda.App.Controllers
 
             else
             {
-                var currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                //var currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
                 packageFromDb = this._packagesService
-                    .GetAllPackagesWithStatusForUser(currentUserId, status);
+                    .GetAllPackagesWithStatusForUser(user.Id, status);
             }
 
             if (packageFromDb == null)
             {
-                _logger.LogWarning($"");
+                _logger.LogWarning($"Package for user with id {user.Id} - NOT FOUND");
                 return this.NotFound();
             }
 
@@ -205,7 +199,7 @@ namespace Panda.App.Controllers
 
             if (package == null)
             {
-                _logger.LogWarning($"");
+                _logger.LogWarning($"Package with id {Id} - NOT FOUND!");
                 return this.NotFound();
             }
 
@@ -239,14 +233,14 @@ namespace Panda.App.Controllers
 
             if (currentPackage == null)
             {
-                _logger.LogWarning($"");
+                _logger.LogWarning($"Package with id - {packageId} - NOT FOUND");
                 return this.NotFound();
             }
 
             currentPackage.Status = PackageStatus.Delivered;
             await this._packagesService.UpdatePackageAsync(currentPackage);
 
-            _logger.LogInformation($"");
+            _logger.LogInformation($"Package with id {packageId} has been successfully updated");
 
             return this.Redirect($"/Receipts/Create/{packageId}");
         }
