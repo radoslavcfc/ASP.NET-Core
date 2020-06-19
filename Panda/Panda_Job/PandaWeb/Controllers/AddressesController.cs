@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.Extensions.Logging;
 
 using Panda.Domain;
 using Panda.Domain.Enums;
@@ -18,21 +19,22 @@ namespace Panda_Job.Controllers
     [Authorize]
     public class AddressesController : Controller
     {
-        private readonly UserManager<PandaUser> userManager;
-        private readonly IAddressesService addressesService;
-        private readonly IUsersService usersService;
-
-        public AddressesController(UserManager<PandaUser> userManager,
-                                    IAddressesService addressesService, IUsersService usersService)
+        private readonly UserManager<PandaUser> _userManager;
+        private readonly IAddressesService _addressesService;
+        private readonly IUsersService _usersService;
+        private readonly ILogger<AddressesController> _logger;
+        public AddressesController(UserManager<PandaUser> userManager, IAddressesService addressesService,
+            IUsersService usersService, ILogger<AddressesController> logger)
         {
-            this.userManager = userManager;
-            this.addressesService = addressesService;
-            this.usersService = usersService;
+            this._userManager = userManager;
+            this._addressesService = addressesService;
+            this._usersService = usersService;
+            this._logger = logger;
         }
 
         public IActionResult Index()
         {
-            var listOfAddresses = this.addressesService
+            var listOfAddresses = this._addressesService
                 .ListOfAddressesByUser(this.User.Identity.Name).ToList();
 
             var model = new ListAddressesModel
@@ -41,7 +43,7 @@ namespace Panda_Job.Controllers
                 .Select(a => new ShortAddressDetailModel
                 {
                     Id = a.Id,
-                    ShotenedContent = this.addressesService.ShortenedAddressToString(a),
+                    ShotenedContent = this._addressesService.ShortenedAddressToString(a),
                     AddressType = (AddressType)a.AddressType
                 })
             };
@@ -67,10 +69,10 @@ namespace Panda_Job.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Save(UpdateAddressModel model)
         {
-            var userId = this.userManager.GetUserId(this.User);
-            var user = await this.usersService.GetUserByIdAsync(userId);
+            var userId = this._userManager.GetUserId(this.User);
+            var user = await this._usersService.GetUserByIdAsync(userId);
 
-            if (this.addressesService.CountOfAddressesPerUser(user) == 0)
+            if (this._addressesService.CountOfAddressesPerUser(user) == 0)
             {
                 model.AddressType = AddressType.Primary;
             }
@@ -116,7 +118,7 @@ namespace Panda_Job.Controllers
                 addresToRegister.Flat = flatToRegister;
             }
 
-            await this.addressesService.CreateAddressAsync(addresToRegister);
+            await this._addressesService.CreateAddressAsync(addresToRegister);
 
             TempData["SuccessCreatedAddress"] = "The address has been successfully saved!";
 
@@ -126,7 +128,7 @@ namespace Panda_Job.Controllers
         [HttpGet]
         public async Task<ActionResult> Edit(string id)
         {
-            var address = await this.addressesService
+            var address = await this._addressesService
                 .GetAddressByIdAsync(id);
             var model = new UpdateAddressModel
             {
@@ -156,7 +158,7 @@ namespace Panda_Job.Controllers
         public async Task<IActionResult> Update(UpdateAddressModel model)
         {
             var idForUpdate = model.Id;
-            var addressToUpdate = await this.addressesService
+            var addressToUpdate = await this._addressesService
                 .GetAddressByIdAsync(idForUpdate);
 
             if (model.PropertyType == PropertyType.House)
@@ -193,7 +195,7 @@ namespace Panda_Job.Controllers
                 addressToUpdate.Flat = null;
                 //TODO flat delete from Db
             }
-            await this.addressesService.UpdateAddressAsync(addressToUpdate);
+            await this._addressesService.UpdateAddressAsync(addressToUpdate);
 
             TempData["SuccessEditAddress"] = "The address has been successfully edited and saved!";
 
@@ -203,11 +205,11 @@ namespace Panda_Job.Controllers
         [HttpGet]
        public async Task<IActionResult> Delete(string id)
         {
-            var addressFromDb = await this.addressesService.GetAddressByIdAsync(id);
+            var addressFromDb = await this._addressesService.GetAddressByIdAsync(id);
             var model = new DeleteAddressModel
             {
                 Id = id,
-                ShortAddress = this.addressesService.ShortenedAddressToString(addressFromDb)
+                ShortAddress = this._addressesService.ShortenedAddressToString(addressFromDb)
             };
             return this.View(model);
         }
@@ -222,7 +224,7 @@ namespace Panda_Job.Controllers
             }
 
             var id = model.Id;
-            await this.addressesService.MarkAsDeletedAsync(id);
+            await this._addressesService.MarkAsDeletedAsync(id);
 
             TempData["Deleted message"] = "The address was successfully deleted!";
          
