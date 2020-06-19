@@ -31,7 +31,6 @@ namespace Panda_Job.Controllers
             this._usersService = usersService;
             this._logger = logger;
         }
-
         public IActionResult Index()
         {
             var listOfAddresses = this._addressesService
