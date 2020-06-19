@@ -5,19 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Panda.App</title>
 
-    <environment include="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-    </environment>
-    <environment exclude="Development">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
-              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
-              crossorigin="anonymous"
-              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" />
-    </environment>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+          asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+
+
     <link rel="stylesheet" href="~/css/reset-css.css" />
-    <link rel="stylesheet" href="~/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/style.css" />
+
+    @*<link rel="stylesheet" href="~/css/bootstrap.min.css" />*@
+    @*<environment exclude="Development">
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+                  asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+                  asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
+                  crossorigin="anonymous"
+                  integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" />
+        </environment>*@
 </head>
 <body>
     <div class="container-fluid">
@@ -29,44 +35,42 @@
                 </button>
                 @if (this.User.IsInRole("Admin"))
                 {
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav mr-auto">
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Packages
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="/Packages/ListAll/Pending">Pending Packages</a>
-                                    <a class="dropdown-item" href="/Packages/ListAll/Delivered">Delivered Packages</a>
-                                    <a class="dropdown-item" href="/Packages/Index">All Packages</a>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Packages
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="/Packages/ListAll/Pending">Pending Packages</a>
+                    <a class="dropdown-item" href="/Packages/ListAll/Delivered">Delivered Packages</a>
+                    <a class="dropdown-item" href="/Packages/Index">All Packages</a>
 
-                                </div>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/Receipts/Index">All Receipts</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/Users/Index">All Users</a>
-                            </li>
-                        </ul>
-                    </div>
-                }
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/Receipts/Index">All Receipts</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/Users/Index">All Users</a>
+            </li>
+        </ul>
+    </div>}
                 @if (this.User.IsInRole("User"))
                 {
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav mr-auto">
-                            <li class="nav-item">
-                                <a class="nav-link" href="/Packages/Index">My Packages</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/Receipts/Index">My Receipts</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/Addresses/Index">My Addresses</a>
-                            </li>
-                        </ul>
-                    </div>
-                }
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/Packages/Index">My Packages</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/Receipts/Index">My Receipts</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/Addresses/Index">My Addresses</a>
+            </li>
+        </ul>
+    </div>}
                 <partial name="_LoginPartial" />
 
             </nav>
@@ -110,6 +114,6 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
 
     @RenderSection("Scripts", required: false)
-   
+
 </body>
 </html>

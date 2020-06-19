@@ -26,9 +26,11 @@ namespace Panda.Tests
             var userManagerServiceMock = TestUserManager<PandaUser>();
             var addressServiceMock = new Mock<IAddressesService>();
             var userServiceMock = new Mock<IUsersService>();
+            var loggerMock = new Mock<ILogger<PackagesController>>();
 
             var controller = new PackagesController
-               (userManagerServiceMock, userServiceMock.Object, packageServiceMock.Object, addressServiceMock.Object);
+               (userManagerServiceMock, userServiceMock.Object, packageServiceMock.Object, addressServiceMock.Object,
+               loggerMock.Object);
 
             controller.ControllerContext = this.InitializeHttpContextWithRole("admin");
             return controller;
@@ -97,9 +99,11 @@ namespace Panda.Tests
             var userManagerServiceMock = TestUserManager<PandaUser>();
             var addressServiceMock = new Mock<IAddressesService>();
             var userServiceMock = new Mock<IUsersService>();
+            var loggerMock = new Mock<ILogger<PackagesController>>();
 
             var controller = new PackagesController
-               (userManagerServiceMock, userServiceMock.Object, mockPakcageService.Object, addressServiceMock.Object);
+               (userManagerServiceMock, userServiceMock.Object, mockPakcageService.Object, addressServiceMock.Object,
+               loggerMock.Object);
 
             mockPakcageService.Setup(list => list.GetAllPackages())
                 .Returns(this.GetSampleListPackage());
