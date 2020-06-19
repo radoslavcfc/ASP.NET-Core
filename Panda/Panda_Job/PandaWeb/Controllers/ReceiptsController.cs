@@ -43,14 +43,14 @@ namespace Panda.App.Controllers
             }
 
             List<ReceiptViewModelByUser> modelCollection = collectionFromDb
-                .Select(receipt => new ReceiptViewModelByUser
+                .Select(receiptFromDb => new ReceiptViewModelByUser
                 {
-                    Id = receipt.Id,
-                    Fee = receipt.Fee,
-                    IssuedOn = receipt.IssuedOn
+                    Id = receiptFromDb.Id,
+                    Fee = receiptFromDb.Fee,
+                    IssuedOn = receiptFromDb.IssuedOn
                                 .ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
-                    Recipient = receipt.Recipient
-                                .FirstName + receipt.Recipient.LastName.Substring(0,1)
+                    Recipient = receiptFromDb.Recipient.FirstName +
+                    receiptFromDb.Recipient.LastName.Substring(0, 1),
                 })
                 .ToList();
 
@@ -86,7 +86,8 @@ namespace Panda.App.Controllers
             {
                 Id = receiptFromDb.Id,
                 Total = receiptFromDb.Fee,
-                Recipient = receiptFromDb.Recipient.UserName,
+                Recipient = receiptFromDb.Recipient.FirstName + 
+                    receiptFromDb.Recipient.LastName.Substring(0, 1),
 
                 //TODO - simplify 
                 DeliveryAddress = this._addressesService
