@@ -3,6 +3,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 using Panda.Domain;
 using Panda.Services;
@@ -12,25 +13,28 @@ namespace PandaWeb.Controllers
 {
     public class UsersController : Controller
     {
-        private readonly IUsersService usersService;
-        private readonly UserManager<PandaUser> userManager;
-        private readonly SignInManager<PandaUser> signInManager;
+        private readonly IUsersService _usersService;
+        private readonly UserManager<PandaUser> _userManager;
+        private readonly SignInManager<PandaUser> _signInManager;
+        private readonly ILogger<UsersController> _logger;
 
         public UsersController(IUsersService usersService, UserManager<PandaUser> userManager,
-           SignInManager<PandaUser> signInManager)
+           SignInManager<PandaUser> signInManager, ILogger<UsersController> logger)
         {
-            this.usersService = usersService;
-            this.userManager = userManager;
-            this.signInManager = signInManager;
+            this._usersService = usersService;
+            this._userManager = userManager;
+            this._signInManager = signInManager;
+            this._logger = logger;
         }
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
-           var allUsersFromDb = await userManager
+           var allUsersFromDb = await _userManager
                 .GetUsersInRoleAsync("user");
 
             if (allUsersFromDb == null)
             {
+                this._logger.LogWarning($"");
                 return this.NotFound();
             }
 
@@ -64,12 +68,15 @@ namespace PandaWeb.Controllers
         {
             if (!ModelState.IsValid)
             {
+                this._logger.LogWarning($"");
                 return this.View(model);
             }
 
             var currentUser = await GetTheCurrentUserAsync();
+
             if (currentUser == null)
             {
+                this._logger.LogWarning($"");
                 return this.NotFound();
             }
 
@@ -78,18 +85,21 @@ namespace PandaWeb.Controllers
             currentUser.PhoneNumber = model.PhoneNumber;
             currentUser.SecondContactNumber = model.SecondContactNumber;
 
-            await this.userManager.UpdateAsync(currentUser);
-            await this.usersService.UpdateUserInfoAsync(currentUser);
+            await this._userManager.UpdateAsync(currentUser);
+            await this._usersService.UpdateUserInfoAsync(currentUser);
+
+            this._logger.LogInformation($"");
             return this.Redirect("/");
         }
 
         public async Task<IActionResult> Details(string id)
         {
-            var selectedtUser = await this.usersService
+            var selectedtUser = await this._usersService
                 .GetUserByIdAsync(id);
 
             if (selectedtUser == null)
             {
+                this._logger.LogWarning($"");
                 return this.NotFound();
             }
 
@@ -112,6 +122,7 @@ namespace PandaWeb.Controllers
 
             if (currentUser == null)
             {
+                this._logger.LogWarning($"");
                 return NotFound();
             }
 
@@ -145,6 +156,7 @@ namespace PandaWeb.Controllers
 
             if (currentUser == null)
             {
+                this._logger.LogWarning($"");
                 return NotFound();
             }
             
@@ -159,9 +171,11 @@ namespace PandaWeb.Controllers
                     (email == null && phoneNumber == null && secondContactNumber == null) ?
                      null : currentUser.SecondContactNumber;
 
-            await this.userManager.UpdateAsync(currentUser);
-            await this.userManager.UpdateNormalizedEmailAsync(currentUser);
-            await this.usersService.SaveToDataBaseAsync();
+            await this._userManager.UpdateAsync(currentUser);
+            await this._userManager.UpdateNormalizedEmailAsync(currentUser);
+            await this._usersService.SaveToDataBaseAsync();
+
+            this._logger.LogInformation($"");
 
             return this.Redirect("/Users/ManageData");
         }
@@ -179,15 +193,19 @@ namespace PandaWeb.Controllers
         public async Task<IActionResult> ChangePasswordPost(ChangePasswordModel model)
         {
             var currentUser = await this.GetTheCurrentUserAsync();
+
             if (currentUser == null)
             {
+                this._logger.LogWarning($"");
                 return NotFound();
             }
            
-            await this.userManager
+            await this._userManager
                 .ChangePasswordAsync(currentUser, model.CurrentPassword, model.NewPassword);   
             
-            await this.signInManager.SignOutAsync();
+            await this._signInManager.SignOutAsync();
+
+            this._logger.LogInformation($"");
             TempData["Changed Password"] = "Your password was successfully changed, Please sign in ";
             return this.RedirectToAction("Index", "Home");
         }
@@ -207,18 +225,26 @@ namespace PandaWeb.Controllers
             var currentUser = await this.GetTheCurrentUserAsync();
             if (currentUser == null)
             {
+                this._logger.LogWarning($"");
                 return NotFound();
             }
-            var currentUserPass = await this.userManager.CheckPasswordAsync(currentUser, model.Password);
+
+            var currentUserPass = await this._userManager
+                .CheckPasswordAsync(currentUser, model.Password);
+
+
             if (currentUserPass && model.IAgree)
             {
-                await this.usersService.DeleteAccountAsync(currentUser);
-                await this.signInManager.SignOutAsync();
-                
+                await this._usersService.DeleteAccountAsync(currentUser);
+                await this._signInManager.SignOutAsync();
+
+                this._logger.LogInformation($"");
+
                 return this.RedirectToAction("Index", "Home");
             }
             else
             {
+                this._logger.LogWarning($"");
                 return this.View(model);
             }
         }
@@ -226,11 +252,12 @@ namespace PandaWeb.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> HardDelete(string id)
         {
-            var userFromDb = await this.usersService
+            var userFromDb = await this._usersService
                 .GetUserByIdWithDeletedAsync(id);
 
             if (userFromDb == null)
             {
+                this._logger.LogWarning($"");
                 return this.NotFound();
             }
 
@@ -250,20 +277,25 @@ namespace PandaWeb.Controllers
         {
             if (!ModelState.IsValid || model.Confirm == false)
             {
+                this._logger.LogWarning($"");
                 return this.View(model);
             }
 
             var idOfUser = model.Id;
 
-            var user = await this.usersService
+            var user = await this._usersService
                 .GetUserByIdWithDeletedAsync(idOfUser);
 
             if (user == null)
             {
+                this._logger.LogWarning($"");
                 return this.NotFound();
             }
-            await this.usersService.DeleteAllDataForUserAsync(idOfUser);
-            await this.userManager.DeleteAsync(user);
+            await this._usersService.DeleteAllDataForUserAsync(idOfUser);
+            await this._userManager.DeleteAsync(user);
+
+            this._logger.LogInformation($"");
+
             TempData["UserRemoved"] = "The user has been removed from the database!";
             return this.RedirectToAction("Index", "Users");
         }
@@ -274,7 +306,7 @@ namespace PandaWeb.Controllers
         [NonAction]
         private async Task<PandaUser> GetTheCurrentUserAsync()
         {
-            var currentUser = await userManager.GetUserAsync(this.User);
+            var currentUser = await _userManager.GetUserAsync(this.User);
             return currentUser;
         }
         [NonAction]
