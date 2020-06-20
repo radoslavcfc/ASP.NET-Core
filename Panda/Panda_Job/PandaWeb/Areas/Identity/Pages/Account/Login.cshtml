@@ -6,23 +6,23 @@
     var error = TempData["Error"];
 }
 
-<h1 class="text-center text-torshia">Login</h1>
+<h1 class="text-center">Login</h1>
 <hr class="bg-dark w-50 hr-2" />
 <form class="mx-auto w-25" method="post">
 
     <div asp-validation-summary="All"></div>
 
     <div class="form-group">
-        <label asp-for="Input.Username" class="text-torshia">Username</label>
+        <label asp-for="Input.Username">Username</label>
         <input type="text"
                class="form-control"
                id="username"
                placeholder="Username..."
                asp-for="Input.Username">
-        <span asp-validation-for="Input.Username" class="text-danger"></span>
+        <span asp-validation-for="Input.Username"></span>
     </div>
     <div class="form-group">
-        <label asp-for="Input.Password" class="text-torshia">Password</label>
+        <label asp-for="Input.Password">Password</label>
         <input type="password"
                class="form-control"
                id="password"
