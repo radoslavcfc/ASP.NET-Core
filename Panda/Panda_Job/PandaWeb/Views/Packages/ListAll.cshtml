@@ -1,7 +1,7 @@
 ﻿@model List<PackageListAllViewModel>
 @{
     string status = ViewData["Status"].ToString();
-    ViewData["Title"] = $"All {status} Packages";
+    ViewData["Title"] = $"All {status} packages";
 }
 <h1 class="text-center">@ViewData["Title"]</h1>
 <a class="btn btn-dark" href="/Packages/Index">Back to all packages</a>
@@ -20,7 +20,7 @@
                     <th class="col-lg-1 d-flex justify-content-center">Weight</th>
                     <th class="col-lg-5 d-flex justify-content-center">Shipping Address</th>
                     <th class="col-lg-2 d-flex justify-content-center">Receipient</th>
-                    <th class="col-lg-2 d-flex justify-content-center">Deliever</th>
+                    <th class="col-lg-2 d-flex justify-content-center">Status</th>
                 </tr>
             </thead>
             <tbody>
