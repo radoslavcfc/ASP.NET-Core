@@ -28,7 +28,7 @@
     <div class="w-25 bg-white">
 
         <h2 class="text-center">Pending</h2>
-        <div class="border-panda p-3">
+        <div class="border-custom p-3">
             @if (pendingPackages.Count <= 0)
             {
                 <h4>No pending packages</h4>
@@ -60,7 +60,7 @@
                 {
                     <div class="p-2 d-flex justify-content-around">
                         <h4 class="w-75">@package.Description</h4>
-                        <a href="/Packages/Details/@package.Id" class="btn bg-panda text-white w-25">Details</a>
+                        <a href="/Packages/Details/@package.Id" class="btn bg-dark text-white w-25">Details</a>
                     </div>
                 }
             }
