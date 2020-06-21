@@ -1,7 +1,5 @@
 ﻿@model UserDetailViewModel
-@{
-    ViewData["Title"] = $"Details for {Model.FullName}";
-}
+@{ ViewData["Title"] = $"Details for {Model.FullName}"; }
 <a class="btn btn-dark" href="/Users/Index">Back to All Users</a>
 <div class="card text-white bg-dark mt-3 m-auto" style="max-width: 30rem;">
     <div class="card-header h3">@ViewData["Title"]</div>
@@ -17,6 +15,7 @@
 </div>
 
 @section Scripts{
+    <partial name="_ValidationScriptsPartial" />
     <script>
         function loadAddresses(id) {
             var json = { id : id }
@@ -40,11 +39,11 @@
                         var closingTag = addressType == 1 ? '</b>' : '</p>';
                         result += `${openTag} class="card-text">
                                     ${index + 1}.
-                                    ${country.substring(0, 3).toUpperCase()}, 
+                                    ${country.substring(0, 3).toUpperCase()},
                                     ${region.substring(0, 3).toUpperCase()},
-                                    ${town}, 
-                                    ${streetName}, 
-                                    ${number} 
+                                    ${town},
+                                    ${streetName},
+                                    ${number}
                                     ${addressType == 1 ? '- <u>Primary</u>' : ''}
                                     ${closingTag}`;
                      });
@@ -53,4 +52,4 @@
             });
         }
     </script>
-}
+    }

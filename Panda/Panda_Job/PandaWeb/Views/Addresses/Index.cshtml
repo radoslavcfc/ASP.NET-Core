@@ -1,24 +1,20 @@
 ﻿
 @model ListAddressesModel
-@{
-    ViewData["Title"] = "Addresses Index";
-    var primaryAddressClass = "table-dark";
-}
+@{ ViewData["Title"] = "Addresses Index";
+                var primaryAddressClass = "table-dark"; }
 
 <a class="btn btn-dark" href="/Home/Index">Back to index</a>
 
 @if (TempData["SuccessCreatedAddress"] != null)
 {
-    <div class="alert alert-info">@TempData["SuccessCreatedAddress"]</div>
-}
+<div class="alert alert-info">@TempData["SuccessCreatedAddress"]</div>}
 @if (TempData["Deleted message"] != null)
 {
-    <div class="alert alert-info">@TempData["Deleted message"]</div>
-}
+<div class="alert alert-info">@TempData["Deleted message"]</div>}
 @if (TempData["SuccessEditAddress"] != null)
 {
-    <div class="alert alert-info">@TempData["SuccessEditAddress"]</div>
-}
+<div class="alert alert-info">@TempData["SuccessEditAddress"]</div>}
+
 <hr />
 <br />
 
@@ -28,44 +24,47 @@
 
     @foreach (var item in Model.ShortAddressDetailsModelsList)
     {
-        @if (item.AddressType == AddressType.Alternative)
-        {
-            primaryAddressClass = "table-light";
-        }
-        <tr class="@primaryAddressClass row">
-            <td class="col-8">
-                @item.ShotenedContent
-            </td>
-            <td class="col-1">
-                <a class="btn btn-dark" asp-action="Edit" asp-route-id="@item.Id"> Edit</a>
+@if (item.AddressType == AddressType.Alternative)
+{
+    primaryAddressClass = "table-light";
+}
+                <tr class="@primaryAddressClass row">
+                    <td class="col-8">
+                        @item.ShotenedContent
+                    </td>
+                    <td class="col-1">
+                        <a class="btn btn-dark" asp-action="Edit" asp-route-id="@item.Id"> Edit</a>
 
-            </td>
+                    </td>
 
-            @if (item.AddressType == AddressType.Primary)
-            {
-                <td class="col-3 text-center">
-                    PRIMARY
-                </td>
-            }
-            else
-            {
-                <td class="col-2">
-                    <a asp-controller="Addresses"
-                       asp-action="Delete"
-                       asp-route-id="@item.Id"
-                       class="btn btn-dark"
-                       data-toggle="tooltip"
-                       title="Make this address Primary!">
-                        Primarize
-                    </a>
-                </td>
-                <td class="col-1">
-                    <a asp-controller="Addresses" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-dark"> Delete</a>
-                </td>
-            }
+                    @if (item.AddressType == AddressType.Primary)
+                    {
+    <td class="col-3 text-center">
+        PRIMARY
+    </td> }
+                    else
+                    {
+                        //TO IMPLEMETN Primirize Functionality
+                        //Making the selected address primary
 
-        </tr>
-    }
+    <td class="col-2">
+        <a asp-controller="Addresses"
+           asp-action="#"
+           asp-route-id="@item.Id"
+           class="btn btn-dark"
+           data-toggle="tooltip"
+           title="Make this address Primary!">
+            Primarize
+        </a>
+    </td>
+                        <td class="col-1">
+                            <a asp-controller="Addresses"
+                               asp-action="Delete"
+                               asp-route-id="@item.Id"
+                               class="btn btn-dark"> Delete</a>
+                        </td>}
+
+                </tr>}
 </table>
 <br />
 <hr />
@@ -73,6 +72,7 @@
     <a class="btn btn-dark" href="/Addresses/Create">Add address</a>
 </div>
 @section Scripts{
+    <partial name="_ValidationScriptsPartial" />
     <script>
         $(document).ready(function () {
             $('[data-toggle="tooltip"]').tooltip();

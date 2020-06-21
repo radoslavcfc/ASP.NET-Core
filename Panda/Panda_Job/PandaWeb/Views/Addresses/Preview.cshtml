@@ -8,7 +8,7 @@
 <h2 class="justify-content-center">@ViewData["Title"]</h2>
 
 <form class="mx-auto w-50" method="post">
-    <input asp-for="@Model.Id" class="hide" />
+    <input asp-for="@Model.Id" class="hideField" />
     <h3 class="text-center">Please check if all correct:</h3>
     <div class="form-row m-2">
         <div class="col-md-6">
@@ -81,9 +81,7 @@
 </form>
 
 @section Scripts{
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <partial name="_ValidationScriptsPartial" />
     <script>
         $('.inputData').each(function () {
 

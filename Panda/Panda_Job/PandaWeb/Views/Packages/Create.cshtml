@@ -1,14 +1,12 @@
 ﻿
 @model PackageCreateModel
 
-@{
-    ViewData["Title"] = "Create By Admin";
-    var collectionOfUsers = new List<SelectListItem>() { new SelectListItem("----SELECT----", "Default", true, true) };
-    foreach (var userItem in Model.UsersCollection)
-    {
-        collectionOfUsers.Add(new SelectListItem(userItem.Name, userItem.Id));
-    }
-}
+@{ ViewData["Title"] = "Create By Admin";
+                var collectionOfUsers = new List<SelectListItem>() { new SelectListItem("----SELECT----", "Default", true, true) };
+                foreach (var userItem in Model.UsersCollection)
+                {
+                    collectionOfUsers.Add(new SelectListItem(userItem.Name, userItem.Id));
+                } }
 
 <a class="btn btn-dark" href="/Home/Index">Back to all options</a>
 <form class="mx-auto w-50" method="post">
@@ -56,9 +54,8 @@
 </form>
 
 @section Scripts{
-
-    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+   
+    <partial name="_ValidationScriptsPartial" />
     <script>
         function loadAddresses() {
             var selected = $("#selectedUser").val();

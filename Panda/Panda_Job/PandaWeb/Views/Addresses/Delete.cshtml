@@ -1,7 +1,5 @@
 ﻿@model DeleteAddressModel
-@{
-    ViewData["Title"] = "Delete Address";
-}
+@{ ViewData["Title"] = "Delete Address"; }
 
 <form class="mx-auto w-50 mt-4" method="post">
     <div asp-validation-summary="All"></div>
@@ -20,9 +18,10 @@
     </div>
 </form>
 @section Scripts{
-<script>
-    function enable() {
-        $(".inputData").attr("disabled", null);
-    }
-</script>
-   }
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function enable() {
+            $(".inputData").attr("disabled", null);
+        }
+    </script>
+}
