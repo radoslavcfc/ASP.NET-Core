@@ -9,6 +9,23 @@
     {
       "library": "jquery@3.5.1",
       "destination": "wwwroot/lib/jquery/"
+    },
+   
+    {
+      "library": "jquery-validation-unobtrusive@3.2.11",
+      "version": "1.0.0",
+      "name": "my-system",
+      "devDependencies": {
+        "jquery-ajax-unobtrusive": "^3.2.11"
+      },
+      "exclude": [
+      ],
+      "destination": "wwwroot/lib/jquery-validation-unobtrusive/"
+    },
+
+    {
+      "library": "jquery-validate@2.0.0",
+      "destination": "wwwroot/lib/jquery-validation/dist/"
     }
   ]
 }
