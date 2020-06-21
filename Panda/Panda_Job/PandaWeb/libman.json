@@ -10,7 +10,7 @@
       "library": "jquery@3.5.1",
       "destination": "wwwroot/lib/jquery/"
     },
-   
+
     {
       "library": "jquery-validation-unobtrusive@3.2.11",
       "version": "1.0.0",
@@ -24,8 +24,8 @@
     },
 
     {
-      "library": "jquery-validate@2.0.0",
-      "destination": "wwwroot/lib/jquery-validation/dist/"
+      "library": "jquery-validate@1.0.2",
+      "destination": "wwwroot/lib/jquery-validate/"
     }
   ]
 }

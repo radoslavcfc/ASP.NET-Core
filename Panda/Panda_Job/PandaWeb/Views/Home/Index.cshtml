@@ -30,7 +30,7 @@ else
        <h3 class="text-center">You have logged in as an admin</h3>
        <h2 class="text-center">Please select from the following options</h2>
        <div class="container w-25 d-flex justify-content-center btn-group-vertical ">
-               <button asp-controller="Packages" asp-action="Create" class="btn btn-dark m-3">Create new package</button>
+               <a href="/Packages/Create" class="btn btn-dark m-3">Create new package</a>
                <a href='@Url.Action("Index", "Packages")' class="btn btn-dark m-3">See all packages</a>
                <a href="/Receipts/Index" class="btn btn-dark m-3">See all receipts</a>
                <a href="/Users/Index" class="btn btn-dark m-3">See all users</a>           
