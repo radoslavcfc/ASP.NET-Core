@@ -11,6 +11,7 @@
 using System;
 using System.Reflection;
 
+[assembly: Microsoft.AspNetCore.Identity.UI.UIFrameworkAttribute("Bootstrap4")]
 [assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("aspnet-SeasonalWorkers-56D98F93-B2F1-433C-A068-FD666D4EEBB9")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("SeasonalWorkers")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
