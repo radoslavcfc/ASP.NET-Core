@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace SeasonalWorkers.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class SeasonalWorkersDbContext : IdentityDbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        public SeasonalWorkersDbContext(DbContextOptions<SeasonalWorkersDbContext> options)
             : base(options)
         {
         }
