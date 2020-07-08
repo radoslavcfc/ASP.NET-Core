@@ -1,0 +1,5 @@
+﻿.mainBackground {
+    background-image: url('../photos/main.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}

@@ -55,6 +55,7 @@
   <ItemGroup>
     <Folder Include="Areas\Admin\" />
     <Folder Include="Areas\Manager\" />
+    <Folder Include="wwwroot\photos\" />
   </ItemGroup>
 
   <ItemGroup>
