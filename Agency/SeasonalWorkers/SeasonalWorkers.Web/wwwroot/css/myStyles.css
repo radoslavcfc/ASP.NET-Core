@@ -8,8 +8,10 @@
     background-color: darkcyan;
 }
 
-.carousel-control-prev-icon,
-.carousel-control-next-icon {
-    color: brown;
+.h-333{
+    height: 333px;
 }
-
+.p-035 {
+    padding-top: 3.5rem;
+    padding-bottom: 3.5rem;
+}
