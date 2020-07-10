@@ -13,26 +13,27 @@
         <header>
             <nav class="navbar navbar-expand-sm footerBg navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3">
                 <div class="container">
-                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">SeasonalWorkers</a>
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">SW</a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                             aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                         <partial name="_LoginPartial" />
-                       
-                        <ul class="navbar-nav flex-grow-1">
+                        <ul class="navbar-nav flex-grow-2">
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Packages
+                                    Farm Info
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="/Packages/ListAll/Pending">Pending Packages</a>
-                                    <a class="dropdown-item" href="/Packages/ListAll/Delivered">Delivered Packages</a>
-                                    <a class="dropdown-item" href="/Packages/Index">All Packages</a>
-
+                                    <a class="dropdown-item" href="#">Your travel</a>
+                                    <a class="dropdown-item" href="#">Your work</a>
+                                    <a class="dropdown-item" href="#">Your accommodation</a>
                                 </div>
                             </li>
+                        </ul>
+
+                        <ul class="navbar-nav flex-grow-1">
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                             </li>
