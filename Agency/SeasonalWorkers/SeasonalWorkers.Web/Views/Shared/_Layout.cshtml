@@ -11,7 +11,7 @@
    
     <body>
         <header>
-            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3 headerFooterBg">
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
                 <div class="container">
                     <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">SeasonalWorkers</a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -31,22 +31,17 @@
                     </div>
                 </div>
             </nav>
-        </header>
-        <div class="">
+        </header>      
             <div class="container">
                 <main role="main" class="pb-3">
-
                     @RenderBody()
                 </main>
-            </div>
-        </div>
-
+            </div>      
         <footer class="border-top footer footerBg">
-            <div class="container text-black-50 font-weight-bold">
-                <a class="text-white-50 h5 float-left mt-3" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <div class="container">
+                <a class="text-white-50 h5 float-left mt-3" asp-controller="Home" asp-action="Privacy">Privacy</a>
                 <span class="text-white-50 h5 float-right mt-3">&copy; 2020 - SeasonalWorkers</span> 
-            </div>
-           
+            </div>           
         </footer>
             <script src="~/lib/jquery/dist/jquery.min.js"></script>
             <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
