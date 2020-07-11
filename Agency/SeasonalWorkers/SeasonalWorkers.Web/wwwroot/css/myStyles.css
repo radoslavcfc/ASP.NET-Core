@@ -22,3 +22,6 @@
 .loginBg {
    background-color: #a0ec9f4a;
 }
+select#language option[value="bg"] {
+    background-image: url(male.png);
+}
