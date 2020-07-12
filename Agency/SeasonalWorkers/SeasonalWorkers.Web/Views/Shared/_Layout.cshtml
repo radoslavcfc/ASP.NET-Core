@@ -11,7 +11,7 @@
    
     <body>
         <header>
-            <nav class="navbar navbar-expand-sm footerBg navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3">
+            <nav class="navbar navbar-expand-sm headerAndFooterBg navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3">
                 <div class="container">
                     <a class="navbar-brand border-success" asp-area="" asp-controller="Home" asp-action="Index">SW</a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -22,10 +22,10 @@
                         <ul class="navbar-nav">
                             <li class="nav-item dropdown">                                
                                 <div>
-                                    <select id="language" class="footerBg border-secondary rounded">                                       
-                                        <option class="footerBg" value="BG">BG</option>
-                                        <option class="footerBg" value="2">UK</option>
-                                        <option class="footerBg" value="3">RO</option>                                       
+                                    <select id="language" class="headerAndFooterBg border-secondary rounded">                                       
+                                        <option class="headerAndFooterBg" value="BG">BG</option>
+                                        <option class="headerAndFooterBg" value="UK">UK</option>
+                                        <option class="headerAndFooterBg" value="RO">RO</option>                                       
                                     </select>
                                 </div>
                             </li>
@@ -62,7 +62,7 @@
                     @RenderBody()
                 </main>
             </div>      
-        <footer class="border-top footer footerBg">
+        <footer class="border-top footer headerAndFooterBg">
             <div class="container">
                 <a class="footerTxt h5 float-left mt-3" asp-controller="Home" asp-action="Privacy">Privacy</a>
                 <span class="footerTxt h5 float-right mt-3">&copy; 2020 - SeasonalWorkers</span> 

@@ -4,7 +4,7 @@
     background-size:auto;
 }
 
-.footerBg {
+.headerAndFooterBg {
     background-color: #70bdc73b;
 }
 .footerTxt {
@@ -22,6 +22,6 @@
 .loginBg {
    background-color: #a0ec9f4a;
 }
-select#language option[value="bg"] {
-    background-image: url(male.png);
+select#language option[value="BG"] {   
+    background-image: url('../photos/flags/bg-flag.jpg');
 }
