@@ -17,6 +17,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{26
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{37E0A4AF-6946-4578-8EF7-56C0DF081AE8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeasonalWorkers.Services", "SeasonalWorkers.Services\SeasonalWorkers.Services.csproj", "{2EA59BC1-2A12-41A8-9E46-E8043FB19F7B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{1EDC5A1C-49EA-4A15-AC3C-095423ADB414}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1EDC5A1C-49EA-4A15-AC3C-095423ADB414}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1EDC5A1C-49EA-4A15-AC3C-095423ADB414}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2EA59BC1-2A12-41A8-9E46-E8043FB19F7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EA59BC1-2A12-41A8-9E46-E8043FB19F7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EA59BC1-2A12-41A8-9E46-E8043FB19F7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EA59BC1-2A12-41A8-9E46-E8043FB19F7B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -43,6 +49,7 @@ Global
 		{A69C35DA-BAFA-42A7-A794-9460F98333C5} = {D181C72A-CD8B-4DF4-A0D0-122E506C8300}
 		{12821608-F9AC-480F-8BEB-9F56A6C8B968} = {EE272E2C-AE72-43AE-B2EE-2AC438C0A01A}
 		{1EDC5A1C-49EA-4A15-AC3C-095423ADB414} = {EE272E2C-AE72-43AE-B2EE-2AC438C0A01A}
+		{2EA59BC1-2A12-41A8-9E46-E8043FB19F7B} = {268D916B-06A6-485B-83FC-FCB5B71453D1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {82A0152A-C908-431C-82FB-FFD2F6DCDD52}
