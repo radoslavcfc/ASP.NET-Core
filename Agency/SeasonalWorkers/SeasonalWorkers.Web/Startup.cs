@@ -1,12 +1,13 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SeasonalWorkers.Data;
+using SeasonalWorkers.Data.Models;
 
 namespace SeasonalWorkers
 {
@@ -26,13 +27,19 @@ namespace SeasonalWorkers
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddDefaultIdentity<SeasonalWorkersDbContext>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddIdentity<User, UserRole>()
+               .AddRoles<UserRole>()
+               .AddEntityFrameworkStores<SeasonalWorkersDbContext>()
+               .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<SeasonalWorkersDbContext>();
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
+
+
             services.AddAuthentication("CookieAuthentication")
                  .AddCookie("CookieAuthentication", config =>
                  {
@@ -43,6 +50,22 @@ namespace SeasonalWorkers
             services.AddControllersWithViews();
             services.AddRazorPages();
 
+            services.AddControllers();
+
+            services.AddMvc();
+            services.Configure<IdentityOptions>(options =>
+            {
+                // Password settings.
+                //For Test purposes I have eased the requirements.
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 3;
+                options.Password.RequiredUniqueChars = 0;
+
+                options.User.RequireUniqueEmail = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
