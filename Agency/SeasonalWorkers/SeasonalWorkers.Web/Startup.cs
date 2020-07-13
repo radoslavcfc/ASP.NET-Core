@@ -33,22 +33,18 @@ namespace SeasonalWorkers
                .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<SeasonalWorkersDbContext>();
 
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-
-
             services.AddAuthentication("CookieAuthentication")
                  .AddCookie("CookieAuthentication", config =>
                  {
                      config.Cookie.Name = "UserLoginCookie";
                      config.LoginPath = "/Login/UserLogin";
                  });
-
-            services.AddControllersWithViews();
-            services.AddRazorPages();
 
             services.AddControllers();
 
@@ -78,27 +74,42 @@ namespace SeasonalWorkers
             }
             else
             {
+                app.UseStatusCodePagesWithRedirects("Home/StatusCode?code={0}");
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            //Seeding the roles in the database when initializing the application
+            //using (var serviceScope = app.ApplicationServices.CreateScope())
+            //{
+            //    using (var context = serviceScope.ServiceProvider.GetRequiredService<PandaDbContext>())
+            //    {
+            //        context.Database.EnsureCreated();
+
+            //        if (!context.Roles.Any())
+            //        {
+            //            context.Roles.Add(new PandaUserRole { Name = "Admin", NormalizedName = "ADMIN" });
+            //            context.Roles.Add(new PandaUserRole { Name = "User", NormalizedName = "USER" });
+            //        }
+            //        context.SaveChanges();
+            //    }
+            //}
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseCookiePolicy();
 
-            app.UseRouting();
-
             app.UseAuthentication();
+            app.UseRouting();
             app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =>
+            app.UseEndpoints(ep =>
             {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
-                endpoints.MapRazorPages();
+                ep.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
+
+                ep.MapRazorPages();
             });
         }
     }
-}
+    }
+
