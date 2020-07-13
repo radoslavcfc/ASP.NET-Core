@@ -82,14 +82,14 @@ namespace SeasonalWorkers
             //Seeding the roles in the database when initializing the application
             //using (var serviceScope = app.ApplicationServices.CreateScope())
             //{
-            //    using (var context = serviceScope.ServiceProvider.GetRequiredService<PandaDbContext>())
+            //    using (var context = serviceScope.ServiceProvider.GetRequiredService<SeasonalWorkersDbContext>())
             //    {
             //        context.Database.EnsureCreated();
 
             //        if (!context.Roles.Any())
             //        {
-            //            context.Roles.Add(new PandaUserRole { Name = "Admin", NormalizedName = "ADMIN" });
-            //            context.Roles.Add(new PandaUserRole { Name = "User", NormalizedName = "USER" });
+            //            context.Roles.Add(new UserRole { Name = "Admin", NormalizedName = "ADMIN" });
+            //            context.Roles.Add(new UserRole { Name = "User", NormalizedName = "USER" });
             //        }
             //        context.SaveChanges();
             //    }
