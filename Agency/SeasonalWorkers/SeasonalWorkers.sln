@@ -7,7 +7,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SeasonalWorkers.Web", "Seas
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SeasonalWorkers.Data", "SeasonalWorkers.Data\SeasonalWorkers.Data.csproj", "{12821608-F9AC-480F-8BEB-9F56A6C8B968}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeasonalWorkers.Domain", "SeasonalWorkers.Domain\SeasonalWorkers.Domain.csproj", "{1EDC5A1C-49EA-4A15-AC3C-095423ADB414}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SeasonalWorkers.Domain", "SeasonalWorkers.Domain\SeasonalWorkers.Domain.csproj", "{1EDC5A1C-49EA-4A15-AC3C-095423ADB414}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{EE272E2C-AE72-43AE-B2EE-2AC438C0A01A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{D181C72A-CD8B-4DF4-A0D0-122E506C8300}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{268D916B-06A6-485B-83FC-FCB5B71453D1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{37E0A4AF-6946-4578-8EF7-56C0DF081AE8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,6 +38,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A69C35DA-BAFA-42A7-A794-9460F98333C5} = {D181C72A-CD8B-4DF4-A0D0-122E506C8300}
+		{12821608-F9AC-480F-8BEB-9F56A6C8B968} = {EE272E2C-AE72-43AE-B2EE-2AC438C0A01A}
+		{1EDC5A1C-49EA-4A15-AC3C-095423ADB414} = {EE272E2C-AE72-43AE-B2EE-2AC438C0A01A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {82A0152A-C908-431C-82FB-FFD2F6DCDD52}
