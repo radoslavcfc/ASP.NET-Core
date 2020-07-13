@@ -1,0 +1,30 @@
+﻿
+.headerAndFooterBg {
+    background-color: #70bdc73b;
+}
+.footerTxt {
+    color: black;
+    text-decoration: none;
+}
+
+.h-333{
+    height: 333px;
+}
+.p-035 {
+    padding-top: 3.5rem;
+    padding-bottom: 3.5rem;
+}
+.loginBg {
+   background-color: #a0ec9f4a;
+}
+
+#indexTitle {
+    background-image: url('../photos/tt6.jpg');
+    background-repeat: no-repeat;    
+    background-position: center;
+    color: white;    
+}
+
+#indexTitle > * {
+    text-shadow: 0px 5px 5px white;
+}
