@@ -12,6 +12,7 @@ using Agency.Web.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Agency.Data.Models;
 
 namespace Agency.Web
 {
@@ -28,10 +29,12 @@ namespace Agency.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AgencyDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            //services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            //    .AddEntityFrameworkStores<AgencyWebContext>();
+            services.AddDefaultIdentity<AgencyUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<AgencyDbContext>();
+
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
