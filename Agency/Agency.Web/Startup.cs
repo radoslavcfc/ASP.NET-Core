@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Agency.Data.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace Agency.Web
 {
@@ -30,10 +31,25 @@ namespace Agency.Web
         {
             services.AddDbContext<AgencyDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            //services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-            //    .AddEntityFrameworkStores<AgencyWebContext>();
-            services.AddDefaultIdentity<AgencyUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<AgencyDbContext>();
+
+
+            services.AddIdentity<AgencyUser, AgencyUserRole>()
+             .AddRoles<AgencyUserRole>()
+             .AddEntityFrameworkStores<AgencyDbContext>()
+             .AddDefaultTokenProviders();
+
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+
+            services.AddAuthentication("CookieAuthentication")
+                 .AddCookie("CookieAuthentication", config =>
+                 {
+                     config.Cookie.Name = "UserLoginCookie";
+                     config.LoginPath = "/Login/UserLogin";
+                 });
 
             services.AddControllersWithViews();
             services.AddRazorPages();
@@ -56,9 +72,10 @@ namespace Agency.Web
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
-            app.UseRouting();
+            app.UseCookiePolicy();
 
             app.UseAuthentication();
+            app.UseRouting();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

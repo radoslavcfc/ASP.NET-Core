@@ -28,13 +28,13 @@ namespace Agency.Web.Areas.Identity.Pages.Account
         public RegisterModel(
             UserManager<AgencyUser> userManager,
             SignInManager<AgencyUser> signInManager,
-            ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            ILogger<RegisterModel> logger/*,*/
+            /*IEmailSender emailSender*/)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
-            _emailSender = emailSender;
+            //_emailSender = emailSender;
         }
 
         [BindProperty]
