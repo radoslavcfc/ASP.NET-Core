@@ -42,4 +42,8 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Data\Agency.Data\Agency.Data.csproj" />
+  </ItemGroup>
+
 </Project>
