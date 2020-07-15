@@ -12,5 +12,7 @@ namespace Agency.Data.Models
         public DateTime? ModifiedOn { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime? DeletedOn { get; set; }
+        public string WorkerId { get; set; }
+        public Worker Worker { get; set; }
     }
 }
