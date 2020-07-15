@@ -30,7 +30,8 @@ namespace Agency.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AgencyDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), opt => opt.MigrationsAssembly("Agency.Web"))
+                );
 
 
             services.AddIdentity<AgencyUser, AgencyUserRole>()

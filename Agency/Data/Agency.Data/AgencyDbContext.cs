@@ -11,5 +11,7 @@ namespace Agency.Web.Data
             : base(options)
         {
         }
+
+       
     }
 }
