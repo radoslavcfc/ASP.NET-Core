@@ -11,14 +11,16 @@ namespace Agency.Data.Models
         public Nationality Nationality { get; set; }
         public ContactInfo ContactInfo { get; set; }
         public string [] Relatives { get; set; }
+        public string CurrentlyIn { get; set; }
+        public WorkerType WorkerType { get; set; }
+        
+        public DateTime AvailableFrom { get; set; }
 
-//Currently in
-//Type(new/R)
-//Returnee Info
-//New worker info
-//Available Period
-//Offer Status
-//Notes
-
+        public DateTime AvailableTo { get; set; }
+        //Returnee Info
+        //New worker info
+        
+        //Offer Status
+        //Notes
     }
 }
