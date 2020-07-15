@@ -1,6 +1,6 @@
 ﻿namespace Agency.Data.Models
 {
-    public class Address
+    public class NewWorkerInfo
     {
     }
 }

@@ -17,10 +17,13 @@ namespace Agency.Data.Models
         public DateTime AvailableFrom { get; set; }
 
         public DateTime AvailableTo { get; set; }
-        //Returnee Info
-        //New worker info
-        
-        //Offer Status
-        //Notes
+
+        public OfferStatus OfferStatus { get; set; }
+        public string Notes { get; set; }
+
+        public ReturneeInfo ReturneeInfo { get; set; }
+
+        public NewWorkerInfo NewWorkerInfo { get; set; }
+            
     }
 }
