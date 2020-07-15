@@ -1,5 +1,5 @@
 ﻿using System;
-//using Agency.Data.Enums;
+using Agency.Data.Enums;
 
 namespace Agency.Data.Models
 {
@@ -7,13 +7,11 @@ namespace Agency.Data.Models
     {
         public Names Names { get; set; }
         public DateTime DOB { get; set; }
-        //public Gender Gender { get; set; }
-//Names
-//DOB
-//Gender
-//Nationality
-//Contact Info
-//Relation with
+        public Gender Gender { get; set; }
+        public Nationality Nationality { get; set; }
+        public ContactInfo ContactInfo { get; set; }
+        public string [] Relatives { get; set; }
+
 //Currently in
 //Type(new/R)
 //Returnee Info
