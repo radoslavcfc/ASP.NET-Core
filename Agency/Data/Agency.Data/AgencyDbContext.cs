@@ -1,5 +1,4 @@
-﻿
-using Agency.Data.Models;
+﻿using Agency.Data.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,8 +9,6 @@ namespace Agency.Web.Data
         public AgencyDbContext(DbContextOptions<AgencyDbContext> options)
             : base(options)
         {
-        }
-
-       
+        }       
     }
 }

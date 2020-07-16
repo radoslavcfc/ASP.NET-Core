@@ -5,9 +5,11 @@ namespace Agency.Data.Models
 {
     public class Worker
     {
+        public string NamesId { get; set; }
         public Names Names { get; set; }
         public DateTime DOB { get; set; }
         public Gender Gender { get; set; }
+        public string NationalityId { get; set; }
         public Nationality Nationality { get; set; }
         public ContactInfo ContactInfo { get; set; }
         public string [] Relatives { get; set; }
