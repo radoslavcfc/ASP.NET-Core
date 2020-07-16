@@ -1,6 +1,5 @@
 ﻿using Agency.Data.Infrastructure;
 
-
 namespace Agency.Data.Models
 {
     public class ContactInfo : BaseDeletableModel<string>
