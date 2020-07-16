@@ -2,7 +2,7 @@
 {
     public enum WorkerType
     {
-        None = 0,
+        Default = 0,
         NewWorker = 1,
         Returnee = 2
     }

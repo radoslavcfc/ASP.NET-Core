@@ -1,7 +1,9 @@
-﻿namespace Agency.Data.Models
+﻿using Agency.Data.Infrastructure;
+
+namespace Agency.Data.Models
 {
-    public class Nationality
+    public class Nationality : BaseDeletableModel<string>
     {
-        
+        public string NationalityCountry { get; set; }
     }
 }
