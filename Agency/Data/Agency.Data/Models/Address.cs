@@ -1,6 +1,8 @@
-﻿namespace Agency.Data.Models
+﻿using Agency.Data.Infrastructure;
+
+namespace Agency.Data.Models
 {
-    public class Address
+    public class Address : BaseDeletableModel<string>
     {
     }
 }
