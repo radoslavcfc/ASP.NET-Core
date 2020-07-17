@@ -14,17 +14,15 @@ namespace Agency.Data.Models
         public ContactInfo ContactInfo { get; set; }
         public string [] Relatives { get; set; }
         public string CurrentlyIn { get; set; }
-        public WorkerType WorkerType { get; set; }
-        
+        public WorkerType WorkerType { get; set; }        
         public DateTime AvailableFrom { get; set; }
-
         public DateTime AvailableTo { get; set; }
-
         public OfferStatus OfferStatus { get; set; }
         public string Notes { get; set; }
-
+        public string ReturneeInfoId { get; set; }
         public ReturneeInfo ReturneeInfo { get; set; }
 
+        public string NeWorkerInfoId { get; set; }
         public NewWorkerInfo NewWorkerInfo { get; set; }
             
     }

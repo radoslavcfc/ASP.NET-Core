@@ -1,6 +1,8 @@
-﻿namespace Agency.Data.Models
+﻿using Agency.Data.Infrastructure;
+
+namespace Agency.Data.Models
 {
-    public class ReturneeInfo
+    public class ReturneeInfo : BaseDeletableModel<string>
     {
     }
 }
