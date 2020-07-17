@@ -1,9 +1,10 @@
 ﻿using System;
 using Agency.Data.Enums;
+using Agency.Data.Infrastructure;
 
 namespace Agency.Data.Models
 {
-    public class Worker
+    public class Worker : BaseDeletableModel<string>
     {
         public string NamesId { get; set; }
         public Names Names { get; set; }
@@ -12,7 +13,7 @@ namespace Agency.Data.Models
         public string NationalityId { get; set; }
         public Nationality Nationality { get; set; }
         public ContactInfo ContactInfo { get; set; }
-        public string [] Relatives { get; set; }
+        public string Relatives { get; set; }
         public string CurrentlyIn { get; set; }
         public WorkerType WorkerType { get; set; }        
         public DateTime AvailableFrom { get; set; }
