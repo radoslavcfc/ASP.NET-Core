@@ -52,6 +52,15 @@ namespace Agency.Web
                      config.LoginPath = "/Login/UserLogin";
                  });
 
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 3;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+            });
+
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
