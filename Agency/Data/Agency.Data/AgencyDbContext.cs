@@ -16,6 +16,7 @@ namespace Agency.Web.Data
             typeof(AgencyDbContext).GetMethod(
                 nameof(SetIsDeletedQueryFilter),
                 BindingFlags.NonPublic | BindingFlags.Static);
+
         public AgencyDbContext(DbContextOptions<AgencyDbContext> options)
             : base(options)
         {

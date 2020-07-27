@@ -28,3 +28,7 @@
 #indexTitle > * {
     text-shadow: 0px 5px 5px white;
 }
+
+#navbarDropdown{
+    cursor: pointer;
+}
