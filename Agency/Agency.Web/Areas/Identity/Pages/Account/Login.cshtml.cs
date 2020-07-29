@@ -79,6 +79,7 @@ namespace Agency.Web.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
+                    TempData["UserLoggedIn"] = "You have successfully logged in!";
                     return LocalRedirect(returnUrl);
                 }
                 //if (result.RequiresTwoFactor)

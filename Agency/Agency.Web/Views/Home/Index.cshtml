@@ -5,6 +5,14 @@
     ViewData["Title"] = "Home Page";
 }
 
+@if (TempData["UserLoggedIn"] != null)
+{
+    <div class="text-success">
+        @TempData["UserLoggedIn"]
+    </div>
+}
+
+   
     <div class="text-center">
         @if (SignInManager.IsSignedIn(User))
         {
