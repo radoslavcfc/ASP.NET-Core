@@ -14,5 +14,9 @@ namespace Agency.Data.Models
 
         public string AddressId { get; set; }
         public Address Address { get; set; }
+
+        public Worker Worker { get; set; }
+
+        public string WorkerId { get; set; }
     }
 }

@@ -13,5 +13,7 @@ namespace Agency.Data.Models
         public int Flat { get; set; }
         public int Floor { get; set; }
         public string Entrance { get; set; }
+
+
     }
 }
