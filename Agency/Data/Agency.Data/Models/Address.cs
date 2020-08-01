@@ -14,6 +14,6 @@ namespace Agency.Data.Models
         public int Floor { get; set; }
         public string Entrance { get; set; }
 
-
+        public ContactInfo ContactInfo { get; set; }
     }
 }
