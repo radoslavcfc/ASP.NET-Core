@@ -22,13 +22,13 @@ namespace Agency.Web.Data
         {
         }
 
-        DbSet<Address> Addresses { get; set; }
-        DbSet<ContactInfo> ContactInfos { get; set; }
-        DbSet<Names> Names { get; set; }
-        DbSet<Nationality> Nationalities { get; set; }
-        DbSet<NewWorkerInfo> NewWorkerInfos { get; set; }
-        DbSet<ReturneeInfo> ReturneeInfos { get; set; }
-        DbSet<Worker> Workers { get; set; }
+       public DbSet<Address> Addresses { get; set; }
+       public DbSet<ContactInfo> ContactInfos { get; set; }
+       public DbSet<Names> Names { get; set; }
+       public DbSet<Nationality> Nationalities { get; set; }
+       public DbSet<NewWorkerInfo> NewWorkerInfos { get; set; }
+       public DbSet<ReturneeInfo> ReturneeInfos { get; set; }
+       public DbSet<Worker> Workers { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)
