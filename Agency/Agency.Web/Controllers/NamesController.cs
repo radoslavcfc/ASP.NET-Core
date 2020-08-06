@@ -14,9 +14,14 @@ namespace Agency.Web.Controllers
             this.namesService = namesService;
         }
 
-        public async Task<IActionResult> Create()
+        public  IActionResult Create()
         {
-            var createNamesModel = new CreateNamesModel();
+            return this.View();
+        }
+
+        [HttpPost]
+        public IActionResult Create(CreateNamesModel createNamesModel)
+        {
             return this.View();
         }
     }
