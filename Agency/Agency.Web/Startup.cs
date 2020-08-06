@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Agency.Data.Models;
 using Microsoft.AspNetCore.Http;
+using Agency.Services;
 
 namespace Agency.Web
 {
@@ -30,8 +31,7 @@ namespace Agency.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AgencyDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), opt => opt.MigrationsAssembly("Agency.Web"))
-                );
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), opt => opt.MigrationsAssembly("Agency.Web")));
 
 
             services.AddIdentity<AgencyUser, AgencyUserRole>()
@@ -63,6 +63,8 @@ namespace Agency.Web
 
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+            services.AddTransient<INamesService, NamesService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
