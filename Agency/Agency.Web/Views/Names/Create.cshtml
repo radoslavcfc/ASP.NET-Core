@@ -1,0 +1,19 @@
+﻿@model CreateNamesModel
+
+    <form method="post" asp-action="Create">
+        <div>
+            <label asp-for="@Model.FirstName"></label>
+            <input asp-for="@Model.FirstName" class="form-control" />
+            <span asp-validation-for="@Model.FirstName" class="text-danger"></span>
+        </div>
+        <div>
+            <label asp-for="@Model.MiddleName"></label>
+            <input asp-for="@Model.MiddleName" class="form-control" />
+            <span asp-validation-for="@Model.MiddleName" class="text-danger"></span>
+        </div>
+        <div>
+            <label asp-for="@Model.LastName"></label>
+            <input asp-for="@Model.LastName" class="form-control" />
+            <span asp-validation-for="@Model.LastName" class="text-danger"></span>
+        </div>
+    </form>
