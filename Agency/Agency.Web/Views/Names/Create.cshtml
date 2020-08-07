@@ -1,28 +1,32 @@
 ﻿@model CreateNamesModel
 
-    <div class="mx-auto w-50">
-        <h5>
-            Please fill in your full name in latin as shown in your passport/ID card:
-        </h5>
+<div class="mx-auto w-50">
+    <h5>
+        Please fill in your full name in latin as shown in your passport/ID card:
+    </h5>
 
-        <form method="post" asp-action="Create">
-            <div>
-                <label asp-for="@Model.FirstName"></label>
-                <input asp-for="@Model.FirstName" class="form-control" />
-                <span asp-validation-for="@Model.FirstName" class="text-danger"></span>
-            </div>
-            <div>
-                <label asp-for="@Model.MiddleName"></label>
-                <input asp-for="@Model.MiddleName" class="form-control" />
-                <span asp-validation-for="@Model.MiddleName" class="text-danger"></span>
-            </div>
-            <div>
-                <label asp-for="@Model.LastName"></label>
-                <input asp-for="@Model.LastName" class="form-control" />
-                <span asp-validation-for="@Model.LastName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" class="btn btn-success" value="Submit" />
-            </div>
-        </form>
-    </div>
+    <form method="post" asp-action="Create">
+        <div>
+            <label asp-for="@Model.FirstName"></label>
+            <input asp-for="@Model.FirstName" class="form-control" />
+            <span asp-validation-for="@Model.FirstName" class="text-danger"></span>
+        </div>
+        <div>
+            <label asp-for="@Model.MiddleName"></label>
+            <input asp-for="@Model.MiddleName" class="form-control" />
+            <span asp-validation-for="@Model.MiddleName" class="text-danger"></span>
+        </div>
+        <div>
+            <label asp-for="@Model.LastName"></label>
+            <input asp-for="@Model.LastName" class="form-control" />
+            <span asp-validation-for="@Model.LastName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <input type="submit" class="btn btn-success" value="Submit" />
+        </div>
+    </form>
+</div>
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}
+

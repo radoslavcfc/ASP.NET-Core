@@ -1,17 +1,20 @@
 ﻿using Agency.Services;
 using Agency.Web.Models.Names;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 
 namespace Agency.Web.Controllers
 {
     public class NamesController : Controller
     {
-        private readonly INamesService namesService;
+        private readonly INamesService _namesService;
+        private readonly ILogger<NamesController> _logger;
 
-        public NamesController(INamesService namesService)
+        public NamesController(INamesService namesService, ILogger<NamesController> logger)
         {
-            this.namesService = namesService;
+            this._namesService = namesService;
+            this._logger = logger;
         }
 
         public  IActionResult Create()
@@ -22,6 +25,12 @@ namespace Agency.Web.Controllers
         [HttpPost]
         public IActionResult Create(CreateNamesModel createNamesModel)
         {
+            if (!this.ModelState.IsValid)
+            {
+                _logger.LogWarning($"State of binding model CreateNames - INVALID!");
+                return this.Redirect("/Names/Create");
+            }
+
             return this.View();
         }
     }
