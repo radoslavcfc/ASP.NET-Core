@@ -1,9 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using Agency.Data.Models;
+using System.Threading.Tasks;
 
 namespace Agency.Services
 {
    public interface INamesService
     {
-        Task CreateNamesAsync();
+        Task AddAsync(Names namesOfUser);
     }
 }

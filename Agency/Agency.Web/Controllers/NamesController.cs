@@ -1,4 +1,5 @@
-﻿using Agency.Services;
+﻿using Agency.Data.Models;
+using Agency.Services;
 using Agency.Web.Models.Names;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -31,6 +32,16 @@ namespace Agency.Web.Controllers
                 return this.Redirect("/Names/Create");
             }
 
+            var namesOfUser = new Names
+            {
+                FirstName = createNamesModel.FirstName,
+                MiddleName = createNamesModel.MiddleName,
+                LastName = createNamesModel.LastName,
+                WorkerId = null
+                
+            };
+
+            this._namesService.AddAsync(namesOfUser);
             return this.View();
         }
     }

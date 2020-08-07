@@ -13,10 +13,11 @@ namespace Agency.Services
         {
             this.agencyDbContext = agencyDbContext;
         }
-        public async Task CreateNamesAsync()
+
+        public async Task AddAsync(Names namesOfUser)
         {
-            var namesToAdd = new Names();
-            await this.agencyDbContext.Names.AddAsync(namesToAdd);
+           await this.agencyDbContext.Names.AddAsync(namesOfUser);
+           await this.agencyDbContext.SaveChangesAsync();
         }
     }
 }

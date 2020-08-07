@@ -19,6 +19,8 @@ namespace Agency.Data.Models
         public OfferStatus OfferStatus { get; set; }
         public string Notes { get; set; }
         public ReturneeInfo ReturneeInfo { get; set; }
-        public NewWorkerInfo NewWorkerInfo { get; set; }            
+        public NewWorkerInfo NewWorkerInfo { get; set; }    
+        
+        public AgencyUser agencyUser { get; set; }
     }
 }
