@@ -37,7 +37,7 @@ namespace Agency.Web.Controllers
                 FirstName = createNamesModel.FirstName,
                 MiddleName = createNamesModel.MiddleName,
                 LastName = createNamesModel.LastName,
-                WorkerId = null
+               // WorkerId = 
                 
             };
 

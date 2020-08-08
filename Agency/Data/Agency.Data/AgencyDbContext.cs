@@ -45,15 +45,19 @@ namespace Agency.Web.Data
             // Set global query filter for not deleted entities only
             var deletableEntityTypes = entityTypes
                 .Where(et => et.ClrType != null && typeof(IDeletableEntity).IsAssignableFrom(et.ClrType));
+
             foreach (var deletableEntityType in deletableEntityTypes)
             {
-                var method = SetIsDeletedQueryFilterMethod.MakeGenericMethod(deletableEntityType.ClrType);
+                var method = SetIsDeletedQueryFilterMethod
+                    .MakeGenericMethod(deletableEntityType.ClrType);
+
                 method.Invoke(null, new object[] { builder });
             }
 
             // Disable cascade delete
             var foreignKeys = entityTypes
                 .SelectMany(e => e.GetForeignKeys().Where(f => f.DeleteBehavior == DeleteBehavior.Cascade));
+            
             foreach (var foreignKey in foreignKeys)
             {
                 foreignKey.DeleteBehavior = DeleteBehavior.Restrict;
@@ -89,6 +93,7 @@ namespace Agency.Web.Data
             this.ApplyAuditInfoRules();
             return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
+
         private void ApplyAuditInfoRules()
         {
             var changedEntries = this.ChangeTracker
@@ -100,10 +105,12 @@ namespace Agency.Web.Data
             foreach (var entry in changedEntries)
             {
                 var entity = (IAuditInfo)entry.Entity;
+
                 if (entry.State == EntityState.Added && entity.CreatedOn == default)
                 {
-                    entity.CreatedOn = DateTime.UtcNow;
+                    entity.CreatedOn = DateTime.UtcNow;                    
                 }
+
                 else
                 {
                     entity.ModifiedOn = DateTime.UtcNow;

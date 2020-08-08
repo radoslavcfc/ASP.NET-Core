@@ -67,7 +67,9 @@ namespace Agency.Web.Areas.Identity.Pages.Account
             //ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new AgencyUser { UserName = Input.Email, Email = Input.Email };
+                var worker = new Worker();
+                var user = new AgencyUser { UserName = Input.Email, Email = Input.Email, WorkerId = worker.Id};                
+
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)
