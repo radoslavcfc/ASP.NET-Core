@@ -1,4 +1,5 @@
 ﻿using Agency.Data.Models;
+using Agency.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -15,12 +16,14 @@ namespace Agency.Web.Areas.Identity.Pages.Account
         private readonly SignInManager<AgencyUser> _signInManager;
         private readonly UserManager<AgencyUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
+
        // private readonly IEmailSender _emailSender;
 
         public RegisterModel(
             UserManager<AgencyUser> userManager,
             SignInManager<AgencyUser> signInManager,
-            ILogger<RegisterModel> logger/*,*/
+            ILogger<RegisterModel> logger,
+            IWorkersService workersService /*,*/
             /*IEmailSender emailSender*/)
         {
             _userManager = userManager;

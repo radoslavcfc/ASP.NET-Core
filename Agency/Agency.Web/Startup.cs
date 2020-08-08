@@ -65,6 +65,7 @@ namespace Agency.Web
             services.AddRazorPages();
 
             services.AddTransient<INamesService, NamesService>();
+            services.AddTransient<IWorkersService, WorkersService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
