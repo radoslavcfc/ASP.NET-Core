@@ -16,8 +16,9 @@ namespace Agency.Web.Areas.Identity.Pages.Account
         private readonly SignInManager<AgencyUser> _signInManager;
         private readonly UserManager<AgencyUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
+        private readonly IWorkersService _workersService;
 
-       // private readonly IEmailSender _emailSender;
+        // private readonly IEmailSender _emailSender;
 
         public RegisterModel(
             UserManager<AgencyUser> userManager,
@@ -29,6 +30,7 @@ namespace Agency.Web.Areas.Identity.Pages.Account
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            this._workersService = workersService;
             //_emailSender = emailSender;
         }
 
@@ -71,6 +73,7 @@ namespace Agency.Web.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var worker = new Worker();
+                await this._workersService.AddAsync(worker);
                 var user = new AgencyUser { UserName = Input.Email, Email = Input.Email, WorkerId = worker.Id};                
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
