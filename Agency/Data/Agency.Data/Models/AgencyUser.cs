@@ -1,6 +1,6 @@
-﻿using Agency.Data.Infrastructure;
+﻿using System;
+using Agency.Data.Infrastructure;
 using Microsoft.AspNetCore.Identity;
-using System;
 
 namespace Agency.Data.Models
 {

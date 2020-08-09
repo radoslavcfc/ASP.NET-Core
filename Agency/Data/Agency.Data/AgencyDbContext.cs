@@ -94,6 +94,20 @@ namespace Agency.Web.Data
             return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
 
+        private void IdCreate()
+        {
+            var entityWithStringId = this.ChangeTracker
+                .Entries()
+                .Where(e =>
+                       e.Entity is BaseModel<string>);
+
+            foreach (var item in entityWithStringId)
+            {
+                var entity = (BaseModel<string>)item.Entity;
+                entity.Id = Guid.NewGuid().ToString();
+            }
+        }
+
         private void ApplyAuditInfoRules()
         {
             var changedEntries = this.ChangeTracker
