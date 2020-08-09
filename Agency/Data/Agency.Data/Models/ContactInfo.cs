@@ -2,7 +2,7 @@
 
 namespace Agency.Data.Models
 {
-    public class ContactInfo : BaseDeletableModel<string>
+    public class ContactInfo : BaseDeletableModel
     {
         public string Mobile { get; set; }
 

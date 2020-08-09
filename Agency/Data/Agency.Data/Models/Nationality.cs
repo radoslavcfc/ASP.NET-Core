@@ -2,7 +2,7 @@
 
 namespace Agency.Data.Models
 {
-    public class Nationality : BaseDeletableModel<string>
+    public class Nationality : BaseDeletableModel
     {
         public string NationalityCountry { get; set; }
 

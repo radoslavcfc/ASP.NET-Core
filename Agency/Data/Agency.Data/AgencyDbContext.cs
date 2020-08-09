@@ -99,11 +99,11 @@ namespace Agency.Web.Data
             var entityWithStringId = this.ChangeTracker
                 .Entries()
                 .Where(e =>
-                       e.Entity is BaseModel<string>);
+                       e.Entity is BaseModel);
 
             foreach (var item in entityWithStringId)
             {
-                var entity = (BaseModel<string>)item.Entity;
+                var entity = (BaseModel)item.Entity;
                 entity.Id = Guid.NewGuid().ToString();
             }
         }

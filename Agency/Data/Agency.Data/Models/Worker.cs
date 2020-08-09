@@ -4,7 +4,7 @@ using Agency.Data.Infrastructure;
 
 namespace Agency.Data.Models
 {
-    public class Worker : BaseDeletableModel<string>
+    public class Worker : BaseDeletableModel
     {
         public Names Names { get; set; }
         public DateTime DOB { get; set; }
@@ -19,8 +19,7 @@ namespace Agency.Data.Models
         public OfferStatus OfferStatus { get; set; }
         public string Notes { get; set; }
         public ReturneeInfo ReturneeInfo { get; set; }
-        public NewWorkerInfo NewWorkerInfo { get; set; }    
-        
-        public AgencyUser agencyUser { get; set; }
+        public NewWorkerInfo NewWorkerInfo { get; set; }          
+        public AgencyUser AgencyUser { get; set; }
     }
 }

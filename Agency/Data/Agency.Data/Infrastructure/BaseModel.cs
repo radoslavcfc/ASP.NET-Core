@@ -3,13 +3,18 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Agency.Data.Infrastructure
 {
-    public abstract class BaseModel<TKey> : IAuditInfo
+    public abstract class BaseModel : IAuditInfo
     {
         [Key]
-        public TKey Id { get; set; }
+        public string Id { get; set; }
 
         public DateTime CreatedOn { get; set; }
 
         public DateTime? ModifiedOn { get; set; }
+
+        public BaseModel()
+        {
+            this.Id = Guid.NewGuid().ToString();
+        }
     }
 }
