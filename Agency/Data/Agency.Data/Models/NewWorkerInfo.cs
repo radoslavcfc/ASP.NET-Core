@@ -2,7 +2,7 @@
 
 namespace Agency.Data.Models
 {
-    public class NewWorkerInfo : BaseDeletableModel
+    public class NewWorkerInfo : BaseModelWithId
     {
         public Worker Worker { get; set; }
 

@@ -2,7 +2,7 @@
 
 namespace Agency.Data.Infrastructure
 {
-    public abstract class BaseDeletableModel : BaseModel, IDeletableEntity
+    public abstract class BaseDeletableModel : IDeletableEntity
     {
         public bool IsDeleted { get; set; }
 

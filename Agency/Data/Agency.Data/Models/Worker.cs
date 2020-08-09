@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Agency.Data.Models
 {
-    public class Worker : BaseDeletableModel
+    public class Worker : BaseModelWithId
     {
         public Worker() : base()
         {

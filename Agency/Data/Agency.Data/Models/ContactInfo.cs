@@ -2,7 +2,7 @@
 
 namespace Agency.Data.Models
 {
-    public class ContactInfo : BaseDeletableModel
+    public class ContactInfo : BaseModelWithId
     {
         public string Mobile { get; set; }
         public string Email { get; set; }

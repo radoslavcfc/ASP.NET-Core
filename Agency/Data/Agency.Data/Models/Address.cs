@@ -2,7 +2,7 @@
 
 namespace Agency.Data.Models
 {
-    public class Address : BaseDeletableModel
+    public class Address : BaseModelWithId
     {
         public string Number { get; set; }
         public string Street { get; set; }

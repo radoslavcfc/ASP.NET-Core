@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Agency.Data.Models
 {
-    public class AgencyUser : IdentityUser, IAuditInfo, IDeletableEntity
-    {
+    public class AgencyUser : IdentityUser, IDeletableEntity, IAuditInfo
+    { 
         public DateTime CreatedOn {get; set;}
         public DateTime? ModifiedOn { get; set; }
         public bool IsDeleted { get; set; }

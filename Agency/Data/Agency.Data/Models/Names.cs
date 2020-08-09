@@ -2,7 +2,7 @@
 
 namespace Agency.Data.Models
 {
-    public class Names : BaseDeletableModel
+    public class Names : BaseModelWithId
     {
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
