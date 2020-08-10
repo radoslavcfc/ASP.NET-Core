@@ -50,7 +50,7 @@ namespace Agency.Web.Controllers
             };
 
             this._namesService.AddAsync(namesOfUser);
-            return this.View();
+            return this.Redirect("/Workers/Complete");
         }
     }
 }

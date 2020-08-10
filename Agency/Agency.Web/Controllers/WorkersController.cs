@@ -19,5 +19,10 @@ namespace Agency.Web.Controllers
             this._workersService = workersService;
             this._userManager = userManager;
         }
+
+        public IActionResult Complete()
+        {
+            return this.View();
+        }
     }
 }
