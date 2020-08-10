@@ -5,50 +5,70 @@
 }
 
 
-<div class="mx-auto w-50">
+<div class="mx-auto w-75">
     <h5>
-        Please fill in your full name in latin as shown in your passport/ID card:
+        Please fill in your other personal data and availability information:
     </h5>
 
     <form method="post" asp-action="Create">
-        <div>
-            <label asp-for="@Model.DOB"></label>
-            <input asp-for="@Model.DOB" class="form-control" />
-            <span asp-validation-for="@Model.DOB" class="text-danger"></span>
-        </div>
-        <div>
-            <label asp-for="@Model.Gender"></label>
-            <input asp-for="@Model.Gender" class="form-control" />
-            <span asp-validation-for="@Model.Gender" class="text-danger"></span>
-        </div>
-        <div>
-            <label asp-for="@Model.AvailableFrom"></label>
-            <input asp-for="@Model.AvailableFrom" class="form-control" />
-            <span asp-validation-for="@Model.AvailableFrom" class="text-danger"></span>
+        <div class="form-row">
+            <div class="col-md-3 m-2">
+                <label asp-for="@Model.DOB"></label>
+                <input asp-for="@Model.DOB" class="form-control" />
+                <span asp-validation-for="@Model.DOB" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-3 m-2">
+                <label asp-for="@Model.Gender"></label>
+                <select asp-for="@Model.Gender" class="form-control" asp-items="Html.GetEnumSelectList<Gender>()">
+                    <option>Select gender</option>
+                </select>
+                <span asp-validation-for="@Model.Gender" class="text-danger"></span>
+            </div>
+            <div class="col-md-3 m-2">
+                <label asp-for="@Model.Nationality"></label>
+                <input asp-for="@Model.Nationality" class="form-control" />
+                <span asp-validation-for="@Model.Nationality" class="text-danger"></span>
+            </div>
         </div>
 
-        <div>
-            <label asp-for="@Model.CurrentlyIn"></label>
-            <input asp-for="@Model.CurrentlyIn" class="form-control" />
-            <span asp-validation-for="@Model.CurrentlyIn" class="text-danger"></span>
-        </div>
+        <div class="form-row">
+            <div class="col-md-4">
+                <label asp-for="@Model.AvailableFrom"></label>
+                <input asp-for="@Model.AvailableFrom" class="form-control" />
+                <span asp-validation-for="@Model.AvailableFrom" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <label asp-for="@Model.AvailableTo"></label>
+                <input asp-for="@Model.AvailableTo" class="form-control" />
+                <span asp-validation-for="@Model.AvailableTo" class="text-danger"></span>
+            </div>
 
-        <div>
-            <label asp-for="@Model.Relatives"></label>
-            <input asp-for="@Model.Relatives" class="form-control" />
-            <span asp-validation-for="@Model.Relatives" class="text-danger"></span>
+            <div class="col-md-4">
+                <label asp-for="@Model.CurrentlyIn"></label>
+                <input asp-for="@Model.CurrentlyIn" class="form-control" />
+                <span asp-validation-for="@Model.CurrentlyIn" class="text-danger"></span>
+            </div>
         </div>
+        <div class="form-row">
+            <div class="col-md-4">
+                <label asp-for="@Model.Relatives"></label>
+                <input asp-for="@Model.Relatives" class="form-control" />
+                <span asp-validation-for="@Model.Relatives" class="text-danger"></span>
+            </div>
 
-        <div>
-            <label asp-for="@Model.WorkerType"></label>
-            <input asp-for="@Model.WorkerType" class="form-control" />
-            <span asp-validation-for="@Model.WorkerType" class="text-danger"></span>
-        </div>
+            <div class="col-md-4">
+                <label asp-for="@Model.WorkerType"></label>
+                <input asp-for="@Model.WorkerType" class="form-control" />
+                <span asp-validation-for="@Model.WorkerType" class="text-danger"></span>
+            </div>
 
-        <div class="form-group">
-            <input type="submit" class="btn btn-success" value="Submit" />
+
         </div>
-    </form>
+                <div class="form-group">
+                    <input type="submit" class="btn btn-success" value="Submit" />
+                </div>
+</form>
 </div>
 @section Scripts{
     <partial name="_ValidationScriptsPartial" />
