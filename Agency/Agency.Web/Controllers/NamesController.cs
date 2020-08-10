@@ -38,7 +38,7 @@ namespace Agency.Web.Controllers
                 return this.Redirect("/Names/Create");
             }
             var userId = this._userManager.GetUserId(this.User);
-            var workerId = this._workersService.GetWorkerId(userId).ToString();
+            var workerId = this._workersService.GetWorkerId(userId);
 
             var namesOfUser = new Names
             {

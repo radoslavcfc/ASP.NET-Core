@@ -7,6 +7,6 @@ namespace Agency.Services
     public interface IWorkersService
     {
         Task AddAsync(Worker worker);
-        IQueryable GetWorkerId(string userId);
+        string GetWorkerId(string userId);
     }
 }

@@ -23,11 +23,11 @@ namespace Agency.Services
             await this._agencyDbContext.SaveChangesAsync();
         }
 
-        public IQueryable GetWorkerId(string userId)
+        public string GetWorkerId(string userId)
         {
             var workerId = this._agencyDbContext.Workers
                 .Where(worker => worker.AgencyUser.Id == userId)
-                .Select(w => w.Id);
+                .Select(w => w.Id).FirstOrDefault();
 
             return workerId;
         }
