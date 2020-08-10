@@ -8,6 +8,8 @@ namespace Agency.Web.Models.Workers
     public class CompleteWorkerDataModel
     {
         [Required]
+        [DataType(DataType.Date)]
+        [Display(Name ="Date of birth")]
         public DateTime DOB { get; set; }
 
         [Required]
@@ -16,12 +18,17 @@ namespace Agency.Web.Models.Workers
         public string Relatives { get; set; }
 
         [Required]
+        [DataType(DataType.Date)]
+        [Display(Name = "Available from")]
         public DateTime AvailableFrom { get; set; }
 
         [Required]
+        [DataType(DataType.Date)]
+        [Display(Name = "Available to")]
         public DateTime AvailableTo { get; set; }
 
         [Required]
+        [Display(Name = "Where are you currently")]
         public string CurrentlyIn { get; set; }
 
         [Required]
