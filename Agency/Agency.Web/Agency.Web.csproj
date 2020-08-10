@@ -48,8 +48,4 @@
     <ProjectReference Include="..\Data\Agency.Data\Agency.Data.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\Workers\" />
-  </ItemGroup>
-
 </Project>
