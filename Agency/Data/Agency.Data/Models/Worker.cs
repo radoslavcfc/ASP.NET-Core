@@ -15,7 +15,8 @@ namespace Agency.Data.Models
 
         //Worker based properties
         public DateTime DOB { get; set; }
-        public Gender Gender { get; set; }        
+        public Gender Gender { get; set; }         
+        public string ConnectionSource { get; set; }
         public string Relatives { get; set; }
         public DateTime AvailableFrom { get; set; }
         public DateTime AvailableTo { get; set; }

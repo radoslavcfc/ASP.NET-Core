@@ -28,11 +28,12 @@ namespace Agency.Web.Models.Workers
         public DateTime AvailableTo { get; set; }
 
         [Required]
-        [Display(Name = "Where are you currently")]
+        [Display(Name = "Where are you currently?")]
         public string CurrentlyIn { get; set; }
 
         [Required]
-        public WorkerType WorkerType { get; set; }
+        [Display(Name = "How did you find about us. Please state the name of your friend or relative who told you about us?")]
+        public string ConnectionSource { get; set; }
 
         [Required]
         public Nationality Nationality { get; set; }
