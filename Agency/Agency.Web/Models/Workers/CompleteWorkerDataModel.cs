@@ -15,6 +15,7 @@ namespace Agency.Web.Models.Workers
         [Required]
         public Gender Gender { get; set; }
 
+        [Display(Name = "Name/s of person/people who you want to travel and work with:")]
         public string Relatives { get; set; }
 
         [Required]
@@ -32,7 +33,8 @@ namespace Agency.Web.Models.Workers
         public string CurrentlyIn { get; set; }
 
         [Required]
-        [Display(Name = "How did you find about us. Please state the name of your friend or relative who told you about us?")]
+        [Display(Name = "How did you find about us. Please fill in the names of your friend/s or relative/s who told you about us?")]
+        
         public string ConnectionSource { get; set; }
 
         [Required]
