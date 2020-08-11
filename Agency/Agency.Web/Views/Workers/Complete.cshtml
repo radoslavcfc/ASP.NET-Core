@@ -33,24 +33,24 @@
         </div>
 
         <div class="form-row">
-            <div class="col-md-4">
+            <div class="col-md-3 m-2">
                 <label asp-for="@Model.AvailableFrom"></label>
                 <input asp-for="@Model.AvailableFrom" class="form-control" />
                 <span asp-validation-for="@Model.AvailableFrom" class="text-danger"></span>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3 m-2">
                 <label asp-for="@Model.AvailableTo"></label>
                 <input asp-for="@Model.AvailableTo" class="form-control" />
                 <span asp-validation-for="@Model.AvailableTo" class="text-danger"></span>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-3 m-2">
                 <label asp-for="@Model.CurrentlyIn"></label>
                 <input asp-for="@Model.CurrentlyIn" class="form-control" />
                 <span asp-validation-for="@Model.CurrentlyIn" class="text-danger"></span>
             </div>
         </div>
-        <div class="form-row">
+        <div class="form-row justify-content-center">
             <div class="col-md-4">
                 <label asp-for="@Model.Relatives"></label>
                 <input asp-for="@Model.Relatives" class="form-control" />
@@ -65,7 +65,7 @@
 
 
         </div>
-                <div class="form-group">
+                <div class="form-group justify-content-center">
                     <input type="submit" class="btn btn-success" value="Submit" />
                 </div>
 </form>
