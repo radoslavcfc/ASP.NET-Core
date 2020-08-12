@@ -35,4 +35,5 @@
 
 .form-block-border{
     border: solid 1px silver;
+    border-radius: 5px;
 }
