@@ -32,3 +32,7 @@
 #navbarDropdown{
     cursor: pointer;
 }
+
+.form-block-border{
+    border: solid 1px silver;
+}
