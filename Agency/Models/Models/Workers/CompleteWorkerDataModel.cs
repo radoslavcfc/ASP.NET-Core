@@ -3,7 +3,7 @@ using Agency.Data.Models;
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Agency.Web.Models.Workers
+namespace Agency.Models.Workers
 {
     public class CompleteWorkerDataModel
     {

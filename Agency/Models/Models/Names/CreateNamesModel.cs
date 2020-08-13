@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Agency.Web.Models.Names
+namespace Agency.Models.Names
 {
     public class CreateNamesModel
     {
