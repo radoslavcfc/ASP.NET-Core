@@ -1,4 +1,5 @@
 ﻿using Agency.Data.Models;
+using Agency.Models.Workers;
 using Agency.Web.Data;
 
 using Microsoft.AspNetCore.Identity;
@@ -30,6 +31,11 @@ namespace Agency.Services
                 .Select(w => w.Id).FirstOrDefault();
 
             return workerId;
+        }
+
+        public void UpdateAsync(CompleteWorkerDataModel bindingModel)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

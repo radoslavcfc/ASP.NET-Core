@@ -1,6 +1,6 @@
 ﻿using Agency.Data.Models;
-using System.Linq;
 using System.Threading.Tasks;
+using Agency.Models.Workers;
 
 namespace Agency.Services
 {
@@ -8,5 +8,6 @@ namespace Agency.Services
     {
         Task AddAsync(Worker worker);
         string GetWorkerId(string userId);
+        void UpdateAsync(CompleteWorkerDataModel bindingModel);
     }
 }

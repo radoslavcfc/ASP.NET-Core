@@ -1,6 +1,6 @@
 ﻿using Agency.Data.Models;
 using Agency.Services;
-using Agency.Web.Models.Names;
+using Agency.Models.Names;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;

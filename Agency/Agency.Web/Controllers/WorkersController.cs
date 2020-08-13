@@ -1,5 +1,6 @@
 ﻿using Agency.Data.Models;
 using Agency.Services;
+using Agency.Models.Workers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -22,6 +23,21 @@ namespace Agency.Web.Controllers
 
         public IActionResult Complete()
         {
+            return this.View();
+        }
+
+        public IActionResult Complete(CompleteWorkerDataModel bindingModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return this.View(bindingModel);
+            }
+
+            var currentUserId = this._userManager.GetUserId(this.User);
+            var workerToUpdate = this._workersService.GetWorkerId(currentUserId);
+            //var 
+            //this._workersService.UpdateAsync(bindingModel);
+
             return this.View();
         }
     }
