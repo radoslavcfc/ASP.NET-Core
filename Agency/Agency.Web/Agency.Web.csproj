@@ -46,6 +46,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Agency.Services\Agency.Services.csproj" />
     <ProjectReference Include="..\Data\Agency.Data\Agency.Data.csproj" />
+    <ProjectReference Include="..\Models\Models.csproj" />
   </ItemGroup>
 
 </Project>
