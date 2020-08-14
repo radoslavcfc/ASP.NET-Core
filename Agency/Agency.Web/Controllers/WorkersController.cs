@@ -34,9 +34,8 @@ namespace Agency.Web.Controllers
             }
 
             var currentUserId = this._userManager.GetUserId(this.User);
-            var workerToUpdate = this._workersService.GetWorkerId(currentUserId);
-            //var 
-            //this._workersService.UpdateAsync(bindingModel);
+           
+            this._workersService.UpdateAsync(currentUserId, bindingModel);
 
             return this.View();
         }

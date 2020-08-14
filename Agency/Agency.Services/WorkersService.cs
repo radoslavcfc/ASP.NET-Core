@@ -33,9 +33,24 @@ namespace Agency.Services
             return workerId;
         }
 
-        public void UpdateAsync(CompleteWorkerDataModel bindingModel)
+
+        public async void UpdateAsync(string currentUserId, CompleteWorkerDataModel bindingModel)
         {
-            throw new System.NotImplementedException();
+            var workerToUpdate = this._agencyDbContext
+                .Workers
+                .Where(w => w.AgencyUser.Id == currentUserId)
+                .FirstOrDefault();
+
+            workerToUpdate.CurrentlyIn = bindingModel.CurrentlyIn;
+            workerToUpdate.AvailableFrom = bindingModel.AvailableFrom;
+            workerToUpdate.AvailableTo = bindingModel.AvailableTo;
+            workerToUpdate.ConnectionSource = bindingModel.ConnectionSource;
+            workerToUpdate.DOB = bindingModel.DOB;
+            workerToUpdate.Gender = bindingModel.Gender;
+            workerToUpdate.Nationalities.Add(bindingModel.Nationality);
+            workerToUpdate.Relatives = bindingModel.Relatives;
+
+            await this._agencyDbContext.SaveChangesAsync();
         }
     }
 }

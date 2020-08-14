@@ -8,6 +8,6 @@ namespace Agency.Services
     {
         Task AddAsync(Worker worker);
         string GetWorkerId(string userId);
-        void UpdateAsync(CompleteWorkerDataModel bindingModel);
+        void UpdateAsync(string currentUserId, CompleteWorkerDataModel bindingModel);
     }
 }
