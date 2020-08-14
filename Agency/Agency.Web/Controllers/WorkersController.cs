@@ -26,6 +26,7 @@ namespace Agency.Web.Controllers
             return this.View();
         }
 
+        [HttpPost]
         public IActionResult Complete(CompleteWorkerDataModel bindingModel)
         {
             if (!ModelState.IsValid)
