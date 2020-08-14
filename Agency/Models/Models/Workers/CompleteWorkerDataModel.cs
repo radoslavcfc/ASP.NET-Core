@@ -38,6 +38,6 @@ namespace Agency.Models.Workers
         public string ConnectionSource { get; set; }
 
         [Required]
-        public Nationality Nationality { get; set; }
+        public string Nationality { get; set; }
     }
 }
