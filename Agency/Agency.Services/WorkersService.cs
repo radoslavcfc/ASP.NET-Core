@@ -50,6 +50,8 @@ namespace Agency.Services
             workerToUpdate.Nationalities.Add(bindingModel.Nationality);
             workerToUpdate.Relatives = bindingModel.Relatives;
 
+            this._agencyDbContext.Update(workerToUpdate);
+
             await this._agencyDbContext.SaveChangesAsync();
         }
     }

@@ -37,7 +37,7 @@ namespace Agency.Web.Controllers
            
             this._workersService.UpdateAsync(currentUserId, bindingModel);
 
-            return this.View();
+            return this.Redirect("/Workers/ContactData");
         }
     }
 }
