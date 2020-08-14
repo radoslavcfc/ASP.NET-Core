@@ -46,8 +46,7 @@ namespace Agency.Services
             workerToUpdate.AvailableTo = bindingModel.AvailableTo;
             workerToUpdate.ConnectionSource = bindingModel.ConnectionSource;
             workerToUpdate.DOB = bindingModel.DOB;
-            workerToUpdate.Gender = bindingModel.Gender;
-            workerToUpdate.Nationalities.Add(bindingModel.Nationality);
+            workerToUpdate.Gender = bindingModel.Gender;            
             workerToUpdate.Relatives = bindingModel.Relatives;
 
             this._agencyDbContext.Update(workerToUpdate);
