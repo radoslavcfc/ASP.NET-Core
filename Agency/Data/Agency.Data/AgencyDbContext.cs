@@ -44,6 +44,20 @@ namespace Agency.Web.Data
 
             var entityTypes = builder.Model.GetEntityTypes().ToList();
 
+            //ManyToMany
+            builder.Entity<WorkerNationality>()
+            .HasKey(wn => new { wn.WorkerId, wn.NationalityId });
+
+            builder.Entity<WorkerNationality>()
+                .HasOne(wn => wn.Nationality)
+                .WithMany(n => n.WorkerNationalities)
+                .HasForeignKey(wn => wn.NationalityId);
+
+            builder.Entity<WorkerNationality>()
+                .HasOne(wn => wn.Worker)
+                .WithMany(w => w.WorkerNationalities)
+                .HasForeignKey(wn => wn.WorkerId);
+
             // Set global query filter for not deleted entities only
             var deletableEntityTypes = entityTypes
                 .Where(et => et.ClrType != null && typeof(IDeletableEntity).IsAssignableFrom(et.ClrType));
