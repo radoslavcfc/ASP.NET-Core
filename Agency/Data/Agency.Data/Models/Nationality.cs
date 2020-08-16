@@ -8,10 +8,10 @@ namespace Agency.Data.Models
     {
         public Nationality()
         {
-            this.Workers = new HashSet<Worker>();
+            this.WorkerNationalities = new HashSet<WorkerNationality>();
         }
         public string NationalityCountry { get; set; }
 
-        public ICollection<Worker> Workers { get; set; }
+        public ICollection<WorkerNationality> WorkerNationalities { get; set; }
     }
 }

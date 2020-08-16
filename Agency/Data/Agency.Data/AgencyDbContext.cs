@@ -30,6 +30,8 @@ namespace Agency.Web.Data
        public DbSet<ReturneeInfo> ReturneeInfos { get; set; }
        public DbSet<Worker> Workers { get; set; }
 
+        public DbSet<WorkerNationality> WorkerNationalities { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

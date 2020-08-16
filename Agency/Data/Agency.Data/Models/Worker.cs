@@ -9,7 +9,7 @@ namespace Agency.Data.Models
     {
         public Worker() : base()
         {
-            this.Nationalities = new HashSet<Nationality>();
+            this.WorkerNationalities = new HashSet<WorkerNationality>();
             this.OfferStatus = OfferStatus.Waiting;
         }
 
@@ -24,7 +24,7 @@ namespace Agency.Data.Models
         public WorkerType WorkerType { get; set; }        
 
         //Navigation properties 
-        public ICollection<Nationality> Nationalities { get; set; }
+        public ICollection<WorkerNationality> WorkerNationalities { get; set; }
         public Names Names { get; set; }
         public ContactInfo ContactInfo { get; set; }                 
         public ReturneeInfo ReturneeInfo { get; set; }

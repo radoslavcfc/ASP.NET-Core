@@ -1,4 +1,4 @@
-using System;
+        using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,6 +15,7 @@ using Microsoft.Extensions.Hosting;
 using Agency.Data.Models;
 using Microsoft.AspNetCore.Http;
 using Agency.Services;
+using Agency.Data.Seeding;
 
 namespace Agency.Web
 {
@@ -71,6 +72,19 @@ namespace Agency.Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            // Seed data on application startup
+            using (var serviceScope = app.ApplicationServices.CreateScope())
+            {
+                var dbContext = serviceScope.ServiceProvider.GetRequiredService<AgencyDbContext>();
+
+                if (env.IsDevelopment())
+                {
+                    dbContext.Database.Migrate();
+                }
+
+                new AgencyDbContextSeeder().SeedAsync(dbContext, serviceScope.ServiceProvider).GetAwaiter().GetResult();
+            }
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
