@@ -1,0 +1,11 @@
+...Obj - spread operator 
+Deep copy , shallow copy
+generator function
+https://blog.bitsrc.io/understanding-call-bind-and-apply-methods-in-javascript-33dbf3217be
+https://www.youtube.com/watch?v=cCOL7MC4Pl0&t=1s Event loop
+Kristiyan Nedyalkov
+
+CallBack
+Async/Await
+promisses
+https://medium.com/@copperwall/implementing-promise-all-575a07db509a
